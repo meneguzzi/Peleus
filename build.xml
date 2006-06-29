@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<!-- ====================================================================== 
+     17-Mar-2006 10:51:36                                                        
+
+     Argos    
+     A simple Jason Test
+                   
+     frm05r                                                                
+     ====================================================================== -->
+<project name="Peleus" default="build">
+    <description>
+            A simple Jason Test
+    </description>
+	
+	<property name="JUNIT_HOME" value="c:/Program Files/eclipse/plugins/org.junit_3.8.1"/>
+    <property name="Peleus.location" value="./"/>
+	<property name="Peleus.project" value="Peleus.mas2j"/>
+
+    <path id="project.classpath">
+        <pathelement location="bin"/>
+        <pathelement location="${JUNIT_HOME}/junit.jar"/>
+        <pathelement location="${Peleus.location}/lib/jason.jar"/>
+    	<pathelement location="${Peleus.location}/lib/jplan.jar"/>
+    </path>
+
+    <!-- - - - - - - - - - - - - - - - - - 
+          target: init                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="init">
+    	<mkdir dir="bin"/>
+    </target>
+	
+	
+    <!-- ================================= 
+          target: clean              
+         ================================= -->
+    <target name="clean" description="--> description">
+        <delete dir="bin"/>
+    </target>
+
+
+	
+	<!-- ================================= 
+          target: build              
+         ================================= -->
+    <target name="build" depends="init" description="--> A simple Jason Test">
+    	<javac destdir="bin">
+            <src path="src"/>
+            <classpath refid="project.classpath"/>
+        </javac>
+    </target>
+	
+	
+    <!-- ================================= 
+          target: run              
+         ================================= -->
+    <target name="Peleus" depends="build" description="--> Runs Peleus">
+        <java classname="jason.infra.centralised.RunCentralisedMAS" failonerror="true" fork="yes">
+        	<classpath refid="project.classpath"/>
+        	<arg file="${Peleus.project}"/>
+        </java>
+    </target>
+
+</project>
+
