@@ -97,13 +97,18 @@ public class plan implements InternalAction {
 		ByteArrayInputStream opStream = new ByteArrayInputStream(operators.toString().getBytes());
 		ByteArrayInputStream fctStream = new ByteArrayInputStream(factStream.toByteArray());
 		
-		JPlan jplan = new JPlan(opStream, fctStream);
+		JPlan jplan = new JPlan(opStream, fctStream, 30);
 		ByteArrayOutputStream planStream = new ByteArrayOutputStream();
 		ByteArrayOutputStream graphStream = new ByteArrayOutputStream();
 		OutputStreamWriter planWriter = new OutputStreamWriter(planStream);
 		OutputStreamWriter graphWriter = new OutputStreamWriter(graphStream);
 		
 		jplan.startPlanner(graphWriter, planWriter);
+		
+		if(planStream.size() == 0) {
+			logger.info("Planning failed");
+			return false;
+		}
 		
 		ByteArrayInputStream inStream = new ByteArrayInputStream(planStream.toByteArray());
 		InputStreamReader inReader = new InputStreamReader(inStream);
@@ -217,6 +222,8 @@ public class plan implements InternalAction {
 					sb.append(" & ");
 				}
 			}
+			
+			sb.append(System.getProperty("line.separator"));
 
 			return sb.toString();
 		}
@@ -374,14 +381,22 @@ public class plan implements InternalAction {
 					}
 				}
 				
-				sb.append("[");
-				sb.append(sbPositiveLiterals);
-				sb.append("]");
+				if(sbPositiveLiterals.length() > 0) {
+					sb.append("[");
+					sb.append(sbPositiveLiterals);
+					sb.append("]");
+				} else {
+					sb.append("true");
+				}
 				sb.append(System.getProperty("line.separator"));
 				
-				sb.append("[");
-				sb.append(sbNegativeLiterals);
-				sb.append("]");
+				if(sbNegativeLiterals.length() > 0) {
+					sb.append("[");
+					sb.append(sbNegativeLiterals);
+					sb.append("]");
+				} else {
+					sb.append("true");
+				}
 				sb.append(System.getProperty("line.separator"));
 				sb.append(System.getProperty("line.separator"));
 			}
