@@ -25,11 +25,35 @@ empty(depositBelt).
 //-------------------------
 
 over(block1, feedBelt).
+over(block2, feedBelt).
+over(block3, feedBelt).
 
 //Trigger to process a bloc
 +over(block1, feedBelt) : true
-<- +des([processed(block1, procUnit1), processed(block1, procUnit2), processed(block1, procUnit3)]).
-//	<- +des([processed(block1, procUnit1), processed(block1, procUnit2), processed(block1, procUnit3)]).
+//<- +des([processed(block1, procUnit1), processed(block1, procUnit2)]).
+  <- +des([processed(block1, procUnit1), processed(block1, procUnit2), processed(block1, procUnit3)]).
+
+
++over(Block, feedBelt) : true
+	<- 	.print("Processing ",Block);
+		!finish(Block).
+	
++!finish(Block) : Block = block1
+	<- +des([processed(Block, procUnit1), 
+	         processed(Block, procUnit2), 
+	         processed(Block, procUnit3), 
+	         finished(Block)]).
+
++!finish(Block) : Block = block2
+	<- +des([processed(Block, procUnit2), 
+	         processed(Block, procUnit4), 
+	         finished(Block)]).
+
++!finish(Block) : Block = block3
+	<- +des([processed(Block, procUnit1), 
+	         processed(Block, procUnit3), 
+	         finished(Block)]).
+
 
 //Planning Plan
 +des(Goals) : true
@@ -43,9 +67,9 @@ over(block1, feedBelt).
 
 @action2(block)
 +!consume(Block) : over(Block,depositBelt)
-	<- -over(B,depositBelt);
+	<- -over(Block, depositBelt);
 	   +empty(depositBelt);
-	   +finished(B).
+	   +finished(Block).
 
 @action3(block, device, device)
 +!move(Block, Device1, Device2) : over(Block,Device1) & empty(Device2)
