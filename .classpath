@@ -2,9 +2,10 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry sourcepath="/JasonSVN/src" kind="lib" path="lib/jason.jar"/>
 	<classpathentry sourcepath="/JPlan/src" kind="lib" path="lib/jplan.jar"/>
 	<classpathentry kind="con" path="com.omondo.uml.CONTAINER"/>
 	<classpathentry kind="lib" path="lib/jemplan.jar"/>
+	<classpathentry kind="lib" path="lib/jason.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Jason"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

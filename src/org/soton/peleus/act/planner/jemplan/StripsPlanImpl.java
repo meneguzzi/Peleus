@@ -1,4 +1,4 @@
-package org.soton.peleus.act.planner.jplan;
+package org.soton.peleus.act.planner.jemplan;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -59,6 +59,7 @@ public class StripsPlanImpl extends StripsPlan {
 			while(reader.ready()) {
 				String planStep = reader.readLine();
 				planStep = planStep.trim();
+				planStep = planStep.substring(0, planStep.length()-1);
 				//logger.info("Adding goal: "+planStep);
 				//ts.getC().addGoal(Trigger.TEAchvG,Literal.parseLiteral(planStep), null);
 				if(firstStep) {

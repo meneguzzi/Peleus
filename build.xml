@@ -38,6 +38,20 @@
         <delete dir="bin"/>
     </target>
 
+	
+    <!-- ================================= 
+          target: jar              
+         ================================= -->
+    <target name="jar" depends="build" description="--> Creates a JAR file">
+        <jar destfile="lib/peleus.jar">
+        	<manifest>
+        		<attribute name="Version" value="0.1"/>
+        	</manifest>
+        	<fileset dir="${basedir}/bin">
+	           <include name="**/*.class"/>
+			</fileset>
+        </jar>
+    </target>
 
 	
 	<!-- ================================= 

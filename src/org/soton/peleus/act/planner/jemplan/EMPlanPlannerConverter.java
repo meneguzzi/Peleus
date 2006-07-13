@@ -22,7 +22,6 @@ import org.soton.peleus.act.planner.ProblemObjects;
 import org.soton.peleus.act.planner.ProblemOperators;
 import org.soton.peleus.act.planner.StartState;
 import org.soton.peleus.act.planner.StripsPlan;
-import org.soton.peleus.act.planner.jplan.StripsPlanImpl;
 
 /**
  * @author frm05r
@@ -130,12 +129,13 @@ public class EMPlanPlannerConverter implements PlannerConverter {
 				int read = planFileStream.read(buf);
 				planStream.write(buf, 0, read);
 			}
+			planStream.flush();
 			planFileStream.close();
 			
 			plan = new StripsPlanImpl(planStream.toByteArray());
 			
-			planningProblem.delete();
-			planResult.delete();
+			planningProblem.deleteOnExit();
+			planResult.deleteOnExit();
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
