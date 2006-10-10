@@ -25,8 +25,8 @@ import org.soton.peleus.act.planner.jplan.JPlanPlannerConverter;
 
 public class plan implements InternalAction {
 	protected PlannerConverter plannerConverter = 
-		//new JPlanPlannerConverter();
-		new EMPlanPlannerConverter();
+		new JPlanPlannerConverter();
+		//new EMPlanPlannerConverter();
 	
 	protected static final Term trueTerm = Term.parse("true");
 	
