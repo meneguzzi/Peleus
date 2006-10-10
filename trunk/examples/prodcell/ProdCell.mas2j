@@ -1,0 +1,8 @@
+/* Jason Project */
+
+MAS prodcell {
+	infrastructure: Centralised
+	agents: 
+	 prodcell;
+	 prodcellAS;
+}
