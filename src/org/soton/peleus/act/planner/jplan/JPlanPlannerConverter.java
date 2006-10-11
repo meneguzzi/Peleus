@@ -1,8 +1,10 @@
 package org.soton.peleus.act.planner.jplan;
 
+import jason.asSyntax.Literal;
 import jason.asSyntax.Plan;
 import jason.asSyntax.Pred;
 import jason.asSyntax.Term;
+import jason.asSyntax.TermImpl;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -41,7 +43,7 @@ public class JPlanPlannerConverter implements PlannerConverter {
 	
 	protected int planNumber = 0;
 
-	public void createPlanningProblem(List<Term> beliefs, List<Plan> plans, List<Term> goals) {
+	public void createPlanningProblem(List<Literal> beliefs, List<Plan> plans, List<Term> goals) {
 		objects = new ProblemObjectsImpl();
 		startState = new StartStateImpl(this);
 		goalState = new GoalStateImpl();
@@ -53,7 +55,7 @@ public class JPlanPlannerConverter implements PlannerConverter {
 		
 		for (Term term : beliefs) {
 			if(term.getFunctor().startsWith("object")) {
-				Term newTerm = Term.parse(term.getTerm(0)+"("+term.getTerm(1)+")");
+				Term newTerm = TermImpl.parse(term.getTerm(0)+"("+term.getTerm(1)+")");
 				objects.addTerm(newTerm);
 			}else if( (term.getTermsSize()!= 0) && (!term.getFunctor().startsWith("des"))){
 				startState.addTerm(term);

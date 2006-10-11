@@ -2,6 +2,7 @@ package org.soton.peleus.act.planner;
 
 import java.util.List;
 
+import jason.asSyntax.Literal;
 import jason.asSyntax.Plan;
 import jason.asSyntax.Term;
 
@@ -18,7 +19,7 @@ public interface PlannerConverter {
 	 * @param plans A list containing the Agent's plan library.
 	 * @param goals A list containing the stated goals for the proposed problem.
 	 */
-	public void createPlanningProblem(List<Term> beliefs, List<Plan> plans, List<Term> goals);
+	public void createPlanningProblem(List<Literal> beliefs, List<Plan> plans, List<Term> goals);
 	
 	/**
 	 * Returns the Goal State for the planning problem converted using this class.  

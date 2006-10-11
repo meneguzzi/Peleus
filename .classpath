@@ -4,7 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/jplan.jar" sourcepath="/JPlan/src"/>
 	<classpathentry kind="lib" path="lib/jemplan.jar"/>
-	<classpathentry kind="lib" path="lib/jason.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Jason"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/JasonSVN"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

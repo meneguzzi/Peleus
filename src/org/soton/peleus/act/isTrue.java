@@ -19,16 +19,22 @@ public class isTrue implements InternalAction {
 
 	@SuppressWarnings("unused")
 	private Logger logger = Logger.getLogger(InternalAction.class.getName());
+	
+	public boolean suspendIntention() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
 	/* (non-Javadoc)
 	 * @see jason.asSemantics.InternalAction#execute(jason.asSemantics.TransitionSystem, jason.asSemantics.Unifier, jason.asSyntax.Term[])
 	 */
-	public boolean execute(TransitionSystem ts, Unifier un, Term[] args)
+	public Object execute(TransitionSystem ts, Unifier un, Term[] args)
 			throws Exception {
-		logger.info("Belief Base: \n"+ts.getAg().getBS().getAllBeliefs());
+		logger.info("Belief Base: \n"+ts.getAg().getBB().getAll());
 		logger.info("Got "+args[0]);
 		Literal literal = Literal.parseLiteral(args[0].toString());
 		logger.info("Created "+literal);
-		Literal lit = ts.getAg().getBS().contains(literal);
+		Literal lit = ts.getAg().getBB().contains(literal);
 		logger.info("Beliefs "+lit);
 		return (lit!= null);
 	}

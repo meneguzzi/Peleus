@@ -4,7 +4,6 @@
 package org.soton.peleus.act.planner.jemplan;
 
 import jason.asSyntax.BodyLiteral;
-import jason.asSyntax.DefaultLiteral;
 import jason.asSyntax.Plan;
 import jason.asSyntax.Term;
 import jason.asSyntax.Trigger;
@@ -12,6 +11,7 @@ import jason.asSyntax.Trigger;
 import java.util.Iterator;
 import java.util.List;
 
+import org.soton.peleus.act.planner.PlanContextExtractor;
 import org.soton.peleus.act.planner.ProblemOperators;
 
 /**
@@ -55,7 +55,13 @@ public class ProblemOperatorsImpl extends ProblemOperators {
 			sb.append(System.getProperty("line.separator"));
 			//Append preconditions
 			sb.append("preconds (");
-			List literals = plan.getContext();
+			
+			//Changed to adapt to Jason 0.9 new context format
+			//List<Literal> contextLiterals = plan.getContext();
+			PlanContextExtractor contextExtractor = PlanContextExtractor.getPlanContextExtractor();
+			contextExtractor.extractContext(plan);
+			List<Term> contextTerms = contextExtractor.getContext();
+			
 			StringBuffer sbOpPreconds = new StringBuffer();
 			
 			//The constraints to the types are represented as preconditions
@@ -71,13 +77,12 @@ public class ProblemOperatorsImpl extends ProblemOperators {
 						sb.append(", ");
 					}
 				}
-				if(literals.size() > 0)
+				if(contextTerms.size() > 0)
 					sb.append(", ");
 			}
 			
-			for (Iterator iter = literals.iterator(); iter.hasNext();) {
-				DefaultLiteral literal = (DefaultLiteral) iter.next();
-				Term term = literal.getLiteral();
+			for (Iterator<Term> iter = contextTerms.iterator(); iter.hasNext();) {
+				Term term = iter.next();
 				if(sbOpPreconds.length() != 0) {
 					sbOpPreconds.append(", ");
 				}
@@ -95,17 +100,17 @@ public class ProblemOperatorsImpl extends ProblemOperators {
 			List<BodyLiteral> body = plan.getBody();
 			StringBuffer sbEffects = new StringBuffer();
 			for (BodyLiteral literal : body) {
-				if(literal.getType() == BodyLiteral.HDelBel) {
+				if(literal.getType() == BodyLiteral.BodyType.delBel) {
 					if(sbEffects.length() != 0) {
 						sbEffects.append(", ");
 					}
 					sbEffects.append("-");
-					sbEffects.append(converter.toStripsString(literal.getLiteral()));
-				}else if(literal.getType() == BodyLiteral.HAddBel) {
+					sbEffects.append(converter.toStripsString(literal.getTerm()));
+				}else if(literal.getType() == BodyLiteral.BodyType.addBel) {
 					if(sbEffects.length() != 0) {
 						sbEffects.append(", ");
 					}
-					sbEffects.append(converter.toStripsString(literal.getLiteral()));
+					sbEffects.append(converter.toStripsString(literal.getTerm()));
 				}
 			}
 			

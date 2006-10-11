@@ -3,9 +3,11 @@
  */
 package org.soton.peleus.act.planner.jemplan;
 
+import jason.asSyntax.Literal;
 import jason.asSyntax.Plan;
 import jason.asSyntax.Pred;
 import jason.asSyntax.Term;
+import jason.asSyntax.TermImpl;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -46,7 +48,7 @@ public class EMPlanPlannerConverter implements PlannerConverter {
 	/* (non-Javadoc)
 	 * @see org.soton.peleus.act.planner.PlannerConverter#createPlanningProblem(java.util.List, java.util.List, java.util.List)
 	 */
-	public void createPlanningProblem(List<Term> beliefs, List<Plan> plans, List<Term> goals) {
+	public void createPlanningProblem(List<Literal> beliefs, List<Plan> plans, List<Term> goals) {
 		startState = new StartStateImpl(this);
 		goalState = new GoalStateImpl();
 		operators = new ProblemOperatorsImpl(this);
@@ -59,7 +61,7 @@ public class EMPlanPlannerConverter implements PlannerConverter {
 		
 		for (Term term : beliefs) {
 			if(term.getFunctor().startsWith("object")) {
-				Term newTerm = Term.parse(term.getTerm(0)+"("+term.getTerm(1)+")");
+				Term newTerm = TermImpl.parse(term.getTerm(0)+"("+term.getTerm(1)+")");
 				startState.addTerm(newTerm);
 			}else if( (term.getTermsSize()!= 0) && (!term.getFunctor().startsWith("des"))){
 				startState.addTerm(term);
