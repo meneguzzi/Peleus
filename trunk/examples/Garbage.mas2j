@@ -1,8 +1,0 @@
-/* Jason Project */
-
-MAS peleus {
-	infrastructure: Centralised
-	agents: 
-	 garbage;
-	 garbage2;
-}
