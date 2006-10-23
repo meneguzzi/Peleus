@@ -7,16 +7,13 @@ import jason.asSyntax.BodyLiteral;
 import jason.asSyntax.Plan;
 import jason.asSyntax.Term;
 import jason.asSyntax.Trigger;
-
 import java.util.Iterator;
 import java.util.List;
-
 import org.soton.peleus.act.planner.PlanContextExtractor;
 import org.soton.peleus.act.planner.ProblemOperators;
 
 /**
- * @author Felipe Meneguzzi
- *
+ * @author  Felipe Meneguzzi
  */
 public class ProblemOperatorsImpl extends ProblemOperators {
 	

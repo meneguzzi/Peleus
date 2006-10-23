@@ -8,7 +8,6 @@ import jason.asSyntax.Plan;
 import jason.asSyntax.Pred;
 import jason.asSyntax.Term;
 import jason.asSyntax.TermImpl;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -16,7 +15,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
-
 import org.meneguzzi.jemplan.EMPlan;
 import org.soton.peleus.act.planner.GoalState;
 import org.soton.peleus.act.planner.PlannerConverter;
@@ -26,8 +24,7 @@ import org.soton.peleus.act.planner.StartState;
 import org.soton.peleus.act.planner.StripsPlan;
 
 /**
- * @author frm05r
- *
+ * @author  frm05r
  */
 public class EMPlanPlannerConverter implements PlannerConverter {
 	
@@ -79,12 +76,20 @@ public class EMPlanPlannerConverter implements PlannerConverter {
 	/* (non-Javadoc)
 	 * @see org.soton.peleus.act.planner.PlannerConverter#getGoalState()
 	 */
+	/**
+	 * @return  the goalState
+	 * @uml.property  name="goalState"
+	 */
 	public GoalState getGoalState() {
 		return goalState;
 	}
 
 	/* (non-Javadoc)
 	 * @see org.soton.peleus.act.planner.PlannerConverter#getStartState()
+	 */
+	/**
+	 * @return  the startState
+	 * @uml.property  name="startState"
 	 */
 	public StartState getStartState() {
 		return startState;

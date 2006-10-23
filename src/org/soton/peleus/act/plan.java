@@ -13,12 +13,10 @@ import jason.asSyntax.Term;
 import jason.asSyntax.TermImpl;
 import jason.asSyntax.Trigger;
 import jason.bb.BeliefBase;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
-
 import org.soton.peleus.act.planner.GoalState;
 import org.soton.peleus.act.planner.PlannerConverter;
 import org.soton.peleus.act.planner.ProblemObjects;
@@ -26,6 +24,9 @@ import org.soton.peleus.act.planner.ProblemOperators;
 import org.soton.peleus.act.planner.StartState;
 import org.soton.peleus.act.planner.jplan.JPlanPlannerConverter;
 
+/**
+ * @author  meneguzz
+ */
 public class plan implements InternalAction {
 	protected PlannerConverter plannerConverter = 
 		new JPlanPlannerConverter();

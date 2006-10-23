@@ -1,0 +1,465 @@
+/**
+ * JavaCC file
+ */
+ 
+options {
+  JDK_VERSION = "1.5";
+  STATIC = false;
+}
+PARSER_BEGIN(MotivationParser)
+package org.soton.peleus.mot.parser;
+
+import jason.asSyntax.ArithExprTerm;
+import jason.asSyntax.ListTerm;
+import jason.asSyntax.ListTermImpl;
+import jason.asSyntax.Literal;
+import jason.asSyntax.LogExprTerm;
+import jason.asSyntax.NumberTerm;
+import jason.asSyntax.NumberTermImpl;
+import jason.asSyntax.Pred;
+import jason.asSyntax.RelExprTerm;
+import jason.asSyntax.StringTerm;
+import jason.asSyntax.StringTermImpl;
+import jason.asSyntax.Term;
+import jason.asSyntax.Trigger;
+import jason.asSyntax.UnnamedVar;
+import jason.asSyntax.VarTerm;
+import jason.asSyntax.ArithExprTerm.ArithmeticOp;
+import jason.asSyntax.LogExprTerm.LogicalOp;
+import jason.asSyntax.RelExprTerm.RelationalOp;
+
+import java.io.IOException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Hashtable;
+
+import org.soton.peleus.mot.GoalGenerationFunction;
+import org.soton.peleus.mot.IntensityUpdateFunction;
+import org.soton.peleus.mot.MitigationFunction;
+import org.soton.peleus.mot.Motivation;
+import org.soton.peleus.mot.MotivationFactory;
+
+public class MotivationParser {
+	protected MotivationFactory motivationFactory = MotivationFactory.getMotivationFactory();
+	protected List<Motivation> motivations = new ArrayList<Motivation>();
+	
+  public static void main(String args[]) throws ParseException, FileNotFoundException {
+  	File inputFile = null;
+  	if(args.length > 0 ) {
+  		inputFile = new File(args[0]);
+  	} else {
+  		System.err.println("Must specify an input file.");
+  		System.err.println("Exiting.");
+  	}
+  	if(inputFile.exists()) {
+  		FileInputStream inputStream = new FileInputStream(inputFile);
+  		MotivationParser parser = new MotivationParser(inputStream);
+  		
+		System.out.print("Reading input...");
+    	List<Motivation> motivations = parser.parse();
+		if(motivations != null) {
+		   	System.out.println("Done");
+		   	System.out.println(parser);
+		} else {
+			System.out.println("Error");
+		}
+  	} else {
+  		System.err.println("Input file '"+inputFile+"' does not exist.");
+  		System.err.println("Exiting.");
+  	}
+  }
+  
+  public String toString(){
+  	StringBuffer sb = new StringBuffer();
+  	for(Motivation motivation : motivations) {
+		sb.append(motivation);
+		sb.append(System.getProperty("line.separator"));
+	}
+	return sb.toString();
+  }
+}
+PARSER_END(MotivationParser)
+
+SKIP :
+{
+ 	" "
+|	"\r"
+|	"\t"
+|	"\n"
+}
+TOKEN : /* Reserved Words - These go first*/
+{
+	<MOTIVATION: "Motivation" >
+|	<THRESHOLD: "Threshold" >
+|	<INTENSITY_UPDATE: "IntensityUpdate" >
+|	<GOAL_GENERATION: "GoalGeneration" >
+|	<MITIGATION: "Mitigation" >
+}
+TOKEN :
+{
+	<INTEGER: ("+" | "-")? (<DIGIT>)+ >
+}
+TOKEN : {
+// Predefined
+  <TK_TRUE: "true">
+| <TK_FALSE: "false">
+| <TK_NOT:  "not">
+| <TK_NEG:  "~">
+| <TK_INTDIV: "div">
+| <TK_INTMOD: "mod">
+
+// special chars
+| <TK_LABEL_AT: "@">
+
+// Numbers
+|   <NUMBER: ["0"-"9"] (["0"-"9"])*
+          | (["0"-"9"])* "." (["0"-"9"])+ (<EXPONENT>)?
+          | (["0"-"9"])+ <EXPONENT> >
+|  <EXPONENT: ["e","E"] (["+","-"])? (["0"-"9"])+>
+// Strings
+|  <STRING: "\"" ( ~["\"","\\","\n","\r"]
+                 | "\\" ( ["n","t","b","r","f","\\","\'","\""]
+                        | ["0"-"7"] (["0"-"7"])?
+                        | ["0"-"3"] ["0"-"7"] ["0"-"7"]))* "\"">
+
+// Identifiers
+|  <ATOM      : (<LC_LETTER> | "." <CHAR>) (<CHAR> | "." <CHAR>)*>
+|  <VAR       :  <UP_LETTER> (<CHAR>)*>
+|  <UNNAMEDVAR:  "_" (["0"-"9"])* >
+|  <CHAR      : (<LETTER> | <DIGIT> | "_" | "$")>
+|  <LETTER    : ( <LC_LETTER> | <UP_LETTER> )>
+|  <LC_LETTER : ["a"-"z"]>
+|  <UP_LETTER : ["A"-"Z"]>
+|  <DIGIT     : ["0"-"9"]>
+}
+
+List<Motivation> parse() : {Motivation m;}
+{
+  ( 
+  	m = motivation()	{ motivations.add(m); }
+  )+ 
+  					   { return motivations; }
+//| ";"	    	  { return 1; }
+}
+
+Motivation motivation() : 							{Token t; String motivationName; Motivation motivation;}
+{
+	<MOTIVATION> 
+	t=identifier() 									{motivationName = new String(t.image);}
+	"{"
+		motivation = motivationBody(motivationName)
+	"}"												{return motivation;}
+}
+
+Motivation motivationBody(String motivationName) : 	{int threshold;}
+{													{IntensityUpdateFunction iuFunction;}
+													{GoalGenerationFunction ggFunction;}
+													{MitigationFunction mFunction;}
+	threshold = threshold() ";"						{}
+	iuFunction = intensityUpdate()					{}
+	ggFunction = goalGeneration()					{}
+	mFunction = mitigation()						{}
+													{return motivationFactory.createMotivation(motivationName, threshold, iuFunction,ggFunction,mFunction);}
+}
+
+int threshold() : 									{Token token;}
+{
+	<THRESHOLD> "=" token=<INTEGER> 				{return Integer.parseInt(token.image);}
+}
+
+Token identifier() : 								{Token token;}
+{
+	token=<ATOM>									{return token;}
+|	token=<VAR>										{return token;}
+}
+
+String classname() : 								{Token token; String s;}
+{
+	token=identifier()   							{s = new String(token.image);}
+	/*("."				 							{s+=".";}
+	token=identifier())* 							{s+=token.image;}*/
+						 							{return s;}
+}
+
+IntensityUpdateFunction intensityUpdate() : 		{String classname;}
+{													{IntensityUpdateFunction function;}
+													{Hashtable<Literal,Integer> table = new Hashtable<Literal,Integer>();}
+	<INTENSITY_UPDATE> classname=classname() 		{function = motivationFactory.createIntensityUpdateFunction(classname);}
+	"{"
+	( 
+		beliefToIntegerMapping(table) ";"			{for (Literal literal : table.keySet()) {
+														function.addBeliefToIntegerMapping(literal, table.get(literal));
+													}}
+	)*
+	"}"												{return function;}
+}
+
+void beliefToIntegerMapping(Hashtable<Literal,Integer> table): {Literal l;}
+{
+	(l=literal()
+	 "->" 
+	 token=<INTEGER>)  								{int value = Integer.parseInt(token.image);}
+	 												{table.put(l,value);}
+}
+
+GoalGenerationFunction goalGeneration() : 			{String classname;}
+{													{GoalGenerationFunction function;}
+													{Hashtable<Literal,Trigger> table = new Hashtable<Literal,Trigger>();}
+	<GOAL_GENERATION> classname=classname() 		{function = motivationFactory.createGoalGenerationFunction(classname);}
+	"{"
+	(
+		beliefToTriggerMapping(table) ";"			{for (Literal literal : table.keySet()) {
+														function.addBeliefToGoalMapping(literal, table.get(literal));
+													}}
+	)*
+	"}"												{return function;}
+}
+
+void beliefToTriggerMapping(Hashtable<Literal,Trigger> table) : {Literal l; Trigger t;}
+{
+	(l=literal()
+	 "->"
+	 t=trigger()) 									{table.put(l,t);}
+}
+
+MitigationFunction mitigation() : 					{String classname;}
+{													{MitigationFunction function;}
+													{Hashtable<Literal,Integer> table = new Hashtable<Literal,Integer>();}
+	<MITIGATION> classname=classname() 				{function = motivationFactory.createMitigationFunction(classname);}
+	"{"
+	(
+		beliefToIntegerMapping(table) ";"			{for (Literal literal : table.keySet()) {
+														function.addBeliefToIntegerMapping(literal, table.get(literal));
+													}}
+	)*
+	"}"												{return function;}
+}
+
+/* Definitions stolen from Jason's parser*/
+/* Trigger */
+Trigger trigger() : { 
+               		boolean teType;
+			    	byte    teGoal = Trigger.TEBel;
+				 	Literal F; 
+               }
+{
+  ( "+"        { teType = Trigger.TEAdd; }
+  | "-"        { teType = Trigger.TEDel; }
+  )
+  
+  [ ( "!"      { teGoal = Trigger.TEAchvG; }
+    | "?"      { teGoal = Trigger.TETestG; }
+    )
+  ]
+  
+  ( F=literal()
+  | F=var()
+  )            { return new Trigger(teType,teGoal,F); }
+}
+
+/* Literal */
+Literal literal() :  { Pred F; Token k; boolean type = Literal.LPos; }
+{
+  ( ( [ <TK_NEG>              { type = Literal.LNeg; }
+      ]
+      F=atom()                { return new Literal(type,F); }
+    )
+  | k=<TK_TRUE>               { return Literal.LTrue; } 
+  | k=<TK_FALSE>              { return Literal.LFalse; } 
+  )
+}
+
+/* Annotated Atomic Formulae */
+Pred atom() :       { Token K; Pred p = new Pred(); Term t; List l; ListTerm lt;}
+{
+  K=<ATOM>          { p.setFunctor(K.image); } 
+  [
+      "(" l = terms() 
+      ")"           { p.addTerms(l); }
+  ]
+  [ 
+      lt = list()   { p.setAnnots(lt); }
+  ] 
+  { return p; }
+}
+
+/* List of terms */
+List terms() : { List listTerms = new ArrayList(); Term v; }
+{
+  v=term()             { listTerms.add(v); } 
+  ( "," v=term()       { listTerms.add(v); }
+  )* 
+                       { return listTerms; }
+}
+
+
+Term term() :       { Term u; }
+{
+  ( u=literal()     
+  | u=list()        
+  | u=arithm_expr() 
+  | u=string()      
+  )
+  { return u; }
+}
+
+
+ListTermImpl list() : { ListTermImpl lt = new ListTermImpl(); ListTerm last; 
+                        Token K; Term f; }
+{
+  "["
+  [
+  f=term()                { last = lt.append(f); }
+  ( "," f=term()          { last = last.append(f); }
+  )*
+  [ "|"  ( K=<VAR>        { last.setNext(new VarTerm(K.image)); }
+         | K=<UNNAMEDVAR> { last.setNext(new UnnamedVar()); }
+         | f=list()       { last = last.concat((ListTerm)f);	   }
+         )           
+  ]
+  ]
+  "]"                     { return lt; } 
+}
+
+/* arithmetic expression */
+Term arithm_expr() : { Term t1, t2; ArithmeticOp op;}
+{
+   t1 = arithm_expr_trm()     { op = ArithmeticOp.none; }
+[  ( "+"             { op = ArithmeticOp.plus;} 
+   | "-"             { op = ArithmeticOp.minus;}
+   )
+   t2 = arithm_expr() { if (!t1.isNumeric() && !t1.isVar()) {
+                           throw new ParseException("ArithExpr: first operand is not numeric or variable.");
+                        }
+                        if (!t2.isNumeric() && !t2.isVar()) {
+                           throw new ParseException("ArithExpr: second operand is not numeric or variable.");
+                        }
+                        return new ArithExprTerm((NumberTerm)t1, op, (NumberTerm)t2); 
+                      }
+]                     { return t1; }
+}
+
+Term arithm_expr_trm() :        { Term t1, t2; ArithmeticOp op;}
+{
+   t1 = arithm_expr_factor()    { op = ArithmeticOp.none; }
+[  ( "*"                        { op = ArithmeticOp.times; } 
+   | "/"                        { op = ArithmeticOp.div; }
+   | <TK_INTDIV>                { op = ArithmeticOp.intdiv; }
+   | <TK_INTMOD>                { op = ArithmeticOp.mod; }
+   )
+   t2 = arithm_expr_trm()       { if (!t1.isNumeric() && !t1.isVar()) {
+                                    throw new ParseException("ArithTerm: first operand is not numeric or variable.");
+                                  }
+                                  if (!t2.isNumeric() && !t2.isVar()) {
+                                    throw new ParseException("ArithTerm: second operand is not numeric or variable.");
+                                  }
+                                  return new ArithExprTerm((NumberTerm)t1, op, (NumberTerm)t2); 
+                                }
+]                               { return t1; }
+}
+
+Term arithm_expr_factor():   { Term t1, t2; ArithmeticOp op;}
+{
+   t1 = arithm_expr_simple() { op = ArithmeticOp.none; }
+[  ( "**"                    { op = ArithmeticOp.pow; }
+   )
+   t2 = arithm_expr_factor() { if (!t1.isNumeric() && !t1.isVar()) {
+                                 throw new ParseException("ArithFactor: first operand is not numeric or variable.");
+                               }
+                               if (!t2.isNumeric() && !t2.isVar()) {
+                                 throw new ParseException("ArithFactor: second operand is not numeric or variable.");
+                               }
+                               return new ArithExprTerm((NumberTerm)t1, op, (NumberTerm)t2); 
+                             }
+]                            { return t1; }
+}
+
+
+Term arithm_expr_simple(): { Token K; Term t; VarTerm v; }
+{
+ ( K = <NUMBER>                 { return new NumberTermImpl(K.image); }
+ | "-" t = arithm_expr_simple() { if (!t.isNumeric() && !t.isVar()) {
+                                    throw new ParseException("operator '-' applied to argument not numeric or variable.");
+                                  }
+                                  return new ArithExprTerm(ArithmeticOp.minus, (NumberTerm)t); 
+                                }
+ | "(" t = log_expr() ")"       { return t; }
+ | v = var()                    { return v; }
+ )
+}
+
+VarTerm var():      { Token K; VarTerm v; ListTerm lt; }
+{
+ ( K = <VAR>        { v = new VarTerm(K.image); }
+ | K = <UNNAMEDVAR> { v = new UnnamedVar(); }
+ )
+ [ 
+   lt = list()      { v.setAnnots(lt); }
+ ]
+                    { return v; }
+}
+
+StringTerm string():{ Token k; }
+{
+  k = <STRING>      { return new StringTermImpl(k.image.substring(1,k.image.length()-1)); } 
+}
+
+/* logical expression */
+
+Term log_expr() :        { Term t1, t2; }
+{					
+   t1 = log_expr_trm()         
+[  "|" t2 = log_expr()   { return new LogExprTerm(t1,LogicalOp.or,t2); } ]
+                         { return t1; }
+}
+
+Term log_expr_trm() :      { Term t1, t2; }
+{
+   t1 = log_expr_factor()    
+[  "&" t2 = log_expr_trm() { return new LogExprTerm(t1,LogicalOp.and,t2); } ]
+                           { return t1; }
+}
+
+Term log_expr_factor():             { Term t; }
+{
+(  
+  <TK_NOT> t = log_expr_factor()    { return new LogExprTerm(LogicalOp.not,t); } 
+ | 
+  t = rel_expr()                    { return t; } 
+)
+}
+
+Term rel_expr() :                         {  Term op1 = null;
+                                             Term op2 = null;
+                                             RelationalOp operator = RelationalOp.none;
+                                           }
+{
+    (   op1 = arithm_expr()                
+      | op1 = literal()
+      | op1 = string()
+    )
+                     
+    [
+       ( "<"                               { operator = RelationalOp.lt; } 
+       | "<="                              { operator = RelationalOp.lte; } 
+       | ">"                               { operator = RelationalOp.gt; } 
+       | ">="                              { operator = RelationalOp.gte; } 
+       | "=="                              { operator = RelationalOp.eq; } 
+       | "\\=="                            { operator = RelationalOp.dif; } 
+       | "="                               { operator = RelationalOp.unify; } 
+       | "=.."                             { operator = RelationalOp.literalBuilder; } 
+       )
+
+       (   op2 = arithm_expr()        
+         | op2 = literal()
+         | op2 = string()               
+         | op2 = list()
+       )
+
+                                           { return new RelExprTerm(op1, operator, op2); }
+    ]
+                                           { return op1; }
+}

@@ -4,14 +4,11 @@
 package org.soton.peleus.act.planner.jemplan;
 
 import jason.asSyntax.Term;
-
 import java.util.Iterator;
-
 import org.soton.peleus.act.planner.StartState;
 
 /**
- * @author frm05r
- *
+ * @author  frm05r
  */
 public class StartStateImpl extends StartState {
 	

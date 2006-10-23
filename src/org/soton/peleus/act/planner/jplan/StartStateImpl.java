@@ -1,9 +1,7 @@
 package org.soton.peleus.act.planner.jplan;
 
 import jason.asSyntax.Term;
-
 import java.util.Iterator;
-
 import org.soton.peleus.act.planner.PlannerConverter;
 import org.soton.peleus.act.planner.StartState;
 
