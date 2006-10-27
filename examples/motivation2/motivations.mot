@@ -1,0 +1,32 @@
+Motivation MyMotivation {
+	Threshold = 10;
+	
+	IntensityUpdate org.soton.peleus.mot.impl.IntensityUpdateFunctionImpl {
+		over(block1,feedBelt) -> 1;
+	}
+	
+	GoalGeneration org.soton.peleus.mot.impl.GoalGenerationFunctionImpl {
+		true -> +!finish(block1);
+	}
+	
+	Mitigation org.soton.peleus.mot.impl.MitigationFunctionImpl {
+		finished(block1) -> -10;
+	}
+}
+
+Motivation MySecondMotivation {
+	Threshold = 4;
+	
+	IntensityUpdate org.soton.peleus.mot.impl.IntensityUpdateFunctionImpl {
+		over(block2,feedBelt) -> 2;
+		finished(block2) -> -5;
+	}
+	
+	GoalGeneration org.soton.peleus.mot.impl.GoalGenerationFunctionImpl {
+		true -> +!finish(block2);
+	}
+	
+	Mitigation org.soton.peleus.mot.impl.MitigationFunctionImpl {
+		finished(block2) -> -5;
+	}
+}

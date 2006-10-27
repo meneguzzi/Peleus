@@ -1,0 +1,10 @@
+/* Jason Project */
+
+MAS motivator {
+
+	/*infrastructure: Centralised*/
+	environment: 
+         org.soton.peleus.mot.test.MotivationTestEnvironment
+	agents: 
+	 motivated agentClass org.soton.peleus.mot.MotivatedAgent;
+}

@@ -1,0 +1,8 @@
+MAS motivated {
+
+    environment: 
+         org.soton.peleus.mot.test.MotivationTestEnvironment
+
+    agents: 
+         battRobot agentClass org.soton.peleus.mot.MotivatedAgent;
+}

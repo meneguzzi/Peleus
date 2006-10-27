@@ -1,0 +1,11 @@
+Motivation Work {
+	Threshold = 10;
+	IntensityUpdate org.soton.peleus.mot.impl.IntensityUpdateFunctionImpl {
+	}
+	
+	GoalGeneration org.soton.peleus.mot.impl.GoalGenerationFunctionImpl {
+	}
+	
+	Mitigation org.soton.peleus.mot.impl.MitigationFunctionImpl {
+	}
+}

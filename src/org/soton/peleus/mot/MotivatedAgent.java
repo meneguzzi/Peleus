@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Queue;
 import java.util.logging.Logger;
 
 import org.soton.peleus.mot.parser.MotivationParser;
@@ -70,14 +71,6 @@ public class MotivatedAgent extends Agent {
 	public void buf(List<Literal> percepts) {
 		super.buf(percepts);
 		logger.fine("Updating Motivations");
-		//First mitigate any triggered motivations
-		for (Iterator<Motivation> iter = triggeredMotivations.iterator(); iter.hasNext();) {
-			Motivation motivation = iter.next();
-			if(motivation.getMotivationIntensity() < motivation.getMotivationThreshold()) {
-				logger.info("Motivation "+motivation.getMotivationName()+" mitigated");
-				iter.remove();
-			}
-		}
 		List<Motivation> newTriggeredMotivations = new ArrayList<Motivation>();
 		for (Motivation	motivation : motivations) {
 			logger.fine("Updating Motivation: '"+motivation.getMotivationName()+"'");
@@ -102,6 +95,20 @@ public class MotivatedAgent extends Agent {
 				this.addMotivatedGoal(trigger);
 			}
 		}
+		//Then mitigate any triggered motivations that might have been satisfied
+		for (Iterator<Motivation> iter = triggeredMotivations.iterator(); iter.hasNext();) {
+			Motivation motivation = iter.next();
+			if(motivation.getMotivationIntensity() < motivation.getMotivationThreshold()) {
+				logger.info("Motivation "+motivation.getMotivationName()+" mitigated");
+				iter.remove();
+			}
+		}
+	}
+	
+	@Override
+	public Intention selectIntention(Queue<Intention> intentions) {
+		// TODO Use motivations to select the intention
+		return super.selectIntention(intentions);
 	}
 	
 	public void addMotivatedGoal(Trigger trigger) {
