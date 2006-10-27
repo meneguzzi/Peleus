@@ -3,6 +3,7 @@
  */
 package org.soton.peleus.mot.impl;
 
+import jason.asSemantics.Unifier;
 import jason.asSyntax.Literal;
 import jason.asSyntax.Trigger;
 import jason.bb.BeliefBase;
@@ -41,13 +42,32 @@ public class GoalGenerationFunctionImpl implements GoalGenerationFunction {
 	public List<Trigger> generateGoals(BeliefBase beliefBase) {
 		logger.fine("Generating goals");
 		List<Trigger> list = new ArrayList<Trigger>();
+		Unifier unifier = null;
 		for (Literal literal : goals.keySet()) {
 			if(literal.equals(Literal.LTrue) || 
-				beliefBase.getRelevant(literal) != null) {
-				list.add(goals.get(literal));
+				(unifier = getUnifier(literal, beliefBase)) != null) {
+				Trigger trigger = (Trigger) goals.get(literal).clone();
+				unifier.apply(trigger.getLiteral());
+				list.add(trigger);
 			}
 		}
 		return list;
+	}
+	
+	public Unifier getUnifier(Literal literal, BeliefBase beliefBase) {
+		Iterator<Literal> iter = beliefBase.getRelevant(literal);
+		Unifier unifier = new Unifier();
+		if(iter != null) {
+			for(;iter.hasNext();) {
+				Literal l = iter.next();
+				l = (Literal) l.clone();
+				l.clearAnnots();
+				if(unifier.unifies(l, literal))
+					return unifier;
+			}
+		}
+		
+		return null;
 	}
 
 	public void addBeliefToGoalMapping(Literal literal, Trigger trigger) {

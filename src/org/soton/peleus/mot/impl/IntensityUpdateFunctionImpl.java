@@ -52,13 +52,13 @@ public class IntensityUpdateFunctionImpl implements IntensityUpdateFunction {
 	public int updateIntensity(BeliefBase beliefBase) {
 		int motivationDelta = 0;
 		for (Literal positiveLiteral : positiveBeliefs.keySet()) {
-			if(beliefBase.contains(positiveLiteral) != null) {
+			if(beliefBase.getRelevant(positiveLiteral) != null) {
 				motivationDelta+=positiveBeliefs.get(positiveLiteral);
 			}
 		}
 		
 		for (Literal negativeLiteral : negativeBeliefs.keySet()) {
-			if(beliefBase.contains(negativeLiteral) == null) {
+			if(beliefBase.getRelevant(negativeLiteral) == null) {
 				motivationDelta += negativeBeliefs.get(negativeLiteral);
 			}
 		}

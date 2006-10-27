@@ -1,11 +1,44 @@
-Motivation Work {
+Motivation processBay1 {
 	Threshold = 10;
 	IntensityUpdate org.soton.peleus.mot.impl.IntensityUpdateFunctionImpl {
+		over(Packet,bay1) -> 5;
 	}
 	
 	GoalGeneration org.soton.peleus.mot.impl.GoalGenerationFunctionImpl {
+		over(Packet,bay1) -> +!sort(Packet);
 	}
 	
 	Mitigation org.soton.peleus.mot.impl.MitigationFunctionImpl {
+		over(Packet, pigeonHoles) -> -10;
+	}
+}
+
+Motivation processBay2 {
+	Threshold = 10;
+	IntensityUpdate org.soton.peleus.mot.impl.IntensityUpdateFunctionImpl {
+		over(Packet,bay2) -> 2;
+	}
+	
+	GoalGeneration org.soton.peleus.mot.impl.GoalGenerationFunctionImpl {
+		over(Packet,bay2) -> +!sort(Packet);
+	}
+	
+	Mitigation org.soton.peleus.mot.impl.MitigationFunctionImpl {
+		over(Packet, pigeonHoles) -> -10;
+	}
+}
+
+Motivation processBay3 {
+	Threshold = 10;
+	IntensityUpdate org.soton.peleus.mot.impl.IntensityUpdateFunctionImpl {
+		over(Packet,bay3) -> 1;
+	}
+	
+	GoalGeneration org.soton.peleus.mot.impl.GoalGenerationFunctionImpl {
+		over(Packet,bay3) -> +!sort(Packet);
+	}
+	
+	Mitigation org.soton.peleus.mot.impl.MitigationFunctionImpl {
+		over(Packet, pigeonHoles) -> -10;
 	}
 }

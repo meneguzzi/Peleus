@@ -16,16 +16,16 @@ empty(charger).*/
 
 /*+over(Packet,Bay) : true
 	<- !sort(Packet).*/
-+over(Packet,Bay) : not busy
-	<- !sort(Packet).
+/*+over(Packet,Bay) : not busy
+	<- !sort(Packet).*/
+/*+over(Packet,bay1) : true
+	<- +conjGoal(over(Packet,pigeonHoles)).*/
 
 +!sort(Packet) : packet(Packet) & over(Packet,Bay) & at(A)
-	<- +busy;
-	   !move(A,Bay);
+	<- !move(A,Bay);
 	   !pickup(Packet);
 	   !move(Bay,pigeonHoles);
-	   !drop(Packet);
-	   -busy.
+	   !drop(Packet).
 
 +!pickup(Item) : over(Item,A) & at(A) & not held(_)
 	<- -over(Item,A);

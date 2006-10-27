@@ -37,18 +37,19 @@ public class MotivationTestEnvironment extends Environment {
 		//addPercept(Literal.parseLiteral("over(packet3, bay3)"));
 		
 		addPercept(Literal.parseLiteral("robot(motivated1)"));
-		addPercept("battRobot", Literal.parseLiteral("at(corridor)"));
-		addPercept("battRobot", Literal.parseLiteral("batt(full)"));
+		addPercept(Literal.parseLiteral("at(corridor)"));
+		addPercept(Literal.parseLiteral("batt(full)"));
 		//addPercept("battRobot", Literal.parseLiteral("held(full)"));
 	}
 	
 	@Override
 	public boolean executeAction(String agName, Term act) {
 		//return super.executeAction(agName, act);
+		boolean success = true;
 		if(act.getFunctor().equals("move")) {
 			Term t0 = act.getTerm(0);
 			Term t1 = act.getTerm(1);
-			List<Literal> percepts = getPercepts(agName);
+			List<Literal> percepts = getPercepts("johnny");
 			
 			logger.info("Moving "+agName+" from "+t0+" to "+t1);
 			Literal precond0 = Literal.parseLiteral("at("+t0.toString()+")");
@@ -57,14 +58,16 @@ public class MotivationTestEnvironment extends Environment {
 			/*if(findMatchingLiteral(precond0, percepts) == null)
 				return false;*/
 			
-			removePercept(agName, precond0);
-			addPercept(agName, effect0);
+			removePercept(precond0);
+			addPercept(effect0);
 			
 			Literal batt = findLiteralByFunctor("batt", percepts);
-			removePercept(agName, batt);
-			addPercept(updateBattery(batt));
+			if(batt != null) {
+				removePercept(batt);
+				addPercept(updateBattery(batt));
+			}
 		} else if(act.getFunctor().equals("charge")) {
-			List<Literal> percepts = getPercepts(agName);
+			List<Literal> percepts = getPercepts("johnny");
 			
 			Literal precond0 = Literal.parseLiteral("at(A)");
 			/*if(findMatchingLiteral(precond0, percepts) == null)
@@ -74,30 +77,48 @@ public class MotivationTestEnvironment extends Environment {
 			removePercept(agName, batt);
 			addPercept(Literal.parseLiteral("batt(full)"));
 		} else if(act.getFunctor().equals("pickup")) {
-			List<Literal> percepts = getPercepts(agName);
+			List<Literal> percepts = getPercepts("johnny");
 			
 			Term t0 = act.getTerm(0);
 			Literal prot = Literal.parseLiteral("over("+t0+", A)");
 			Literal remove = findMatchingLiteral(prot, percepts);
-			removePercept(remove);
-			addPercept(agName, Literal.parseLiteral("held("+t0+")"));
+			if(remove != null) {
+				removePercept(remove);
+				addPercept(Literal.parseLiteral("held("+t0+")"));
+			} else {
+				success = false;
+			}
 		} else if(act.getFunctor().equals("drop")) {
-			List<Literal> percepts = getPercepts(agName);
+			List<Literal> percepts = getPercepts("johnny");
 			Term t0 = act.getTerm(0);
 			
 			Literal prot = Literal.parseLiteral("held("+t0+")");
 			Literal remove = findMatchingLiteral(prot, percepts);
-			removePercept(agName, remove);
+			if(remove != null) {
+				removePercept(remove);
+			} else {
+				success = false;
+			}
 			
 			prot = Literal.parseLiteral("at(A)");
 			remove = findMatchingLiteral(prot, percepts);
-			Term t1 = remove.getTerm(0);
-			addPercept(Literal.parseLiteral("over("+t0+","+t1+")"));
+			if(remove != null) {
+				Term t1 = remove.getTerm(0);
+				addPercept(Literal.parseLiteral("over("+t0+","+t1+")"));
+			} else {
+				success = false;
+			}
 		}
-		return true;
+		if(!success) {
+			logger.info("Action "+act.toString()+" failed");
+		}
+		return success;
 	}
 	
 	protected Literal findMatchingLiteral(Literal prototype, List<Literal> literals) {
+		if(literals == null) {
+			return null;
+		}
 		Unifier unifier = new Unifier();
 		for (Literal literal : literals) {
 			if(unifier.unifies(prototype, literal))
@@ -108,6 +129,8 @@ public class MotivationTestEnvironment extends Environment {
 	}
 	
 	protected Literal findLiteralByFunctor(String key, List<Literal> literals) {
+		if(literals == null)
+			return null;
 		for (Literal literal : literals) {
 			if(literal.getFunctor().equals(key)) {
 				return literal;
