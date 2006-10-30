@@ -1,8 +1,8 @@
 package org.soton.peleus.act.planner.jemplan;
 
-import java.util.Iterator;
-
 import jason.asSyntax.Term;
+
+import java.util.Iterator;
 
 import org.soton.peleus.act.planner.GoalState;
 

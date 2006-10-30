@@ -4,7 +4,6 @@
 package org.soton.peleus.act.planner;
 
 import jason.asSyntax.Plan;
-import jason.asSyntax.Term;
 
 import java.util.ArrayList;
 import java.util.List;

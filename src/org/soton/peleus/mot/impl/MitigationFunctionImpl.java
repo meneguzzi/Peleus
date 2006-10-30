@@ -3,10 +3,10 @@
  */
 package org.soton.peleus.mot.impl;
 
-import java.util.Hashtable;
-
 import jason.asSyntax.Literal;
 import jason.bb.BeliefBase;
+
+import java.util.Hashtable;
 
 import org.soton.peleus.mot.MitigationFunction;
 

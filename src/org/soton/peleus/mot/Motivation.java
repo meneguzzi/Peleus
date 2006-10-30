@@ -5,6 +5,7 @@ package org.soton.peleus.mot;
 
 import jason.asSyntax.Trigger;
 import jason.bb.BeliefBase;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;

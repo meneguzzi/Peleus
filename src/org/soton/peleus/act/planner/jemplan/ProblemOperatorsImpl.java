@@ -4,11 +4,16 @@
 package org.soton.peleus.act.planner.jemplan;
 
 import jason.asSyntax.BodyLiteral;
+import jason.asSyntax.Literal;
+import jason.asSyntax.LogicalFormula;
 import jason.asSyntax.Plan;
 import jason.asSyntax.Term;
 import jason.asSyntax.Trigger;
+
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
+
 import org.soton.peleus.act.planner.PlanContextExtractor;
 import org.soton.peleus.act.planner.ProblemOperators;
 
@@ -17,6 +22,7 @@ import org.soton.peleus.act.planner.ProblemOperators;
  */
 public class ProblemOperatorsImpl extends ProblemOperators {
 	
+	protected static final Logger logger = Logger.getLogger(ProblemOperators.class.getName());	
 	private final EMPlanPlannerConverter converter;
 	
 	public ProblemOperatorsImpl(EMPlanPlannerConverter converter) {
@@ -57,7 +63,7 @@ public class ProblemOperatorsImpl extends ProblemOperators {
 			//List<Literal> contextLiterals = plan.getContext();
 			PlanContextExtractor contextExtractor = PlanContextExtractor.getPlanContextExtractor();
 			contextExtractor.extractContext(plan);
-			List<Term> contextTerms = contextExtractor.getContext();
+			List<LogicalFormula> contextTerms = contextExtractor.getContext();
 			
 			StringBuffer sbOpPreconds = new StringBuffer();
 			
@@ -78,13 +84,17 @@ public class ProblemOperatorsImpl extends ProblemOperators {
 					sb.append(", ");
 			}
 			
-			for (Iterator<Term> iter = contextTerms.iterator(); iter.hasNext();) {
-				Term term = iter.next();
+			for (Iterator<LogicalFormula> iter = contextTerms.iterator(); iter.hasNext();) {
+				LogicalFormula formula = iter.next();
 				if(sbOpPreconds.length() != 0) {
 					sbOpPreconds.append(", ");
 				}
-				sbOpPreconds.append(converter.toStripsString(term));
-				
+				if(formula instanceof Literal) {
+					Literal literal = (Literal) formula;
+					sbOpPreconds.append(converter.toStripsString(literal));
+				} else {
+					logger.fine("Ignored formula: "+formula);
+				}
 			}
 			if(sbOpPreconds.length() == 0) {
 				sb.append("true");
@@ -102,12 +112,12 @@ public class ProblemOperatorsImpl extends ProblemOperators {
 						sbEffects.append(", ");
 					}
 					sbEffects.append("-");
-					sbEffects.append(converter.toStripsString(literal.getTerm()));
+					sbEffects.append(converter.toStripsString(literal.getLiteralFormula()));
 				}else if(literal.getType() == BodyLiteral.BodyType.addBel) {
 					if(sbEffects.length() != 0) {
 						sbEffects.append(", ");
 					}
-					sbEffects.append(converter.toStripsString(literal.getTerm()));
+					sbEffects.append(converter.toStripsString(literal.getLiteralFormula()));
 				}
 			}
 			

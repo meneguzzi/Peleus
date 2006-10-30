@@ -4,7 +4,9 @@
 package org.soton.peleus.act.planner.jemplan;
 
 import jason.asSyntax.Term;
+
 import java.util.Iterator;
+
 import org.soton.peleus.act.planner.StartState;
 
 /**

@@ -1,6 +1,7 @@
 package org.soton.peleus.mot;
 
 import java.util.logging.Logger;
+
 import org.soton.peleus.mot.impl.GoalGenerationFunctionImpl;
 import org.soton.peleus.mot.impl.IntensityUpdateFunctionImpl;
 import org.soton.peleus.mot.impl.MitigationFunctionImpl;

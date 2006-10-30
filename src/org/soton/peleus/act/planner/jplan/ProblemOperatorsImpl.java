@@ -4,12 +4,12 @@
 package org.soton.peleus.act.planner.jplan;
 
 import jason.asSyntax.BodyLiteral;
-import jason.asSyntax.LogExprTerm;
+import jason.asSyntax.Literal;
+import jason.asSyntax.LogicalFormula;
 import jason.asSyntax.Plan;
-import jason.asSyntax.RelExprTerm;
+import jason.asSyntax.RelExpr;
 import jason.asSyntax.Term;
 import jason.asSyntax.Trigger;
-import jason.asSyntax.LogExprTerm.LogicalOp;
 
 import java.util.Iterator;
 import java.util.List;
@@ -17,10 +17,12 @@ import java.util.List;
 import org.soton.peleus.act.planner.PlanContextExtractor;
 import org.soton.peleus.act.planner.ProblemOperators;
 
-public class ProblemOperatorsImpl extends ProblemOperators{
+public class ProblemOperatorsImpl extends ProblemOperators {
+	protected JPlanPlannerConverter converter;
 	
-	public ProblemOperatorsImpl() {
+	public ProblemOperatorsImpl(JPlanPlannerConverter converter) {
 		super();
+		this.converter = converter;
 	}
 
 	@Override
@@ -42,7 +44,7 @@ public class ProblemOperatorsImpl extends ProblemOperators{
 					/*sb.append(" ?");
 					sb.append(terms[i]);*/
 					sb.append(" ");
-					sb.append(toStripsString(terms[i]));
+					sb.append(converter.toStripsString(terms[i]));
 					sb.append(((i+1) == terms.length) ? ")" : ", ");
 				}
 			}
@@ -52,24 +54,25 @@ public class ProblemOperatorsImpl extends ProblemOperators{
 			//List literals = plan.getContext();
 			PlanContextExtractor contextExtractor = PlanContextExtractor.getPlanContextExtractor();
 			contextExtractor.extractContext(plan);
-			List<Term> contextTerms = contextExtractor.getContext();
+			List<LogicalFormula> context = contextExtractor.getContext();
 			
 			StringBuffer sbOpContext = new StringBuffer();
 			StringBuffer sbOpPreconds = new StringBuffer();
-			for (Iterator<Term> iter = contextTerms.iterator(); iter.hasNext();) {
-				Term term = iter.next();
+			for (Iterator<LogicalFormula> iter = context.iterator(); iter.hasNext();) {
+				LogicalFormula formula = iter.next();
 				//Representation of things in Jason 0.9 changed, now when we deal with
 				//Expressions, we are dealing with context information
-				if(term instanceof LogExprTerm) {
+				if(formula instanceof RelExpr) {
 					if(sbOpContext.length() != 0) {
 						sbOpContext.append(" & ");
 					}
-					sbOpContext.append(toStripsString(term));
+					sbOpContext.append(converter.toStripsString((RelExpr)formula));
 				} else { // Otherwise we are dealing with preconditions
 					if(sbOpPreconds.length() != 0) {
 						sbOpPreconds.append(" & ");
 					}
-					sbOpPreconds.append(toStripsString(term));
+					Literal literal = (Literal) formula;
+					sbOpPreconds.append(converter.toStripsString(literal));
 				}
 				
 			}
@@ -92,12 +95,12 @@ public class ProblemOperatorsImpl extends ProblemOperators{
 					if(sbNegativeLiterals.length() != 0) {
 						sbNegativeLiterals.append(" & ");
 					}
-					sbNegativeLiterals.append(toStripsString(literal.getTerm()));
+					sbNegativeLiterals.append(converter.toStripsString(literal));
 				}else if(literal.getType() == BodyLiteral.BodyType.addBel) {
 					if(sbPositiveLiterals.length() != 0) {
 						sbPositiveLiterals.append(" & ");
 					}
-					sbPositiveLiterals.append(toStripsString(literal.getTerm()));
+					sbPositiveLiterals.append(converter.toStripsString(literal));
 				}
 			}
 			
@@ -126,67 +129,6 @@ public class ProblemOperatorsImpl extends ProblemOperators{
 		return sb.toString();
 	}
 	
-	protected String toStripsOperator(LogExprTerm.LogicalOp logicalOp) {
-		switch (logicalOp) {
-		case and:
-			return "&";
-		case not:
-			return "!";
-		case or:
-			return "|";
-		case none:
-		default:
-			return "";
-		}
-	}
-	
-	protected String toStripsOperator(RelExprTerm.RelationalOp op) {
-		switch (op) {
-		case dif:
-			return "!=";
-		case eq:
-			return "=";
-		case gt:
-			return ">";
-		case gte:
-			return ">=";
-		case literalBuilder:
-			return "ARGH";
-		case lt:
-			return "<";
-		case lte:
-			return "<=";
-		case unify:
-			return "==";
-		case none:
-		default:
-			return "";
-		}
-	}
-	
-	protected String toStripsNegatedOperator(RelExprTerm.RelationalOp op) {
-		switch (op) {
-		case unify:
-		case eq:
-			return toStripsOperator(RelExprTerm.RelationalOp.dif);
-		case dif:
-			return toStripsOperator(RelExprTerm.RelationalOp.eq);
-		case gt:
-			return toStripsOperator(RelExprTerm.RelationalOp.lte);
-		case gte:
-			return toStripsOperator(RelExprTerm.RelationalOp.lt);
-		case literalBuilder:
-			return toStripsOperator(RelExprTerm.RelationalOp.literalBuilder);
-		case lt:
-			return toStripsOperator(RelExprTerm.RelationalOp.gte);
-		case lte:
-			return toStripsOperator(RelExprTerm.RelationalOp.gt);
-		case none:
-		default:
-			return "";
-		}
-	}
-	
 	/**
 	 * This method stinks big time by overriding the one in 
 	 * the outter class.
@@ -194,41 +136,41 @@ public class ProblemOperatorsImpl extends ProblemOperators{
 	 * @param term A Term to be converted into a STRIPS String
 	 * @return A STRIPS-compatible String representation
 	 */
-	public String toStripsString(Term term) {
+	/*public String toStripsString(Term term) {
 		StringBuffer sb = new StringBuffer();
 		
 		if(term.isVar()) {
 			sb.append("?");
 		}
 		
-		if(term instanceof LogExprTerm) {
-			LogExprTerm exprTerm = (LogExprTerm) term;
+		if(term instanceof LogExpr) {
+			LogExpr exprTerm = (LogExpr) term;
 			if(exprTerm.isUnary()) {
 				if( (exprTerm.getOp() == LogicalOp.not) && 
-					(exprTerm.getRHS() instanceof RelExprTerm)) {
-					RelExprTerm exprTerm2 = (RelExprTerm) exprTerm.getRHS();
+					(exprTerm.getRHS() instanceof RelExpr)) {
+					RelExpr exprTerm2 = (RelExpr) exprTerm.getRHS();
 					if(!exprTerm2.getLHS().isVar()) {
 						sb.append("@");
 					}
 					sb.append(toStripsString(exprTerm2.getLHS()));
-					sb.append(toStripsNegatedOperator(exprTerm2.getOp()));
+					sb.append(converter.toStripsNegatedOperator(exprTerm2.getOp()));
 					if(!exprTerm2.getRHS().isVar()) {
 						sb.append("@");
 					}
 					sb.append(toStripsString(exprTerm2.getRHS()));
 				} else {
-					sb.append(toStripsOperator(exprTerm.getOp()));
-					sb.append(toStripsString(exprTerm.getRHS()));
+					sb.append(converter.toStripsOperator(exprTerm.getOp()));
+					sb.append(toStripsString((Literal)exprTerm.getRHS()));
 				}
 			} else {
 				//sb.append("(");
-				sb.append(toStripsString(exprTerm.getLHS()));
-				sb.append(toStripsOperator(exprTerm.getOp()));
-				sb.append(toStripsString(exprTerm.getRHS()));
+				sb.append(toStripsString((Literal)exprTerm.getLHS()));
+				sb.append(converter.toStripsOperator(exprTerm.getOp()));
+				sb.append(toStripsString((Literal)exprTerm.getRHS()));
 				//sb.append(")");
 			}
-		} else if (term instanceof RelExprTerm) {
-			RelExprTerm exprTerm = (RelExprTerm) term;
+		} else if (term instanceof RelExpr) {
+			RelExpr exprTerm = (RelExpr) term;
 			//sb.append("(");
 			if(!exprTerm.getLHS().isVar()) {
 				sb.append("@");
@@ -256,5 +198,5 @@ public class ProblemOperatorsImpl extends ProblemOperators{
 		}
 		
 		return sb.toString();
-	}
+	}*/
 }

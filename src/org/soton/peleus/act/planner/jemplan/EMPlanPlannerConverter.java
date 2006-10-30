@@ -6,8 +6,10 @@ package org.soton.peleus.act.planner.jemplan;
 import jason.asSyntax.Literal;
 import jason.asSyntax.Plan;
 import jason.asSyntax.Pred;
+import jason.asSyntax.RelExpr;
 import jason.asSyntax.Term;
 import jason.asSyntax.TermImpl;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,6 +17,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
+
 import org.meneguzzi.jemplan.EMPlan;
 import org.soton.peleus.act.planner.GoalState;
 import org.soton.peleus.act.planner.PlannerConverter;
@@ -165,6 +168,31 @@ public class EMPlanPlannerConverter implements PlannerConverter {
 	}
 
 	/* (non-Javadoc)
+	 * @see org.soton.peleus.act.planner.PlannerConverter#toStripsString(jason.asSyntax.Term)
+	 */
+	public String toStripsString(Literal literal) {
+		StringBuffer sbTerm = new StringBuffer();
+		
+		if(literal.negated()) {
+			sbTerm.append("-");
+		}
+		sbTerm.append(toStripsString((Term)literal));
+		
+		return sbTerm.toString();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.soton.peleus.act.planner.PlannerConverter#toStripsString(jason.asSyntax.RelExpr)
+	 */
+	public String toStripsString(RelExpr expr) {
+		//XXX Since the underlying planner can't do anything about this
+		//We leave it like that
+		return "";
+	}
+	
+	/*
+	 * (non-Javadoc)
 	 * @see org.soton.peleus.act.planner.PlannerConverter#toStripsString(jason.asSyntax.Term)
 	 */
 	public String toStripsString(Term term) {

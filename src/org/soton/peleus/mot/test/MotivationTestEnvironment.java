@@ -3,14 +3,14 @@
  */
 package org.soton.peleus.mot.test;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Logger;
-
 import jason.asSemantics.Unifier;
 import jason.asSyntax.Literal;
 import jason.asSyntax.Term;
 import jason.environment.Environment;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * @author Felipe Rech Meneguzzi

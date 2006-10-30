@@ -1,10 +1,11 @@
 package org.soton.peleus.act.planner;
 
-import java.util.List;
-
 import jason.asSyntax.Literal;
 import jason.asSyntax.Plan;
+import jason.asSyntax.RelExpr;
 import jason.asSyntax.Term;
+
+import java.util.List;
 
 /**
  * An interface responsible for converting AgentSpeak mental components into a planning formalism 
@@ -69,6 +70,15 @@ public interface PlannerConverter {
 	public Plan getAgentSpeakPlan();
 	
 	/**
+	 * Converts an AgentSpeak Literal into a STRIPS string.
+	 * This transformation includes converting Prolog-style variables (starting with uppercase characters), 
+	 * into the STRIPS format (consisting of a starting question mark).
+	 * @param literal The literal to be converted
+	 * @return A String with the resulting STRIPS representation 
+	 */
+	public String toStripsString(Literal literal);
+	
+	/**
 	 * Converts an AgentSpeak Term into a STRIPS string.
 	 * This transformation includes converting Prolog-style variables (starting with uppercase characters), 
 	 * into the STRIPS format (consisting of a starting question mark).
@@ -76,4 +86,6 @@ public interface PlannerConverter {
 	 * @return A String with the resulting STRIPS representation 
 	 */
 	public String toStripsString(Term term);
+
+	public String toStripsString(RelExpr expr);
 }

@@ -3,10 +3,12 @@
  */
 package org.soton.peleus.act.planner;
 
-import jason.asSyntax.LogExprTerm;
+import jason.asSyntax.Literal;
+import jason.asSyntax.LogExpr;
+import jason.asSyntax.LogicalFormula;
 import jason.asSyntax.Plan;
-import jason.asSyntax.RelExprTerm;
-import jason.asSyntax.Term;
+import jason.asSyntax.RelExpr;
+import jason.asSyntax.RelExpr.RelationalOp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +29,7 @@ public class PlanContextExtractor {
 	@SuppressWarnings("unused")
 	private Logger logger = Logger.getLogger(PlanContextExtractor.class.getName());
 	
-	protected List<Term> contextTerms;
+	protected List<LogicalFormula> contextLiterals;
 	
 	/**
 	 * This class might become a singleton for efficiency reasons,
@@ -44,17 +46,10 @@ public class PlanContextExtractor {
 	 * @param plan
 	 */
 	public void extractContext(Plan plan) {
-		contextTerms = new ArrayList<Term>();
-		Term context = plan.getContext();
-		//There has got to be a better way of checking a Term to
-		//see if it is a Logical Expression rathern than using 
-		//instanceof
-		if(context instanceof LogExprTerm) {
-			processTerm((LogExprTerm) context);
-		} else {
-			contextTerms.add(context);
-		}
+		contextLiterals = new ArrayList<LogicalFormula>();
+		LogicalFormula context = plan.getContext();
 		
+		processTerm(context);
 	}
 	
 	/**
@@ -64,31 +59,89 @@ public class PlanContextExtractor {
 	 * 
 	 * @param term
 	 */
-	private void processTerm(Term term) {
-		if(! (term instanceof LogExprTerm)) {
-			contextTerms.add(term);
+	private void processTerm(LogicalFormula formula) {
+		if(!(formula instanceof LogExpr)) {
+			LogicalFormula formulaNew = (LogicalFormula) formula.clone(); 
+			contextLiterals.add(formulaNew);
 			return;
+		} else {
+			LogExpr expr = (LogExpr) formula;
+			switch (expr.getOp()) {
+			case not:
+				processNegatedTerm(expr.getRHS());
+				break;
+			case none:
+				processTerm(expr.getRHS());
+				break;
+			case and:
+				processTerm(expr.getLHS());
+				processTerm(expr.getRHS());
+				break;
+			case or:
+				logger.warning("Disjunction resolution not implemented");
+				break;
+			}
 		}
-		LogExprTerm exprTerm = (LogExprTerm) term;
-		switch(exprTerm.getOp()) {
-				case not:
-				case none:
-					contextTerms.add(exprTerm);
-					break;
-				case and:
-					processTerm(exprTerm.getLHS());
-					processTerm(exprTerm.getRHS());
-					break;
-				case or:
-					logger.warning("Disjunction resolution not implemented");
-					break;
-		}
-		
 		return;
 	}
 	
-	public List<Term> getContext() {
-		return contextTerms;
+	private void processNegatedTerm(LogicalFormula formula) {
+		if(formula instanceof Literal) {
+			Literal literal = (Literal) formula.clone();
+			literal.setNegated(true);
+			contextLiterals.add(literal);
+			return;
+		} else if(formula instanceof RelExpr) {
+			//invert the formula and add?
+			RelExpr expr = (RelExpr) formula.clone();
+			expr = new RelExpr(expr.getLHS(),toNegatedOperator(expr.getOp()), expr.getRHS());
+			contextLiterals.add(expr);
+		} else {
+			LogExpr expr = (LogExpr) formula;
+			switch (expr.getOp()) {
+			case not:
+				processTerm(expr.getRHS());
+				break;
+			case none:
+				processNegatedTerm(expr.getRHS());
+				break;
+			//A little De Morgan here...
+			case and:
+				logger.warning("Disjunction resolution not implemented");
+				break;
+			case or:
+				processNegatedTerm(expr.getLHS());
+				processNegatedTerm(expr.getRHS());
+				break;
+			}
+		}
+	}
+	
+	public RelationalOp toNegatedOperator(RelationalOp op) {
+		switch (op) {
+		case unify:
+		case eq:
+			return RelationalOp.dif;
+		case dif:
+			return RelationalOp.eq;
+		case gt:
+			return RelationalOp.lte;
+		case gte:
+			return RelationalOp.lt;
+		case literalBuilder:
+			return RelationalOp.literalBuilder;
+		case lt:
+			return RelationalOp.gte;
+		case lte:
+			return RelationalOp.gt;
+		case none:
+		default:
+			return RelationalOp.eq;
+		}
+	}
+	
+	public List<LogicalFormula> getContext() {
+		return contextLiterals;
 	}
 	
 	public static PlanContextExtractor getPlanContextExtractor() {

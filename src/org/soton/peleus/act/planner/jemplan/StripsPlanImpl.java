@@ -1,12 +1,12 @@
 package org.soton.peleus.act.planner.jemplan;
 
+import jason.asSyntax.Literal;
+import jason.asSyntax.Plan;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
-import jason.asSyntax.Literal;
-import jason.asSyntax.Plan;
 
 import org.soton.peleus.act.planner.StripsPlan;
 
