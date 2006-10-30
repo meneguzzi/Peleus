@@ -72,7 +72,7 @@ public class ProblemOperatorsImpl extends ProblemOperators {
 						sbOpPreconds.append(" & ");
 					}
 					Literal literal = (Literal) formula;
-					sbOpPreconds.append(converter.toStripsString(literal));
+					sbOpPreconds.append(converter.toStripsString2(literal));
 				}
 				
 			}

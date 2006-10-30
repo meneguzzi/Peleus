@@ -29,6 +29,8 @@ import org.soton.peleus.act.planner.ProblemOperators;
 import org.soton.peleus.act.planner.StartState;
 import org.soton.peleus.act.planner.StripsPlan;
 
+import parser.GParser;
+
 /**
  * @author  meneguzz
  */
@@ -131,14 +133,14 @@ public class JPlanPlannerConverter implements PlannerConverter {
 		ByteArrayInputStream opStream = new ByteArrayInputStream(operators.toString().getBytes());
 		ByteArrayInputStream fctStream = new ByteArrayInputStream(factStream.toByteArray());
 		
-		JPlan jplan = new JPlan(opStream, fctStream, 30);
+		JPlan jplan = new JPlan(opStream, fctStream, 10);
 		
 		ByteArrayOutputStream planStream = new ByteArrayOutputStream();
 		ByteArrayOutputStream graphStream = new ByteArrayOutputStream();
 		OutputStreamWriter planWriter = new OutputStreamWriter(planStream);
 		OutputStreamWriter graphWriter = new OutputStreamWriter(graphStream);
 		
-		dumpPlanningProblem(new File("problemDump.txt"));
+		//dumpPlanningProblem(new File("problemDump.txt"));
 		
 		jplan.startPlanner(graphWriter, planWriter);
 		
@@ -149,7 +151,7 @@ public class JPlanPlannerConverter implements PlannerConverter {
 		
 		this.plan = new StripsPlanImpl(planStream.toByteArray());
 		
-		dumpStripsPlan(new File("planDump.txt"));
+		//dumpStripsPlan(new File("planDump.txt"));
 		
 		return true;
 	}
