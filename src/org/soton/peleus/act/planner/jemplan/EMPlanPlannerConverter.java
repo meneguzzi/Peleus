@@ -118,6 +118,10 @@ public class EMPlanPlannerConverter implements PlannerConverter {
 	public boolean executePlanner(ProblemObjects objects,
 			StartState startState, GoalState goalState,
 			ProblemOperators operators) {
+		return executePlanner(objects, startState, goalState, operators, 10);
+	}
+	
+	public boolean executePlanner(ProblemObjects objects, StartState startState, GoalState goalState, ProblemOperators operators, int maxPlanSteps) {
 		boolean planFound = false;
 		try {
 			File planningProblem = File.createTempFile("emplan-problem",".txt");

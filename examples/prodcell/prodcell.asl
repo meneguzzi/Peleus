@@ -57,7 +57,7 @@ over(block3, feedBelt).
 
 //Planning Plan
 +des(Goals) : true
-	<- org.soton.peleus.act.plan(Goals);
+	<- org.soton.peleus.act.plan(Goals,5);
 	   .print("Goals ",Goals," were satisfied").
 
 //Actions

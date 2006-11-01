@@ -29,8 +29,6 @@ import org.soton.peleus.act.planner.ProblemOperators;
 import org.soton.peleus.act.planner.StartState;
 import org.soton.peleus.act.planner.StripsPlan;
 
-import parser.GParser;
-
 /**
  * @author  meneguzz
  */
@@ -108,7 +106,11 @@ public class JPlanPlannerConverter implements PlannerConverter {
 	}
 
 	public boolean executePlanner(ProblemObjects objects, StartState startState, GoalState goalState, ProblemOperators operators) {
-		ByteArrayOutputStream factStream = new ByteArrayOutputStream();
+		return executePlanner(objects, startState, goalState, operators, 10);
+	}
+	
+	public boolean executePlanner(ProblemObjects objects, StartState startState, GoalState goalState, ProblemOperators operators, int maxPlanSteps) {
+ByteArrayOutputStream factStream = new ByteArrayOutputStream();
 		
 		/*logger.info(objects.toString());
 		logger.info(startState.toString());
@@ -133,7 +135,7 @@ public class JPlanPlannerConverter implements PlannerConverter {
 		ByteArrayInputStream opStream = new ByteArrayInputStream(operators.toString().getBytes());
 		ByteArrayInputStream fctStream = new ByteArrayInputStream(factStream.toByteArray());
 		
-		JPlan jplan = new JPlan(opStream, fctStream, 10);
+		JPlan jplan = new JPlan(opStream, fctStream, maxPlanSteps);
 		
 		ByteArrayOutputStream planStream = new ByteArrayOutputStream();
 		ByteArrayOutputStream graphStream = new ByteArrayOutputStream();

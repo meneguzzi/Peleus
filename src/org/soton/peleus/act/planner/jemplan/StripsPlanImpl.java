@@ -32,7 +32,7 @@ public class StripsPlanImpl extends StripsPlan {
 	@Override
 	public Plan toGenericAgentSpeakPlan(Literal triggerCondition) {
 		StringBuffer sbNewPlan = new StringBuffer();
-		sbNewPlan.append("+"+triggerCondition.toString()+" : true");
+		sbNewPlan.append("+"+triggerCondition.toString()+" : true [atomic]");
 		sbNewPlan.append(System.getProperty("line.separator"));
 		sbNewPlan.append("  <- ");
 		

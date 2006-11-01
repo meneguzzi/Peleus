@@ -58,6 +58,19 @@ public interface PlannerConverter {
 	public boolean executePlanner(ProblemObjects objects, StartState startState, GoalState goalState, ProblemOperators operators);
 	
 	/**
+	 * Executes the underlying planner returning true or false depending on whether planning was successful, and 
+	 * tells the planner to limit search for plans with a maximum of maxPlanSteps, if allowed by the 
+	 * 
+	 * @param objects 		The objects declared for the planning problem
+	 * @param startState	The start state for the planning problem
+	 * @param goalState		The goal state for the planning problem
+	 * @param operators		The operatores for the planning problem
+	 * @param maxPlanSteps  The maximum number of plan steps allowed for any solution.
+	 * @return 				Whether or not planning suceeded in generating a valid plan
+	 */
+	public boolean executePlanner(ProblemObjects objects, StartState startState, GoalState goalState, ProblemOperators operators, int maxPlanSteps);
+	
+	/**
 	 * Returns the StripsPlan resulting from the invocation of the external planner.
 	 * @return The StripsPlan from the external planner or null in case planning failed 
 	 */

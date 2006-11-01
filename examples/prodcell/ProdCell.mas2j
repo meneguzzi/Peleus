@@ -4,5 +4,5 @@ MAS prodcell {
 	infrastructure: Centralised
 	agents: 
 	 prodcell;
-	 prodcellAS;
+	 //prodcellAS;
 }

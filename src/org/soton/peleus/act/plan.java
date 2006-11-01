@@ -7,6 +7,7 @@ import jason.asSemantics.TransitionSystem;
 import jason.asSemantics.Unifier;
 import jason.asSyntax.ListTerm;
 import jason.asSyntax.Literal;
+import jason.asSyntax.NumberTerm;
 import jason.asSyntax.Plan;
 import jason.asSyntax.PlanLibrary;
 import jason.asSyntax.Term;
@@ -51,8 +52,19 @@ public class plan implements InternalAction {
 			throws Exception {
 		// logger.info("not implemented!");
 		
+		if(args.length < 1) {
+			logger.info("plan action must have a parameter");
+			return false;
+		}
+			
 		ListTerm listTerm = (ListTerm) args[0];
 		List<Term> goals = listTerm.getAsList();
+		int maxPlanSteps = 10;
+		
+		if(args.length > 1) {
+			NumberTerm term = (NumberTerm) args[1];
+			maxPlanSteps = (int) term.solve();
+		}
 		
 		BeliefBase beliefBase = ts.getAg().getBB();
 		Iterator<Literal> beliefsIterator = beliefBase.getAll();
@@ -71,7 +83,7 @@ public class plan implements InternalAction {
 		GoalState goalState = plannerConverter.getGoalState();
 		ProblemOperators operators = plannerConverter.getProblemOperators();
 		
-		boolean planFound = plannerConverter.executePlanner(objects, startState, goalState, operators);
+		boolean planFound = plannerConverter.executePlanner(objects, startState, goalState, operators, maxPlanSteps);
 		
 		if(!planFound)
 			return false;
