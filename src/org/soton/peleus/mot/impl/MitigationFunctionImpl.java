@@ -3,10 +3,14 @@
  */
 package org.soton.peleus.mot.impl;
 
+import jason.asSemantics.Unifier;
 import jason.asSyntax.Literal;
+import jason.asSyntax.NumberTerm;
 import jason.bb.BeliefBase;
 
 import java.util.Hashtable;
+import java.util.List;
+import java.util.logging.Logger;
 
 import org.soton.peleus.mot.MitigationFunction;
 
@@ -14,12 +18,14 @@ import org.soton.peleus.mot.MitigationFunction;
  * @author Felipe Rech Meneguzzi
  *
  */
-public class MitigationFunctionImpl implements MitigationFunction {
+public class MitigationFunctionImpl extends MotivationFunction implements MitigationFunction {
+	@SuppressWarnings("unused")
+	private static Logger logger = Logger.getLogger(MotivationFunction.class.getName());
 	
-	protected Hashtable<Literal, Integer> mapping;
+	protected Hashtable<Literal, NumberTerm> mapping;
 	
 	public MitigationFunctionImpl() {
-		this.mapping = new Hashtable<Literal, Integer>();
+		this.mapping = new Hashtable<Literal, NumberTerm>();
 	}
 
 	/* (non-Javadoc)
@@ -28,16 +34,26 @@ public class MitigationFunctionImpl implements MitigationFunction {
 	public int mitigate(BeliefBase beliefBase) {
 		int mitigation = 0;
 		
+		//logger.info("Belief Base at time of mitigation "+beliefBase);
+		
 		for (Literal literal : mapping.keySet()) {
-			if(beliefBase.getRelevant(literal) != null) {
-				mitigation += mapping.get(literal);
+			if(supportedByBeliefBase(literal, beliefBase)) {
+				logger.info(literal+" is supported by the belief base");
+				List<Unifier> unifiers = unifies(literal, beliefBase);
+				//logger.info("unifiers: "+unifiers);
+				NumberTerm value = mapping.get(literal);
+				for (Unifier unifier : unifiers) {
+					NumberTerm value2 = (NumberTerm) value.clone();
+					unifier.apply(value2);
+					mitigation+=value2.solve();
+				}
 			}
 		}
 		
 		return mitigation;
 	}
 
-	public void addBeliefToIntegerMapping(Literal literal, int value) {
+	public void addBeliefToIntegerMapping(Literal literal, NumberTerm value) {
 		this.mapping.put(literal, value);
 	}
 

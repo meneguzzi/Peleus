@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- A script containing perception events to be posted at each "tick" from
+	the environment in the MotivationTestEnvironment class.
+	Time is assumed to start at 0, which is the moment the environment class
+	is instantiated. -->
+<script>
+	<step time="0">
+		empty(bay2).
+		empty(bay3).
+		empty(charger).
+		
+		packet(packet1).
+		packet(packet2).
+		packet(packet3).
+		
+		over(packet1, bay1).
+		
+		robot(motivated1).
+		at(corridor).
+		batt(10).
+	</step>
+	
+	<step time="1">
+		over(packet2, bay2).
+		-empty(bay2).
+	</step>
+	
+	<step time="2">
+		over(packet3, bay3).
+		-empty(bay3).
+	</step>
+	
+	<step time="3">
+		test(3).
+	</step>
+</script>

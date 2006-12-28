@@ -134,12 +134,19 @@ public class Motivation {
 	 * The function invoked when the goals associated with this motivation are 
 	 * achieved.
 	 * @param beliefBase A reference to the agent's <code>BeliefBase</code>
+	 * @return Whether or not this motivation has been mitigated
 	 */
-	public void mitigate(BeliefBase beliefBase) {
-		//TODO Review the use of the mitigation function
-		//The mitigation function should be applied differently
-		this.motivationIntensity += this.mitigationFunction.mitigate(beliefBase);
+	public boolean mitigate(BeliefBase beliefBase) {
+		int mitigation = this.mitigationFunction.mitigate(beliefBase);
+		//if the mitigation value is 0, the agent has not mitigated it.
+		if(mitigation == 0) {
+			return false;
+		}
+		
+		this.motivationIntensity += mitigation;
 		motivationIntensity = (motivationIntensity > 0) ? motivationIntensity : 0;
+		
+		return true;
 	}
 	
 	public String toString() {

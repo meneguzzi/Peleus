@@ -1,44 +1,44 @@
 Motivation processBay1 {
 	Threshold = 10;
 	IntensityUpdate org.soton.peleus.mot.impl.IntensityUpdateFunctionImpl {
-		over(Packet,bay1) -> 5;
+		over(packet1,bay1)[source(percept)] -> 1;
 	}
 	
 	GoalGeneration org.soton.peleus.mot.impl.GoalGenerationFunctionImpl {
-		over(Packet,bay1) -> +!sort(Packet);
+		~over(packet1, pigeonHoles)[_] -> +!sort(packet1);
 	}
 	
 	Mitigation org.soton.peleus.mot.impl.MitigationFunctionImpl {
-		over(Packet, pigeonHoles) -> -10;
+		over(packet1, pigeonHoles)[_] -> -20;
 	}
 }
 
 Motivation processBay2 {
 	Threshold = 10;
 	IntensityUpdate org.soton.peleus.mot.impl.IntensityUpdateFunctionImpl {
-		over(Packet,bay2) -> 2;
+		over(packet2,bay2)[source(percept)] -> 1;
 	}
 	
 	GoalGeneration org.soton.peleus.mot.impl.GoalGenerationFunctionImpl {
-		over(Packet,bay2) -> +!sort(Packet);
+		over(packet2,bay2)[source(percept)] -> +!sort(packet2);
 	}
 	
 	Mitigation org.soton.peleus.mot.impl.MitigationFunctionImpl {
-		over(Packet, pigeonHoles) -> -10;
+		over(packet2, pigeonHoles)[_] -> -20;
 	}
 }
 
 Motivation processBay3 {
 	Threshold = 10;
 	IntensityUpdate org.soton.peleus.mot.impl.IntensityUpdateFunctionImpl {
-		over(Packet,bay3) -> 1;
+		over(packet3,bay3) -> 1;
 	}
 	
 	GoalGeneration org.soton.peleus.mot.impl.GoalGenerationFunctionImpl {
-		over(Packet,bay3) -> +!sort(Packet);
+		over(packet3,bay3) -> +!sort(Packet);
 	}
 	
 	Mitigation org.soton.peleus.mot.impl.MitigationFunctionImpl {
-		over(Packet, pigeonHoles) -> -10;
+		over(packet3, pigeonHoles) -> -10;
 	}
 }

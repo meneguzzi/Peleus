@@ -3,10 +3,13 @@
  */
 package org.soton.peleus.mot.impl;
 
+import jason.asSemantics.Unifier;
 import jason.asSyntax.Literal;
+import jason.asSyntax.NumberTerm;
 import jason.bb.BeliefBase;
 
 import java.util.Hashtable;
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.soton.peleus.mot.IntensityUpdateFunction;
@@ -19,17 +22,17 @@ import org.soton.peleus.mot.IntensityUpdateFunction;
  * @author Felipe Rech Meneguzzi
  *
  */
-public class IntensityUpdateFunctionImpl implements IntensityUpdateFunction {
+public class IntensityUpdateFunctionImpl extends MotivationFunction implements IntensityUpdateFunction {
 	@SuppressWarnings("unused")
 	private static Logger logger = Logger.getLogger(IntensityUpdateFunction.class.getName());
 	
-	protected Hashtable<Literal, Integer> positiveBeliefs;
+	protected Hashtable<Literal, NumberTerm> positiveBeliefs;
 	
-	protected Hashtable<Literal, Integer> negativeBeliefs;
+	protected Hashtable<Literal, NumberTerm> negativeBeliefs;
 	
 	public IntensityUpdateFunctionImpl() {
-		positiveBeliefs = new Hashtable<Literal, Integer>();
-		negativeBeliefs = new Hashtable<Literal, Integer>();
+		positiveBeliefs = new Hashtable<Literal, NumberTerm>();
+		negativeBeliefs = new Hashtable<Literal, NumberTerm>();
 		
 		//For testing purposes only
 		//addTestValues();
@@ -52,21 +55,31 @@ public class IntensityUpdateFunctionImpl implements IntensityUpdateFunction {
 	public int updateIntensity(BeliefBase beliefBase) {
 		int motivationDelta = 0;
 		for (Literal positiveLiteral : positiveBeliefs.keySet()) {
-			if(beliefBase.getRelevant(positiveLiteral) != null) {
-				motivationDelta+=positiveBeliefs.get(positiveLiteral);
+			//logger.info("Updating intensity regarding "+positiveLiteral);
+			Literal literal = (Literal) positiveLiteral.clone();
+			if(supportedByBeliefBase(literal, beliefBase)) {
+				//logger.info(positiveLiteral+"is supported by the belief base");
+				List<Unifier> unifiers = unifies(literal, beliefBase);
+				NumberTerm value = positiveBeliefs.get(positiveLiteral);
+				for (Unifier unifier : unifiers) {
+					NumberTerm value2 = (NumberTerm) value.clone();
+					unifier.apply(value2);
+					motivationDelta+=value2.solve();
+				}
 			}
 		}
 		
 		for (Literal negativeLiteral : negativeBeliefs.keySet()) {
 			if(beliefBase.getRelevant(negativeLiteral) == null) {
-				motivationDelta += negativeBeliefs.get(negativeLiteral);
+				//TODO Review the negative Literals Part
+				//motivationDelta += negativeBeliefs.get(negativeLiteral);
 			}
 		}
 		logger.finer("Net motivation is: "+motivationDelta);
 		return motivationDelta;
 	}
 
-	public void addBeliefToIntegerMapping(Literal literal, int value) {
+	public void addBeliefToIntegerMapping(Literal literal, NumberTerm value) {
 		this.positiveBeliefs.put(literal, value);
 		
 	}

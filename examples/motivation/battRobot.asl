@@ -1,13 +1,9 @@
 //A battery-operated robot
 
-/*empty(bay1).
-empty(bay2).
-empty(bay3).
-empty(charger).*/
+/*batt(critical) :- batt(2) | batt(1).
+batt(empty) :- batt(0).
+batt(full) :- batt(10).*/
 
-/*+empty(bay1) : at(X)
-	<- !move(X, bay1).*/
-	
 +batt(A) : not batt(critical)
 	<- .print("Battery is ",A).
 
@@ -21,7 +17,8 @@ empty(charger).*/
 /*+over(Packet,bay1) : true
 	<- +conjGoal(over(Packet,pigeonHoles)).*/
 
-+!sort(Packet) : packet(Packet) & over(Packet,Bay) & at(A)
+//@pb1[atomic]
++!sort(Packet) : packet(Packet) & over(Packet,Bay) & at(A) & not held(_)
 	<- !move(A,Bay);
 	   !pickup(Packet);
 	   !move(Bay,pigeonHoles);
@@ -37,7 +34,10 @@ empty(charger).*/
 	   -held(Item);
 	   drop(Item).
 
-+!move(A,B) : not at(B) & not batt(empty)
++!move(A,A) : true
+	<- true.
+
++!move(A,B) : not at(B) & not batt(0)
 	<- -at(A);
 	   +at(B);
 	   move(A,B).

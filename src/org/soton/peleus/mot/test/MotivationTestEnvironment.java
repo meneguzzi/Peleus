@@ -8,111 +8,92 @@ import jason.asSyntax.Literal;
 import jason.asSyntax.Term;
 import jason.environment.Environment;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.soton.peleus.script.JasonScript;
+import org.soton.peleus.script.JasonScriptContentHandler;
+import org.xml.sax.SAXException;
 
 /**
  * @author Felipe Rech Meneguzzi
  *
  */
-public class MotivationTestEnvironment extends Environment {
+public class MotivationTestEnvironment extends Environment implements Runnable {
 	protected Logger logger = Logger.getLogger(MotivationTestEnvironment.class.getName());
+	
+	protected JasonScript script = null;
+	
+	protected boolean running;
+	
+	protected Thread environmentThread;
+	
+	protected int cycleSize;
+	
+	protected int currentCycle;
+	
+	protected EnvironmentActions actions;
+	
+	public MotivationTestEnvironment() {
+		this.running = false;
+		this.environmentThread = new Thread(this, "MotivationTestEnvironment");
+		this.cycleSize = 1000;
+		this.currentCycle = 0;
+		this.actions = new MotivationEnvironmentActions(this);
+	}
 	@Override
 	public void init(String[] args) {
 		super.init(args);
 		clearPercepts();
-		//addPercept(Literal.parseLiteral("over(block1, feedBelt)"));
-		/*addPercept(Literal.parseLiteral("empty(bay1)"));
-		addPercept(Literal.parseLiteral("empty(bay2)"));
-		addPercept(Literal.parseLiteral("empty(bay3)"));*/
-		addPercept(Literal.parseLiteral("empty(charger)"));
-		
-		addPercept(Literal.parseLiteral("packet(packet1)"));
-		addPercept(Literal.parseLiteral("packet(packet2)"));
-		addPercept(Literal.parseLiteral("packet(packet3)"));
-		
-		addPercept(Literal.parseLiteral("over(packet1, bay1)"));
-		//addPercept(Literal.parseLiteral("over(packet2, bay2)"));
-		//addPercept(Literal.parseLiteral("over(packet3, bay3)"));
-		
-		addPercept(Literal.parseLiteral("robot(motivated1)"));
-		addPercept(Literal.parseLiteral("at(corridor)"));
-		addPercept(Literal.parseLiteral("batt(full)"));
-		//addPercept("battRobot", Literal.parseLiteral("held(full)"));
+		try {
+			SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
+			JasonScriptContentHandler contentHandler = new JasonScriptContentHandler();
+			if(args.length > 0) {
+				File scriptFile = new File(args[0]);
+				if(scriptFile.exists()) {
+					logger.info("Reading script file: "+args[0]);
+					parser.parse(scriptFile, contentHandler);
+					this.script = contentHandler.getJasonScript();
+					this.running = true;
+					environmentThread.start();
+				}
+			} 
+			
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@Override
+	public void stop() {
+		this.running = false;
+	}
+	
+	public void addPercepts(List<Literal> list) {
+		for (Literal literal : list) {
+			logger.info("Adding percept: "+literal);
+			addPercept(literal);
+		}
 	}
 	
 	@Override
 	public boolean executeAction(String agName, Term act) {
 		//return super.executeAction(agName, act);
-		boolean success = true;
-		if(act.getFunctor().equals("move")) {
-			Term t0 = act.getTerm(0);
-			Term t1 = act.getTerm(1);
-			List<Literal> percepts = getPercepts("johnny");
-			
-			logger.info("Moving "+agName+" from "+t0+" to "+t1);
-			Literal precond0 = Literal.parseLiteral("at("+t0.toString()+")");
-			Literal effect0 = Literal.parseLiteral("at("+t1.toString()+")");
-			
-			/*if(findMatchingLiteral(precond0, percepts) == null)
-				return false;*/
-			
-			removePercept(precond0);
-			addPercept(effect0);
-			
-			Literal batt = findLiteralByFunctor("batt", percepts);
-			if(batt != null) {
-				removePercept(batt);
-				addPercept(updateBattery(batt));
-			}
-		} else if(act.getFunctor().equals("charge")) {
-			List<Literal> percepts = getPercepts("johnny");
-			
-			Literal precond0 = Literal.parseLiteral("at(A)");
-			/*if(findMatchingLiteral(precond0, percepts) == null)
-				return false;*/
-			
-			Literal batt = findLiteralByFunctor("batt", percepts);
-			removePercept(agName, batt);
-			addPercept(Literal.parseLiteral("batt(full)"));
-		} else if(act.getFunctor().equals("pickup")) {
-			List<Literal> percepts = getPercepts("johnny");
-			
-			Term t0 = act.getTerm(0);
-			Literal prot = Literal.parseLiteral("over("+t0+", A)");
-			Literal remove = findMatchingLiteral(prot, percepts);
-			if(remove != null) {
-				removePercept(remove);
-				addPercept(Literal.parseLiteral("held("+t0+")"));
-			} else {
-				success = false;
-			}
-		} else if(act.getFunctor().equals("drop")) {
-			List<Literal> percepts = getPercepts("johnny");
-			Term t0 = act.getTerm(0);
-			
-			Literal prot = Literal.parseLiteral("held("+t0+")");
-			Literal remove = findMatchingLiteral(prot, percepts);
-			if(remove != null) {
-				removePercept(remove);
-			} else {
-				success = false;
-			}
-			
-			prot = Literal.parseLiteral("at(A)");
-			remove = findMatchingLiteral(prot, percepts);
-			if(remove != null) {
-				Term t1 = remove.getTerm(0);
-				addPercept(Literal.parseLiteral("over("+t0+","+t1+")"));
-			} else {
-				success = false;
-			}
-		}
-		if(!success) {
-			logger.info("Action "+act.toString()+" failed");
-		}
-		return success;
+		return this.actions.executeAction(agName, act);
 	}
 	
 	protected Literal findMatchingLiteral(Literal prototype, List<Literal> literals) {
@@ -148,22 +129,23 @@ public class MotivationTestEnvironment extends Environment {
 		}
 		return ret;
 	}
-	
-	public Literal updateBattery(Literal battLiteral) {
-		Term t0 = battLiteral.getTerm(0);
-		String battCondition = t0.toString();
-		
-		if(battCondition.equals("full")) {
-			battCondition = "half";
-		} else if(battCondition.equals("half")) {
-			battCondition = "critical";
-		} else if(battCondition.equals("critical")) {
-			battCondition = "empty";
+
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Runnable#run()
+	 */
+	public synchronized void run() {
+		while (running) {
+			try {
+				wait(cycleSize);
+				if(script.getEvents(currentCycle) != null) {
+					this.addPercepts(script.getPercepts(currentCycle));
+				}
+				currentCycle++;
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
-		
-		Literal retLiteral = Literal.parseLiteral("batt("+battCondition+")");
-		
-		return retLiteral;
 	}
 	
 }

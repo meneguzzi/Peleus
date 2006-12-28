@@ -2,14 +2,14 @@
 <!-- ====================================================================== 
      17-Mar-2006 10:51:36                                                        
 
-     Argos    
-     A simple Jason Test
+     Peleus    
+     An extension to Jason that allows the agent to do STRIPS planning
                    
      frm05r                                                                
      ====================================================================== -->
 <project name="Peleus" default="build">
     <description>
-            A simple Jason Test
+    	An extension to Jason that allows the agent to do STRIPS planning
     </description>
 	
 	<property name="JUNIT_HOME" value="c:/Program Files/eclipse/plugins/org.junit_3.8.1"/>

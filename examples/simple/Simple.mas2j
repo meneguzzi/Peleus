@@ -1,0 +1,5 @@
+MAS simple {
+
+    agents: 
+         simple; simpleEnvironment;
+}

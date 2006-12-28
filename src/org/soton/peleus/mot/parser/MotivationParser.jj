@@ -89,6 +89,8 @@ SKIP :
 |	"\r"
 |	"\t"
 |	"\n"
+|  <"//" (~["\n","\r"])* ("\n" | "\r" | "\r\n")>
+|  <"/*" (~["*"])* "*" ("*" | ~["*","/"] (~["*"])* "*")* "/">
 }
 TOKEN : /* Reserved Words - These go first*/
 {
@@ -97,10 +99,6 @@ TOKEN : /* Reserved Words - These go first*/
 |	<INTENSITY_UPDATE: "IntensityUpdate" >
 |	<GOAL_GENERATION: "GoalGeneration" >
 |	<MITIGATION: "Mitigation" >
-}
-TOKEN :
-{
-	<INTEGER: ("+" | "-")? (<DIGIT>)+ >
 }
 TOKEN : {
 // Predefined
@@ -167,7 +165,7 @@ Motivation motivationBody(String motivationName) : 	{int threshold;}
 
 int threshold() : 									{Token token;}
 {
-	<THRESHOLD> "=" token=<INTEGER> 				{return Integer.parseInt(token.image);}
+	<THRESHOLD> "=" token=<NUMBER> 					{return Integer.parseInt(token.image);}
 }
 
 Token identifier() : 								{Token token;}
@@ -186,7 +184,7 @@ String classname() : 								{Token token; String s;}
 
 IntensityUpdateFunction intensityUpdate() : 		{String classname;}
 {													{IntensityUpdateFunction function;}
-													{Hashtable<Literal,Integer> table = new Hashtable<Literal,Integer>();}
+													{Hashtable<Literal,NumberTerm> table = new Hashtable<Literal,NumberTerm>();}
 	<INTENSITY_UPDATE> classname=classname() 		{function = motivationFactory.createIntensityUpdateFunction(classname);}
 	"{"
 	( 
@@ -197,12 +195,11 @@ IntensityUpdateFunction intensityUpdate() : 		{String classname;}
 	"}"												{return function;}
 }
 
-void beliefToIntegerMapping(Hashtable<Literal,Integer> table): {Literal l;}
+void beliefToIntegerMapping(Hashtable<Literal,NumberTerm> table): {Literal l;Object value;}
 {
 	(l=literal()
 	 "->" 
-	 token=<INTEGER>)  								{int value = Integer.parseInt(token.image);}
-	 												{table.put(l,value);}
+	 value=arithm_expr())  							{table.put(l,(NumberTerm)value);}
 }
 
 GoalGenerationFunction goalGeneration() : 			{String classname;}
@@ -227,7 +224,7 @@ void beliefToTriggerMapping(Hashtable<Literal,Trigger> table) : {Literal l; Trig
 
 MitigationFunction mitigation() : 					{String classname;}
 {													{MitigationFunction function;}
-													{Hashtable<Literal,Integer> table = new Hashtable<Literal,Integer>();}
+													{Hashtable<Literal,NumberTerm> table = new Hashtable<Literal,NumberTerm>();}
 	<MITIGATION> classname=classname() 				{function = motivationFactory.createMitigationFunction(classname);}
 	"{"
 	(

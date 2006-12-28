@@ -4,6 +4,7 @@
 package org.soton.peleus.mot;
 
 import jason.asSyntax.Literal;
+import jason.asSyntax.NumberTerm;
 import jason.bb.BeliefBase;
 
 /** 
@@ -22,7 +23,7 @@ public interface IntensityUpdateFunction {
 	 * @param literal
 	 * @param value
 	 */
-	public void addBeliefToIntegerMapping(Literal literal, int value);
+	public void addBeliefToIntegerMapping(Literal literal, NumberTerm value);
 	
 	/**
 	 * Removes the mapping of the supplied <code>Literal</code> from 

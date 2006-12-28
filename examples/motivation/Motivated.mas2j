@@ -1,8 +1,9 @@
 MAS motivated {
 
     environment: 
-         org.soton.peleus.mot.test.MotivationTestEnvironment
+         org.soton.peleus.mot.test.MotivationTestEnvironment("script.xml")
 
     agents: 
-         battRobot agentClass org.soton.peleus.mot.MotivatedAgent;
+         //battRobot agentClass org.soton.peleus.mot.MotivatedAgent;
+         battRobot agentClass org.soton.peleus.mot.gui.MotivatedAgentWrapper;
 }
