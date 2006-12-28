@@ -1,7 +1,9 @@
-package org.soton.peleus.test;
+package org.soton.peleus.mot.test;
 
 import java.util.List;
 import java.util.logging.Logger;
+
+import org.soton.peleus.test.EnvironmentActions;
 
 import jason.asSyntax.Literal;
 import jason.asSyntax.NumberTerm;

@@ -3,14 +3,12 @@
  */
 package org.soton.peleus.test;
 
-import jason.asSemantics.Unifier;
 import jason.asSyntax.Literal;
 import jason.asSyntax.Term;
 import jason.environment.Environment;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -26,8 +24,8 @@ import org.xml.sax.SAXException;
  * @author Felipe Rech Meneguzzi
  *
  */
-public class MotivationTestEnvironment extends Environment implements Runnable {
-	protected Logger logger = Logger.getLogger(MotivationTestEnvironment.class.getName());
+public abstract class TestEnvironment extends Environment implements Runnable {
+	protected Logger logger = Logger.getLogger(TestEnvironment.class.getName());
 	
 	protected JasonScript script = null;
 	
@@ -39,14 +37,18 @@ public class MotivationTestEnvironment extends Environment implements Runnable {
 	
 	protected int currentCycle;
 	
-	protected EnvironmentActions actions;
+	protected EnvironmentActions actions = null;
 	
-	public MotivationTestEnvironment() {
+	protected TestEnvironment() {
 		this.running = false;
 		this.environmentThread = new Thread(this, "TestEnvironment");
 		this.cycleSize = 1000;
 		this.currentCycle = 0;
-		this.actions = new MotivationEnvironmentActions(this);
+	}
+	
+	public TestEnvironment(EnvironmentActions actions) {
+		this();
+		this.actions = actions;
 	}
 	@Override
 	public void init(String[] args) {
@@ -96,40 +98,6 @@ public class MotivationTestEnvironment extends Environment implements Runnable {
 		return this.actions.executeAction(agName, act);
 	}
 	
-	protected Literal findMatchingLiteral(Literal prototype, List<Literal> literals) {
-		if(literals == null) {
-			return null;
-		}
-		Unifier unifier = new Unifier();
-		for (Literal literal : literals) {
-			if(unifier.unifies(prototype, literal))
-				return literal;
-			unifier.clear();
-		}
-		return null;
-	}
-	
-	protected Literal findLiteralByFunctor(String key, List<Literal> literals) {
-		if(literals == null)
-			return null;
-		for (Literal literal : literals) {
-			if(literal.getFunctor().equals(key)) {
-				return literal;
-			}
-		}
-		return null;
-	}
-	
-	protected List<Literal> findLiteralsByFunctor(String key, List<Literal> literals) {
-		List <Literal> ret = new ArrayList<Literal>();
-		for (Literal literal : literals) {
-			if(literal.getFunctor().equals(key)) {
-				ret.add(literal);
-			}
-		}
-		return ret;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * @see java.lang.Runnable#run()
