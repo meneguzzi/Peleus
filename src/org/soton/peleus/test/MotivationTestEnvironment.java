@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.soton.peleus.mot.test;
+package org.soton.peleus.test;
 
 import jason.asSemantics.Unifier;
 import jason.asSyntax.Literal;
@@ -43,7 +43,7 @@ public class MotivationTestEnvironment extends Environment implements Runnable {
 	
 	public MotivationTestEnvironment() {
 		this.running = false;
-		this.environmentThread = new Thread(this, "MotivationTestEnvironment");
+		this.environmentThread = new Thread(this, "TestEnvironment");
 		this.cycleSize = 1000;
 		this.currentCycle = 0;
 		this.actions = new MotivationEnvironmentActions(this);

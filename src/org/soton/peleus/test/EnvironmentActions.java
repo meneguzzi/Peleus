@@ -1,4 +1,4 @@
-package org.soton.peleus.mot.test;
+package org.soton.peleus.test;
 
 import jason.asSyntax.Term;
 
