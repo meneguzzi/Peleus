@@ -8,7 +8,10 @@ originally created for the X^2-BDI agent, connected via JNI to the
 Java-based Jason, and a slightly modified version of a limited Java 
 implementation of Graphplan from Sourceforge. The java binaries for 
 these libraries are included in the lib folder, as well as Win32 
-binary of the EmPlan library.
+binary of the EmPlan library. The link to new planner algorithms
+is made by extending the classes of org.soton.peleus.act.planner and
+implementing the PlannerConverter interface, which is the actual 
+point of contact between Jason and an external planner.
 
 Jason was created by Rafael H. Bordini, Jomi F. Hubner, et al.
 http://jason.sourceforge.net
