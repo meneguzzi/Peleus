@@ -1,0 +1,26 @@
+Peleus is an implementation of an AgentSpeak agent interpreter 
+based on the Jason implementation, with the addition of a STRIPS 
+planning module. The connection between AgentSpeak and the planning 
+component is based on an abstract framework that, in theory, can 
+be adapted to any STRIPS compatible planner. We use two implementations
+of Graphplan in this version of the prototype. A C++ implementation 
+originally created for the X^2-BDI agent, connected via JNI to the
+Java-based Jason, and a slightly modified version of a limited Java 
+implementation of Graphplan from Sourceforge. The java binaries for 
+these libraries are included in the lib folder, as well as Win32 
+binary of the EmPlan library.
+
+Jason was created by Rafael H. Bordini, Jomi F. Hubner, et al.
+http://jason.sourceforge.net
+
+JPlan was created by Yasser EL-Manzalawy
+http://sourceforge.net/projects/jplan
+
+EmPlan was created by Felipe Meneguzzi
+http://www.meneguzzi.eu/felipe/software.html#xbdi
+
+First release: January 2007.
+Jason is distributed under LGPL (see file LICENSE).
+
+Java 1.5 is required to run this application, it is available
+at http://java.sun.com.
