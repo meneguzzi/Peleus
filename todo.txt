@@ -2,5 +2,8 @@ AgentSpeak Actions
 ------------------
 * A better Java implementation of Graphplan is desirable at this point.
 
+* Add the module to generalise generated plans following the algorithm
+  described in my Minithesis.
+
 * JUnit tests are not complete, and should be completed for a thorough 
   validation of the implementation.

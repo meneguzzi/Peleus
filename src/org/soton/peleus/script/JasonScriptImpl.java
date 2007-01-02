@@ -7,6 +7,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * An implementation of <code>JasonScript</code> that allows XML-formatted
+ * scripts to be read by the TestEnvironment.
+ * 
+ * @author Felipe Meneguzzi
+ *
+ */
 public class JasonScriptImpl implements JasonScript {
 	protected HashMap<Integer, List<Rule>> eventsMap;
 	

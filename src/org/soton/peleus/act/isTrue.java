@@ -12,7 +12,9 @@ import jason.asSyntax.Term;
 import java.util.logging.Logger;
 
 /**
- * @author frm05r
+ * An <code>InternalAction</code> that verifies whether or not a conjunction
+ * of literals is valid in the agent's current <code>BeliefBase</code>.
+ * @author Felipe Meneguzzi
  *
  */
 public class isTrue implements InternalAction {

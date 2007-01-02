@@ -21,7 +21,10 @@ import org.soton.peleus.script.JasonScriptContentHandler;
 import org.xml.sax.SAXException;
 
 /**
- * @author Felipe Rech Meneguzzi
+ * A Jason Environment class that allows the <em>scripts</em> of events to be used
+ * for testing purposes.
+ * 
+ * @author Felipe Meneguzzi
  *
  */
 public abstract class TestEnvironment extends Environment implements Runnable {

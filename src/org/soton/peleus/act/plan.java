@@ -28,7 +28,13 @@ import org.soton.peleus.act.planner.StartState;
 import org.soton.peleus.act.planner.jplan.JPlanPlannerConverter;
 
 /**
- * @author  meneguzz
+ * An <code>InternalAction</code> that links an AgentSpeak agent to
+ * an external planning module. This action converts specially designed 
+ * plans in the agent's <code>PlanLibrary</code> into a planning problem 
+ * to create a new high-level plan. This plan is athen added to the plan
+ * library and adopted as a new intention by the agent.
+ *  
+ * @author  Felipe Meneguzzi
  */
 public class plan implements InternalAction {
 	protected PlannerConverter plannerConverter = 
@@ -50,22 +56,31 @@ public class plan implements InternalAction {
 	@SuppressWarnings("unchecked")
 	public Object execute(TransitionSystem ts, Unifier un, Term[] args)
 			throws Exception {
-		// logger.info("not implemented!");
 		
+		//First check that the action was properly invoked with an AgentSpeak
+		//list as its parameter.
 		if(args.length < 1) {
 			logger.info("plan action must have a parameter");
 			return false;
 		}
-			
+		if(!(args[0] instanceof ListTerm)){
+			logger.info("plan action requires a list of literals as its parameter");
+			return false;
+		}
+		
 		ListTerm listTerm = (ListTerm) args[0];
 		List<Term> goals = listTerm.getAsList();
 		int maxPlanSteps = 10;
 		
-		if(args.length > 1) {
+		//The second optional parameter is the maximum number of steps
+		//allowed for the generated plan (to constrain the planner).
+		if(args.length > 1 && (args[1] instanceof NumberTerm)) {
 			NumberTerm term = (NumberTerm) args[1];
 			maxPlanSteps = (int) term.solve();
 		}
 		
+		//Extract the literals in the belief base to be used
+		//as the initial state for the planning problem
 		BeliefBase beliefBase = ts.getAg().getBB();
 		Iterator<Literal> beliefsIterator = beliefBase.getAll();
 		List<Literal> beliefs = new ArrayList<Literal>();
@@ -73,6 +88,8 @@ public class plan implements InternalAction {
 			beliefs.add(beliefsIterator.next());
 		}
 		
+		//Extract the plans from the plan library to generate
+		//STRIPS operators in the conversion process
 		PlanLibrary planLibrary = ts.getAg().getPL();
 		List<Plan> plans = planLibrary.getPlans();
 		
@@ -83,6 +100,7 @@ public class plan implements InternalAction {
 		GoalState goalState = plannerConverter.getGoalState();
 		ProblemOperators operators = plannerConverter.getProblemOperators();
 		
+		//Invoke the planner with the generated planning problem
 		boolean planFound = plannerConverter.executePlanner(objects, startState, goalState, operators, maxPlanSteps);
 		
 		if(!planFound)
