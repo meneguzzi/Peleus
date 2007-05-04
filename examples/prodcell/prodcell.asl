@@ -63,17 +63,20 @@ over(block3, feedBelt).
 //Actions
 @action1(block, procUnit)
 +!process(Block, ProcUnit) : over(Block, ProcUnit)
-	<- +processed(Block, ProcUnit).
+	<- .print("Processing ",Block," in ",ProcUnit);
+	   +processed(Block, ProcUnit).
 
 @action2(block)
 +!consume(Block) : over(Block,depositBelt)
-	<- -over(Block, depositBelt);
+	<- .print("Consuming ",Block);
+	   -over(Block, depositBelt);
 	   +empty(depositBelt);
 	   +finished(Block).
 
 @action3(block, device, device)
 +!move(Block, Device1, Device2) : over(Block,Device1) & empty(Device2)
-	<- +over(Block, Device2);
+	<- .print("Moving ",Block," from ",Device1," to ",Device2);
+	   +over(Block, Device2);
 	   -over(Block, Device1);
 	   -empty(Device2);
 	   +empty(Device1).
