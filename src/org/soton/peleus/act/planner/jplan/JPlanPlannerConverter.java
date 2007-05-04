@@ -110,7 +110,7 @@ public class JPlanPlannerConverter implements PlannerConverter {
 	}
 	
 	public boolean executePlanner(ProblemObjects objects, StartState startState, GoalState goalState, ProblemOperators operators, int maxPlanSteps) {
-ByteArrayOutputStream factStream = new ByteArrayOutputStream();
+		ByteArrayOutputStream factStream = new ByteArrayOutputStream();
 		
 		/*logger.info(objects.toString());
 		logger.info(startState.toString());
@@ -143,7 +143,6 @@ ByteArrayOutputStream factStream = new ByteArrayOutputStream();
 		OutputStreamWriter graphWriter = new OutputStreamWriter(graphStream);
 		
 		//dumpPlanningProblem(new File("problemDump.txt"));
-		
 		jplan.startPlanner(graphWriter, planWriter);
 		
 		if(planStream.size() == 0) {

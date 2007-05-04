@@ -25,6 +25,7 @@ import org.soton.peleus.act.planner.PlannerConverter;
 import org.soton.peleus.act.planner.ProblemObjects;
 import org.soton.peleus.act.planner.ProblemOperators;
 import org.soton.peleus.act.planner.StartState;
+import org.soton.peleus.act.planner.jemplan.EMPlanPlannerConverter;
 import org.soton.peleus.act.planner.jplan.JPlanPlannerConverter;
 
 /**
@@ -38,8 +39,8 @@ import org.soton.peleus.act.planner.jplan.JPlanPlannerConverter;
  */
 public class plan implements InternalAction {
 	protected PlannerConverter plannerConverter = 
-		new JPlanPlannerConverter();
-		//new EMPlanPlannerConverter();
+		//new JPlanPlannerConverter();
+		new EMPlanPlannerConverter();
 	
 	protected static final Term trueTerm = TermImpl.parse("true");
 	
