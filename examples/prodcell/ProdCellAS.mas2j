@@ -1,11 +1,10 @@
 /* Jason Project */
 
-MAS prodcell {
+MAS prodcellas {
 	environment: 
          org.kcl.jason.env.scripted.ScriptedEnvironment("script.xml", "src")
 
 	//infrastructure: Centralised
 	agents: 
-	 prodcell;
-	 //prodcellAS;
+	  prodcellAS;
 }

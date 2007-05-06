@@ -9,55 +9,57 @@ object(device, procUnit3).
 object(device, procUnit4).
 object(device, depositBelt).
 object(device, feedBelt).
-object(block, block1).
-object(block, block2).
-object(block, block3).
+
 
 //-------------------------
 
-//Agent beliefs
-empty(procUnit1).
-empty(procUnit2).
-empty(procUnit3).
-empty(procUnit4).
-empty(depositBelt).
+
 
 //-------------------------
-
-over(block1, feedBelt).
-over(block2, feedBelt).
-over(block3, feedBelt).
 
 //Trigger to process a bloc
-+over(block1, feedBelt) : true
+//+over(block1, feedBelt) : true
 //<- +des([processed(block1, procUnit1), processed(block1, procUnit2)]).
-  <- +des([processed(block1, procUnit1), processed(block1, procUnit2), processed(block1, procUnit3)]).
+//  <- +des([processed(block1, procUnit1), processed(block1, procUnit2), processed(block1, procUnit3)]).
 
+/** To stop the simulation and kill the agent*/
++endSimulation : true
+	<- 	.print("Simulation is over, stopping MAS.");
+		.stopMAS.
 
 +over(Block, feedBelt) : true
 	<- 	.print("Processing ",Block);
 		!finish(Block).
 	
-+!finish(Block) : Block = block1
++!finish(Block) : type(Block, type1)
 	<- +des([processed(Block, procUnit1), 
 	         processed(Block, procUnit2), 
 	         processed(Block, procUnit3), 
 	         finished(Block)]).
 
-+!finish(Block) : Block = block2
++!finish(Block) : type(Block, type2)
 	<- +des([processed(Block, procUnit2), 
 	         processed(Block, procUnit4), 
 	         finished(Block)]).
 
-+!finish(Block) : Block = block3
++!finish(Block) : type(Block, type3)
 	<- +des([processed(Block, procUnit1), 
 	         processed(Block, procUnit3), 
 	         finished(Block)]).
 
+//Cleanup of the no longer needed beliefs
++finished(Block) : object(block,Block)
+	<- -object(block,Block)[_];
+	   -type(Block,_)[_];
+	   -finished(Block)[_];
+	   -over(Block,feedBelt)[_];
+	   .abolish(processed(Block,_)[_]);
+	   .print("Cleaned up beliefs about ", Block).
+
 
 //Planning Plan
 +des(Goals) : true
-	<- org.soton.peleus.act.plan(Goals,5);
+	<- org.soton.peleus.act.plan(Goals,10);
 	   .print("Goals ",Goals," were satisfied").
 
 //Actions
