@@ -3,13 +3,13 @@
  */
 package org.soton.peleus.act.planner.jemplan;
 
+import jason.asSyntax.DefaultTerm;
 import jason.asSyntax.Literal;
 import jason.asSyntax.Plan;
 import jason.asSyntax.Pred;
 import jason.asSyntax.RelExpr;
+import jason.asSyntax.Structure;
 import jason.asSyntax.Term;
-import jason.asSyntax.TermImpl;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -59,12 +59,12 @@ public class EMPlanPlannerConverter implements PlannerConverter {
 			goalState.addTerm(goal);
 		}
 		
-		for (Term term : beliefs) {
-			if(term.getFunctor().startsWith("object")) {
-				Term newTerm = TermImpl.parse(term.getTerm(0)+"("+term.getTerm(1)+")");
+		for (Literal literal : beliefs) {
+			if(literal.getFunctor().startsWith("object")) {
+				Term newTerm = DefaultTerm.parse(literal.getTerm(0)+"("+literal.getTerm(1)+")");
 				startState.addTerm(newTerm);
-			}else if( (term.getTermsSize()!= 0) && (!term.getFunctor().startsWith("des"))){
-				startState.addTerm(term);
+			}else if( (literal.getTermsSize()!= 0) && (!literal.getFunctor().startsWith("des"))){
+				startState.addTerm(literal);
 			}
 		}
 		
@@ -202,18 +202,23 @@ public class EMPlanPlannerConverter implements PlannerConverter {
 	public String toStripsString(Term term) {
 		StringBuffer sbTerm = new StringBuffer();
 		
-		sbTerm.append(term.getFunctor());
-		
-		if(term.getTermsSize() != 0) {
-			sbTerm.append("(");
-			for (Iterator iter = term.getTerms().iterator(); iter.hasNext();) {
-				Term t = (Term) iter.next();
-				sbTerm.append(toStripsString(t));
-				if(iter.hasNext()) {
-					sbTerm.append(", ");
+		if(term.isStructure()) {
+			Structure structure = (Structure) term;
+			sbTerm.append(structure.getFunctor());
+			
+			if(structure.getTermsSize() != 0) {
+				sbTerm.append("(");
+				for (Iterator iter = structure.getTerms().iterator(); iter.hasNext();) {
+					Term t = (Term) iter.next();
+					sbTerm.append(toStripsString(t));
+					if(iter.hasNext()) {
+						sbTerm.append(", ");
+					}
 				}
+				sbTerm.append(")");
 			}
-			sbTerm.append(")");
+		} else {
+			sbTerm.append(term.toString());
 		}
 		
 		return sbTerm.toString();

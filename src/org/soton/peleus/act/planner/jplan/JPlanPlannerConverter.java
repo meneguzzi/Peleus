@@ -1,14 +1,14 @@
 package org.soton.peleus.act.planner.jplan;
 
 import jason.asSyntax.BodyLiteral;
+import jason.asSyntax.DefaultTerm;
 import jason.asSyntax.Literal;
 import jason.asSyntax.LogExpr;
 import jason.asSyntax.Plan;
 import jason.asSyntax.Pred;
 import jason.asSyntax.RelExpr;
+import jason.asSyntax.Structure;
 import jason.asSyntax.Term;
-import jason.asSyntax.TermImpl;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -59,12 +59,12 @@ public class JPlanPlannerConverter implements PlannerConverter {
 			goalState.addTerm(term);
 		}
 		
-		for (Term term : beliefs) {
-			if(term.getFunctor().startsWith("object")) {
-				Term newTerm = TermImpl.parse(term.getTerm(0)+"("+term.getTerm(1)+")");
+		for (Literal literal : beliefs) {
+			if(literal.getFunctor().startsWith("object")) {
+				Term newTerm = DefaultTerm.parse(literal.getTerm(0)+"("+literal.getTerm(1)+")");
 				objects.addTerm(newTerm);
-			}else if( (term.getTermsSize()!= 0) && (!term.getFunctor().startsWith("des"))){
-				startState.addTerm(term);
+			}else if( (literal.getTermsSize()!= 0) && (!literal.getFunctor().startsWith("des"))){
+				startState.addTerm(literal);
 			}
 		}
 		
@@ -183,16 +183,23 @@ public class JPlanPlannerConverter implements PlannerConverter {
 			sb.append("?");
 		}
 		
-		sb.append(term.getFunctor());
-		if(term.getTermsSize() > 0) {
-			sb.append("(");
-			for (Term termPar : term.getTermsArray()) {
-				if(sb.charAt(sb.length()-1) != '(')
-					sb.append(", ");
-				sb.append(toStripsString(termPar));
+		if(term.isStructure()) {
+			Structure structure = (Structure) term;
+			sb.append(structure.getFunctor());
+			if(structure.getTermsSize() > 0) {
+				sb.append("(");
+				for (Term termPar : structure.getTermsArray()) {
+					if(sb.charAt(sb.length()-1) != '(')
+						sb.append(", ");
+					sb.append(toStripsString(termPar));
+				}
+				sb.append(")");
 			}
-			sb.append(")");
+		} else {
+			sb.append(term.toString());
 		}
+		
+		
 		
 		return sb.toString();
 	}
@@ -248,15 +255,20 @@ public class JPlanPlannerConverter implements PlannerConverter {
 			sb.append("?");
 		}
 		
-		sb.append(term.getFunctor());
-		if(term.getTermsSize() > 0) {
-			sb.append("(");
-			for (Term termPar : term.getTermsArray()) {
-				if(sb.charAt(sb.length()-1) != '(')
-					sb.append(", ");
-				sb.append(toStripsString2(termPar));
+		if(term.isStructure()) {
+			Structure structure = (Structure) term;
+			sb.append(structure.getFunctor());
+			if(structure.getTermsSize() > 0) {
+				sb.append("(");
+				for (Term termPar : structure.getTermsArray()) {
+					if(sb.charAt(sb.length()-1) != '(')
+						sb.append(", ");
+					sb.append(toStripsString2(termPar));
+				}
+				sb.append(")");
 			}
-			sb.append(")");
+		} else {
+			sb.append(term.toString());
 		}
 		
 		return sb.toString();

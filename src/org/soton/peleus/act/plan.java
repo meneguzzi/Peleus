@@ -5,13 +5,13 @@ package org.soton.peleus.act;
 import jason.asSemantics.InternalAction;
 import jason.asSemantics.TransitionSystem;
 import jason.asSemantics.Unifier;
+import jason.asSyntax.DefaultTerm;
 import jason.asSyntax.ListTerm;
 import jason.asSyntax.Literal;
 import jason.asSyntax.NumberTerm;
 import jason.asSyntax.Plan;
 import jason.asSyntax.PlanLibrary;
 import jason.asSyntax.Term;
-import jason.asSyntax.TermImpl;
 import jason.asSyntax.Trigger;
 import jason.bb.BeliefBase;
 
@@ -42,7 +42,7 @@ public class plan implements InternalAction {
 		//new JPlanPlannerConverter();
 		new EMPlanPlannerConverter();
 	
-	protected static final Term trueTerm = TermImpl.parse("true");
+	protected static final Term trueTerm = DefaultTerm.parse("true");
 	
 	protected int planNumber = 0;
 
