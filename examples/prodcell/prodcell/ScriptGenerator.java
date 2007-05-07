@@ -199,12 +199,12 @@ public class ScriptGenerator {
 				
 		do {
 			block.blockNumber = time;
-			block.blockType = random.nextInt(maxBlockType+1);
+			block.blockType = random.nextInt(maxBlockType)+1;
 		} while (blocks.contains(block));
 		
 		blocks.add(block);
 		percepts.add(Literal.parseLiteral("object(block, block"+block.blockNumber+")"));
-		percepts.add(Literal.parseLiteral("type(block"+block.blockNumber+", type"+block.blockNumber+")"));
+		percepts.add(Literal.parseLiteral("type(block"+block.blockNumber+", type"+block.blockType+")"));
 		percepts.add(Literal.parseLiteral("over(block"+block.blockNumber+", feedBelt)"));
 		
 		return percepts;

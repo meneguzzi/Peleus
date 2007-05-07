@@ -10,40 +10,67 @@ object(device, procUnit4).
 object(device, depositBelt).
 object(device, feedBelt).
 
+totalTime(0).
+totalBlocks(0).
+
 
 //-------------------------
-
-
-
-//-------------------------
-
-//Trigger to process a bloc
-//+over(block1, feedBelt) : true
-//<- +des([processed(block1, procUnit1), processed(block1, procUnit2)]).
-//  <- +des([processed(block1, procUnit1), processed(block1, procUnit2), processed(block1, procUnit3)]).
 
 /** To stop the simulation and kill the agent*/
 +endSimulation : true
-	<- 	.print("Simulation is over, stopping MAS.");
-		.stopMAS.
+	<- !endSimulation.
 
-+over(Block, feedBelt) : true
++!endSimulation : true
+	<- .print("Simulation is over, stopping MAS.");
+		?totalBlocks(B);
+		.print("Processed ",B," blocks");
+		?totalTime(T);
+		.print("Total time planning was ",T," milliseconds");
+		prodcell.recordStats(B,T,"stats").//;
+		//.stopMAS.
+
+//----------------------------------------------------------
+// Plans to update the Belief Base and optimise the testing
++empty(Device) [source(percept)] : true
+	<- +empty(Device).
+
++object(Type, Object) [source(percept)] : not object(Type, Object) [source(self)]
+	<- +object(Type, Object).
+
++type(Block, Type) [source(percept)] : not type(Block, Type) [source(self)]
+	<- +type(Block, Type).
+
++over(Object, Device) [source(percept)] : not over(Object, Device)[source(self)]
+	<-  .print("Acknowledging ",over(Object, Device));
+		+over(Object, Device).
+
+
+//----------------------------------------------------------
+
++over(Block, feedBelt)[source(self)] : true
 	<- 	.print("Processing ",Block);
-		!finish(Block).
-	
+		org.soton.peleus.act.time_in_millis(Time1);
+		!finish(Block);
+		org.soton.peleus.act.time_in_millis(Time2);
+		PlanningTime = Time2 - Time1;
+		.print("Planning took ",PlanningTime," miliseconds");
+		?totalTime(T);
+		TotalTime = T + PlanningTime;
+		-+totalTime(TotalTime).
+
 +!finish(Block) : type(Block, type1)
-	<- +des([processed(Block, procUnit1), 
+	<- !goalConj([processed(Block, procUnit1), 
 	         processed(Block, procUnit2), 
 	         processed(Block, procUnit3), 
 	         finished(Block)]).
 
 +!finish(Block) : type(Block, type2)
-	<- +des([processed(Block, procUnit2), 
+	<- !goalConj([processed(Block, procUnit2), 
 	         processed(Block, procUnit4), 
 	         finished(Block)]).
 
 +!finish(Block) : type(Block, type3)
-	<- +des([processed(Block, procUnit1), 
+	<- !goalConj([processed(Block, procUnit1), 
 	         processed(Block, procUnit3), 
 	         finished(Block)]).
 
@@ -52,13 +79,15 @@ object(device, feedBelt).
 	<- -object(block,Block)[_];
 	   -type(Block,_)[_];
 	   -finished(Block)[_];
-	   -over(Block,feedBelt)[_];
-	   .abolish(processed(Block,_)[_]);
+	   //-over(Block,feedBelt)[_];
+	   .abolish(processed(Block,_));
+	   ?totalBlocks(B);
+	   -+totalBlocks(B+1);
 	   .print("Cleaned up beliefs about ", Block).
 
 
 //Planning Plan
-+des(Goals) : true
++!goalConj(Goals) : true
 	<- org.soton.peleus.act.plan(Goals,10);
 	   .print("Goals ",Goals," were satisfied").
 
@@ -66,13 +95,13 @@ object(device, feedBelt).
 @action1(block, procUnit)
 +!process(Block, ProcUnit) : over(Block, ProcUnit)
 	<- .print("Processing ",Block," in ",ProcUnit);
-		.wait(50);
+		//.wait(50);
 	   +processed(Block, ProcUnit).
 
 @action2(block)
 +!consume(Block) : over(Block,depositBelt)
 	<- .print("Consuming ",Block);
-	   .wait(50);
+	   //.wait(50);
 	   -over(Block, depositBelt);
 	   +empty(depositBelt);
 	   +finished(Block).
@@ -80,7 +109,7 @@ object(device, feedBelt).
 @action3(block, device, device)
 +!move(Block, Device1, Device2) : over(Block,Device1) & empty(Device2)
 	<- .print("Moving ",Block," from ",Device1," to ",Device2);
-		.wait(50);
+		//.wait(50);
 	   +over(Block, Device2);
 	   -over(Block, Device1);
 	   -empty(Device2);

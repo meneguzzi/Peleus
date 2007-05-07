@@ -83,10 +83,14 @@ public class plan implements InternalAction {
 		//Extract the literals in the belief base to be used
 		//as the initial state for the planning problem
 		BeliefBase beliefBase = ts.getAg().getBB();
-		Iterator<Literal> beliefsIterator = beliefBase.getAll();
+		Iterator<Literal> beliefsIterator = beliefBase.iterator();
 		List<Literal> beliefs = new ArrayList<Literal>();
 		while(beliefsIterator.hasNext()) {
-			beliefs.add(beliefsIterator.next());
+			//Modified to filter out perceptions and rely only on beliefs
+			Literal belief = beliefsIterator.next();
+			if(belief.getAnnots().contains(BeliefBase.TSelf)) {
+				beliefs.add(belief);
+			}
 		}
 		
 		//Extract the plans from the plan library to generate

@@ -8,35 +8,99 @@
      Felipe                                                                
      ====================================================================== -->
 <project name="prodcell" default="run-tests">
-    <description>
+	<description>
             Production Cell Experiment
     </description>
-	
-	<property name="mas2j.project.file" value="ProdCell.mas2j"/>
-	<property name="debug" value=""/> <!-- use "-debug" to run in debug mode -->
 
-	<property name="jasonJar" value="C:/Documents and Settings/Felipe/My Documents/workspace/JasonSVN/bin"/>
+	<property name="mas2j.project.file" value="ProdCell.mas2j" />
+	<property name="debug" value="" />
+	<!-- use "-debug" to run in debug mode -->
+
+	<property name="workspace.location" value="${user.home}/My Documents/workspace/" />
+	<property name="jasonJar" value="${workspace.location}/JasonSVN/bin" />
 
 	<path id="project.classpath">
 		<!-- pathelement location="."/> -->
-		<pathelement location="${jasonJar}"/>
-		<pathelement location="C:/Documents and Settings/Felipe/My Documents/workspace/Peleus/bin"/>
-		<pathelement location="C:/Documents and Settings/Felipe/My Documents/workspace/JasonEnvironment/bin"/>
+		<pathelement location="${jasonJar}" />
+		<pathelement location="${workspace.location}/Peleus/bin" />
+		<pathelement location="${workspace.location}/JasonEnvironment/bin" />
+		<pathelement location="${workspace.location}/Peleus/lib/jemplan.jar" />
 	</path>
 
-    <!-- ================================= 
+	<path id="library.path">
+		<pathelement location="${workspace.location}/Peleus/lib" />
+	</path>
+
+
+	<!-- ================================= 
           target: run-tests              
          ================================= -->
-    <target name="run-tests" depends="init" description="--> Production Cell Experiment">
-        
-    </target>
-	
-	
+	<target name="run-tests" depends="init" description="--> Production Cell Experiment">
+		<java classname="jason.infra.centralised.RunCentralisedMAS" failonerror="true" fork="yes" dir="${basedir}">
+			<classpath refid="project.classpath" />
+			<jvmarg line="-Djava.library.path='${workspace.location}/Peleus/lib'" />
+			<arg line="prodcell1.mas2j ${debug}" />
+		</java>
 
-    <!-- - - - - - - - - - - - - - - - - - 
+		<java classname="jason.infra.centralised.RunCentralisedMAS" failonerror="true" fork="yes" dir="${basedir}">
+			<classpath refid="project.classpath" />
+			<jvmarg line="-Djava.library.path='${workspace.location}/Peleus/lib'" />
+			<arg line="prodcell2.mas2j ${debug}" />
+		</java>
+
+		<java classname="jason.infra.centralised.RunCentralisedMAS" failonerror="true" fork="yes" dir="${basedir}">
+			<classpath refid="project.classpath" />
+			<jvmarg line="-Djava.library.path='${workspace.location}/Peleus/lib'" />
+			<arg line="prodcell3.mas2j ${debug}" />
+		</java>
+	</target>
+
+	<!-- ================================= 
+          target: generate-scripts              
+         ================================= -->
+	<target name="generate-scripts" depends="init" description="--> Generates the test scripts">
+		<property name="initial-beliefs" value="empty(procUnit1) empty(procUnit2) empty(procUnit3) empty(procUnit4) empty(depositBelt)" />
+		<property name="final-events" value="endSimulation" />
+		<property name="params" value="-firststep 2 -stepsize 2" />
+		<java classname="prodcell.ScriptGenerator" failonerror="true" fork="yes" dir="${basedir}/scripts">
+			<classpath refid="project.classpath" />
+			<arg line="-o generatedScript1.xml -steps 10 ${params} -initbeliefs ${initial-beliefs} -finalevents ${final-events}" />
+		</java>
+		<java classname="prodcell.ScriptGenerator" failonerror="true" fork="yes" dir="${basedir}/scripts">
+			<classpath refid="project.classpath" />
+			<arg line="-o generatedScript2.xml -steps 20 ${params} -initbeliefs ${initial-beliefs} -finalevents ${final-events}" />
+		</java>
+		<java classname="prodcell.ScriptGenerator" failonerror="true" fork="yes" dir="${basedir}/scripts">
+			<classpath refid="project.classpath" />
+			<arg line="-o generatedScript3.xml -steps 30 ${params} -initbeliefs ${initial-beliefs} -finalevents ${final-events}" />
+		</java>
+	</target>
+
+	<!-- ================================= 
+          target: generate-projects              
+         ================================= -->
+	<target name="generate-projects" depends="init" description="--> Generate Jason Project files">
+		<property name="agent.name" value="prodcell" />
+		<property name="env.class" value="org.kcl.jason.env.scripted.ScriptedEnvironment " />
+
+		<java classname="prodcell.MasProjectGenerator" failonerror="true" fork="yes" dir="${basedir}">
+			<classpath refid="project.classpath" />
+			<arg line="-project prodcell -o ./ -number-projects 3 -agent ${agent.name} -environment ${env.class} -envpar scripts/generatedScript -envpar-ext .xml" />
+		</java>
+	</target>
+
+	<!-- ================================= 
+          target: cleanup              
+         ================================= -->
+	<target name="cleanup" depends="init" description="--> Removes all generated files">
+
+	</target>
+
+
+	<!-- - - - - - - - - - - - - - - - - - 
           target: init                      
          - - - - - - - - - - - - - - - - - -->
-    <target name="init">
-    </target>
+	<target name="init">
+	</target>
 
 </project>

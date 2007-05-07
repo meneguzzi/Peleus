@@ -42,7 +42,6 @@
 		type(block6, type2).
 		over(block6, feedBelt).
 	</step>
-	
 	<step time="13">
 		endSimulation.
 	</step>
