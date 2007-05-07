@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!-- ====================================================================== 
+     7 May 2007 15:20:04                                                        
+
+     prodcell    
+     Production Cell Experiment
+                   
+     Felipe                                                                
+     ====================================================================== -->
+<project name="prodcell" default="run-tests">
+    <description>
+            Production Cell Experiment
+    </description>
+	
+	<property name="mas2j.project.file" value="ProdCell.mas2j"/>
+	<property name="debug" value=""/> <!-- use "-debug" to run in debug mode -->
+
+	<property name="jasonJar" value="C:/Documents and Settings/Felipe/My Documents/workspace/JasonSVN/bin"/>
+
+	<path id="project.classpath">
+		<!-- pathelement location="."/> -->
+		<pathelement location="${jasonJar}"/>
+		<pathelement location="C:/Documents and Settings/Felipe/My Documents/workspace/Peleus/bin"/>
+		<pathelement location="C:/Documents and Settings/Felipe/My Documents/workspace/JasonEnvironment/bin"/>
+	</path>
+
+    <!-- ================================= 
+          target: run-tests              
+         ================================= -->
+    <target name="run-tests" depends="init" description="--> Production Cell Experiment">
+        
+    </target>
+	
+	
+
+    <!-- - - - - - - - - - - - - - - - - - 
+          target: init                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="init">
+    </target>
+
+</project>
