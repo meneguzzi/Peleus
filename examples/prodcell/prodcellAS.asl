@@ -1,12 +1,58 @@
+totalTime(0).
+totalBlocks(0).
+
 /** To stop the simulation and kill the agent*/
 +endSimulation : true
-	<- 	.print("Simulation is over, stopping MAS.");
+	<- !endSimulation.
+
++!endSimulation : true
+	<- .print("Simulation is over, stopping MAS.");
+		?totalBlocks(B);
+		.print("Processed ",B," blocks");
+		?totalTime(T);
+		.print("Total time planning was ",T," milliseconds");
+		prodcell.recordStats(B,T,"stats");
 		.stopMAS.
 
+//----------------------------------------------------------
+// Plans to update the Belief Base and optimise the testing
++empty(Device) [source(percept)] : true
+	<- +empty(Device).
+
++object(Type, Object) [source(percept)] : not object(Type, Object) [source(self)]
+	<- +object(Type, Object).
+
++type(Block, Type) [source(percept)] : not type(Block, Type) [source(self)]
+	<- +type(Block, Type).
+
++over(Object, Device) [source(percept)] : not over(Object, Device)[source(self)]
+	<-  .print("Acknowledging ",over(Object, Device));
+		+over(Object, Device).
+
+
+//----------------------------------------------------------
+
 @breakpoint
-+over(Block, feedBelt) : true
++over(Block, feedBelt)[source(self)] : true
 	<- 	.print("Processing ",Block);
-		!finish(Block).
+		org.soton.peleus.act.time_in_millis(Time1);
+		!finish(Block);
+		org.soton.peleus.act.time_in_millis(Time2);
+		PlanningTime = Time2 - Time1;
+		.print("Planning took ",PlanningTime," miliseconds");
+		?totalTime(T);
+		TotalTime = T + PlanningTime;
+		-+totalTime(TotalTime).
+
+//Cleanup of the no longer needed beliefs
++finished(Block) : true
+	<- -finished(Block)[_];
+	   //-over(Block,feedBelt)[_];
+	   .abolish(processed(Block,_));
+	   ?totalBlocks(B);
+	   -+totalBlocks(B+1);
+	   .print("Cleaned up beliefs about ", Block).
+	   
 	
 +!finish(Block) : type(Block,type1)
 	<- !process(Block, procUnit1);

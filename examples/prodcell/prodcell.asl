@@ -26,8 +26,8 @@ totalBlocks(0).
 		.print("Processed ",B," blocks");
 		?totalTime(T);
 		.print("Total time planning was ",T," milliseconds");
-		prodcell.recordStats(B,T,"stats").//;
-		//.stopMAS.
+		prodcell.recordStats(B,T,"stats");
+		.stopMAS.
 
 //----------------------------------------------------------
 // Plans to update the Belief Base and optimise the testing
@@ -76,11 +76,10 @@ totalBlocks(0).
 
 //Cleanup of the no longer needed beliefs
 +finished(Block) : object(block,Block)
-	<- -object(block,Block)[_];
-	   -type(Block,_)[_];
-	   -finished(Block)[_];
-	   //-over(Block,feedBelt)[_];
-	   .abolish(processed(Block,_));
+	<-  -object(block,Block)[source(self)];
+	   -type(Block,_)[source(self)];
+	   -finished(Block)[source(self)];
+	   .abolish(processed(Block,_)[source(self)]);
 	   ?totalBlocks(B);
 	   -+totalBlocks(B+1);
 	   .print("Cleaned up beliefs about ", Block).

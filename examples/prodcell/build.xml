@@ -36,18 +36,21 @@
           target: run-tests              
          ================================= -->
 	<target name="run-tests" depends="init" description="--> Production Cell Experiment">
+		<echo message="Running test 1"/>
 		<java classname="jason.infra.centralised.RunCentralisedMAS" failonerror="true" fork="yes" dir="${basedir}">
 			<classpath refid="project.classpath" />
 			<jvmarg line="-Djava.library.path='${workspace.location}/Peleus/lib'" />
 			<arg line="prodcell1.mas2j ${debug}" />
 		</java>
 
+		<echo message="Running test 2"/>
 		<java classname="jason.infra.centralised.RunCentralisedMAS" failonerror="true" fork="yes" dir="${basedir}">
 			<classpath refid="project.classpath" />
 			<jvmarg line="-Djava.library.path='${workspace.location}/Peleus/lib'" />
 			<arg line="prodcell2.mas2j ${debug}" />
 		</java>
 
+		<echo message="Running test 3"/>
 		<java classname="jason.infra.centralised.RunCentralisedMAS" failonerror="true" fork="yes" dir="${basedir}">
 			<classpath refid="project.classpath" />
 			<jvmarg line="-Djava.library.path='${workspace.location}/Peleus/lib'" />
@@ -81,6 +84,19 @@
          ================================= -->
 	<target name="generate-projects" depends="init" description="--> Generate Jason Project files">
 		<property name="agent.name" value="prodcell" />
+		<property name="env.class" value="org.kcl.jason.env.scripted.ScriptedEnvironment " />
+
+		<java classname="prodcell.MasProjectGenerator" failonerror="true" fork="yes" dir="${basedir}">
+			<classpath refid="project.classpath" />
+			<arg line="-project prodcell -o ./ -number-projects 3 -agent ${agent.name} -environment ${env.class} -envpar scripts/generatedScript -envpar-ext .xml" />
+		</java>
+	</target>
+
+	<!-- ================================= 
+	          target: generate-projects-as              
+	         ================================= -->
+	<target name="generate-projects-as" depends="init" description="--> Generate Jason Project files">
+		<property name="agent.name" value="prodcellAS" />
 		<property name="env.class" value="org.kcl.jason.env.scripted.ScriptedEnvironment " />
 
 		<java classname="prodcell.MasProjectGenerator" failonerror="true" fork="yes" dir="${basedir}">
