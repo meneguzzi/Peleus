@@ -36,25 +36,67 @@
           target: run-tests              
          ================================= -->
 	<target name="run-tests" depends="init" description="--> Production Cell Experiment">
-		<echo message="Running test 1"/>
+		<echo message="Running test 1" />
 		<java classname="jason.infra.centralised.RunCentralisedMAS" failonerror="true" fork="yes" dir="${basedir}">
 			<classpath refid="project.classpath" />
 			<jvmarg line="-Djava.library.path='${workspace.location}/Peleus/lib'" />
 			<arg line="prodcell1.mas2j ${debug}" />
 		</java>
 
-		<echo message="Running test 2"/>
+		<echo message="Running test 2" />
 		<java classname="jason.infra.centralised.RunCentralisedMAS" failonerror="true" fork="yes" dir="${basedir}">
 			<classpath refid="project.classpath" />
 			<jvmarg line="-Djava.library.path='${workspace.location}/Peleus/lib'" />
 			<arg line="prodcell2.mas2j ${debug}" />
 		</java>
 
-		<echo message="Running test 3"/>
+		<echo message="Running test 3" />
 		<java classname="jason.infra.centralised.RunCentralisedMAS" failonerror="true" fork="yes" dir="${basedir}">
 			<classpath refid="project.classpath" />
 			<jvmarg line="-Djava.library.path='${workspace.location}/Peleus/lib'" />
 			<arg line="prodcell3.mas2j ${debug}" />
+		</java>
+		<echo message="Running test 4" />
+		<java classname="jason.infra.centralised.RunCentralisedMAS" failonerror="true" fork="yes" dir="${basedir}">
+			<classpath refid="project.classpath" />
+			<jvmarg line="-Djava.library.path='${workspace.location}/Peleus/lib'" />
+			<arg line="prodcell4.mas2j ${debug}" />
+		</java>
+		<echo message="Running test 5" />
+		<java classname="jason.infra.centralised.RunCentralisedMAS" failonerror="true" fork="yes" dir="${basedir}">
+			<classpath refid="project.classpath" />
+			<jvmarg line="-Djava.library.path='${workspace.location}/Peleus/lib'" />
+			<arg line="prodcell5.mas2j ${debug}" />
+		</java>
+		<echo message="Running test 6" />
+		<java classname="jason.infra.centralised.RunCentralisedMAS" failonerror="true" fork="yes" dir="${basedir}">
+			<classpath refid="project.classpath" />
+			<jvmarg line="-Djava.library.path='${workspace.location}/Peleus/lib'" />
+			<arg line="prodcell6.mas2j ${debug}" />
+		</java>
+		<echo message="Running test 7" />
+		<java classname="jason.infra.centralised.RunCentralisedMAS" failonerror="true" fork="yes" dir="${basedir}">
+			<classpath refid="project.classpath" />
+			<jvmarg line="-Djava.library.path='${workspace.location}/Peleus/lib'" />
+			<arg line="prodcell7.mas2j ${debug}" />
+		</java>
+		<echo message="Running test 8" />
+		<java classname="jason.infra.centralised.RunCentralisedMAS" failonerror="true" fork="yes" dir="${basedir}">
+			<classpath refid="project.classpath" />
+			<jvmarg line="-Djava.library.path='${workspace.location}/Peleus/lib'" />
+			<arg line="prodcell8.mas2j ${debug}" />
+		</java>
+		<echo message="Running test 9" />
+		<java classname="jason.infra.centralised.RunCentralisedMAS" failonerror="true" fork="yes" dir="${basedir}">
+			<classpath refid="project.classpath" />
+			<jvmarg line="-Djava.library.path='${workspace.location}/Peleus/lib'" />
+			<arg line="prodcell9.mas2j ${debug}" />
+		</java>
+		<echo message="Running test 10" />
+		<java classname="jason.infra.centralised.RunCentralisedMAS" failonerror="true" fork="yes" dir="${basedir}">
+			<classpath refid="project.classpath" />
+			<jvmarg line="-Djava.library.path='${workspace.location}/Peleus/lib'" />
+			<arg line="prodcell10.mas2j ${debug}" />
 		</java>
 	</target>
 
@@ -77,6 +119,34 @@
 			<classpath refid="project.classpath" />
 			<arg line="-o generatedScript3.xml -steps 30 ${params} -initbeliefs ${initial-beliefs} -finalevents ${final-events}" />
 		</java>
+		<java classname="prodcell.ScriptGenerator" failonerror="true" fork="yes" dir="${basedir}/scripts">
+			<classpath refid="project.classpath" />
+			<arg line="-o generatedScript4.xml -steps 40 ${params} -initbeliefs ${initial-beliefs} -finalevents ${final-events}" />
+		</java>
+		<java classname="prodcell.ScriptGenerator" failonerror="true" fork="yes" dir="${basedir}/scripts">
+			<classpath refid="project.classpath" />
+			<arg line="-o generatedScript5.xml -steps 50 ${params} -initbeliefs ${initial-beliefs} -finalevents ${final-events}" />
+		</java>
+		<java classname="prodcell.ScriptGenerator" failonerror="true" fork="yes" dir="${basedir}/scripts">
+			<classpath refid="project.classpath" />
+			<arg line="-o generatedScript6.xml -steps 60 ${params} -initbeliefs ${initial-beliefs} -finalevents ${final-events}" />
+		</java>
+		<java classname="prodcell.ScriptGenerator" failonerror="true" fork="yes" dir="${basedir}/scripts">
+			<classpath refid="project.classpath" />
+			<arg line="-o generatedScript7.xml -steps 70 ${params} -initbeliefs ${initial-beliefs} -finalevents ${final-events}" />
+		</java>
+		<java classname="prodcell.ScriptGenerator" failonerror="true" fork="yes" dir="${basedir}/scripts">
+			<classpath refid="project.classpath" />
+			<arg line="-o generatedScript8.xml -steps 80 ${params} -initbeliefs ${initial-beliefs} -finalevents ${final-events}" />
+		</java>
+		<java classname="prodcell.ScriptGenerator" failonerror="true" fork="yes" dir="${basedir}/scripts">
+			<classpath refid="project.classpath" />
+			<arg line="-o generatedScript9.xml -steps 90 ${params} -initbeliefs ${initial-beliefs} -finalevents ${final-events}" />
+		</java>
+		<java classname="prodcell.ScriptGenerator" failonerror="true" fork="yes" dir="${basedir}/scripts">
+			<classpath refid="project.classpath" />
+			<arg line="-o generatedScript10.xml -steps 100 ${params} -initbeliefs ${initial-beliefs} -finalevents ${final-events}" />
+		</java>
 	</target>
 
 	<!-- ================================= 
@@ -88,7 +158,7 @@
 
 		<java classname="prodcell.MasProjectGenerator" failonerror="true" fork="yes" dir="${basedir}">
 			<classpath refid="project.classpath" />
-			<arg line="-project prodcell -o ./ -number-projects 3 -agent ${agent.name} -environment ${env.class} -envpar scripts/generatedScript -envpar-ext .xml" />
+			<arg line="-project prodcell -o ./ -number-projects 10 -agent ${agent.name} -environment ${env.class} -envpar scripts/generatedScript -envpar-ext .xml" />
 		</java>
 	</target>
 
@@ -101,7 +171,7 @@
 
 		<java classname="prodcell.MasProjectGenerator" failonerror="true" fork="yes" dir="${basedir}">
 			<classpath refid="project.classpath" />
-			<arg line="-project prodcell -o ./ -number-projects 3 -agent ${agent.name} -environment ${env.class} -envpar scripts/generatedScript -envpar-ext .xml" />
+			<arg line="-project prodcell -o ./ -number-projects 10 -agent ${agent.name} -environment ${env.class} -envpar scripts/generatedScript -envpar-ext .xml" />
 		</java>
 	</target>
 
