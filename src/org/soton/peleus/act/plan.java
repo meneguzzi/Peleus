@@ -11,6 +11,7 @@ import jason.asSyntax.Literal;
 import jason.asSyntax.NumberTerm;
 import jason.asSyntax.Plan;
 import jason.asSyntax.PlanLibrary;
+import jason.asSyntax.Pred;
 import jason.asSyntax.Term;
 import jason.asSyntax.Trigger;
 import jason.bb.BeliefBase;
@@ -72,12 +73,16 @@ public class plan implements InternalAction {
 		ListTerm listTerm = (ListTerm) args[0];
 		List<Term> goals = listTerm.getAsList();
 		int maxPlanSteps = 10;
+		boolean makeAtomic = true;
 		
 		//The second optional parameter is the maximum number of steps
 		//allowed for the generated plan (to constrain the planner).
 		if(args.length > 1 && (args[1] instanceof NumberTerm)) {
 			NumberTerm term = (NumberTerm) args[1];
 			maxPlanSteps = (int) term.solve();
+		} else if(args.length > 1 && (args[1] instanceof Term)) {
+			makeAtomic = Boolean.parseBoolean(args[1].toString());
+			//logger.info("Making plans atomic: "+makeAtomic);
 		}
 		
 		//Extract the literals in the belief base to be used
@@ -112,6 +117,9 @@ public class plan implements InternalAction {
 			return false;
 		
 		Plan plan = plannerConverter.getAgentSpeakPlan();
+		if(makeAtomic) {
+			plan.setLabel(Pred.parsePred(plan.getTriggerEvent().getLiteral().getTerm(0)+"[atomic]"));
+		}
 		
 		logger.info("Adding new plan: "+System.getProperty("line.separator")+plan);
 		ts.getAg().getPL().add(plan);

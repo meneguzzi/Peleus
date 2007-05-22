@@ -127,26 +127,16 @@ public class EMPlanPlannerConverter implements PlannerConverter {
 			File planningProblem = File.createTempFile("emplan-problem",".txt");
 			File planResult = File.createTempFile("emplan-plan",".txt");
 			
-			FileWriter writer = new FileWriter(planningProblem);
-			writer.write(startState.toPlannerString());
-			writer.write(goalState.toPlannerString());
-			writer.write(operators.toPlannerString());
-			writer.flush();
-			writer.close();
+			StringBuffer sb = new StringBuffer();
+			sb.append(startState.toPlannerString());
+			sb.append(goalState.toPlannerString());
+			sb.append(operators.toPlannerString());
+			String problem = sb.toString().replace(System.getProperty("line.separator"), " ");
 			
-			planFound = planner.emplan(planningProblem.getAbsolutePath(), planResult.getAbsolutePath());
+			String planString = planner.emplanStream(problem);
+			planFound = (planString != null);
 			
-			FileInputStream planFileStream = new FileInputStream(planResult);
-			ByteArrayOutputStream planStream = new ByteArrayOutputStream();
-			byte buf[] = new byte[512];
-			while(planFileStream.available() > 0) {
-				int read = planFileStream.read(buf);
-				planStream.write(buf, 0, read);
-			}
-			planStream.flush();
-			planFileStream.close();
-			
-			plan = new StripsPlanImpl(planStream.toByteArray());
+			plan = new StripsPlanImpl(planString.getBytes());
 			
 			planningProblem.deleteOnExit();
 			planResult.deleteOnExit();

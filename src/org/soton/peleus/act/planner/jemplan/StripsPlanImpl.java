@@ -20,7 +20,7 @@ public class StripsPlanImpl extends StripsPlan {
 	@Override
 	public Plan toAgentSpeakPlan(int planSequence) {
 		StringBuffer sbNewPlan = new StringBuffer();
-		sbNewPlan.append("@p"+planSequence+"[atomic]");
+		//sbNewPlan.append("@p"+planSequence+"[atomic]");
 		sbNewPlan.append(System.getProperty("line.separator"));
 		sbNewPlan.append("+!executePlan(plan"+(planSequence)+") : true");
 		sbNewPlan.append(System.getProperty("line.separator"));
@@ -34,7 +34,7 @@ public class StripsPlanImpl extends StripsPlan {
 	@Override
 	public Plan toGenericAgentSpeakPlan(Literal triggerCondition) {
 		StringBuffer sbNewPlan = new StringBuffer();
-		sbNewPlan.append("+"+triggerCondition.toString()+" : true [atomic]");
+		sbNewPlan.append("+"+triggerCondition.toString()+" : true");
 		sbNewPlan.append(System.getProperty("line.separator"));
 		sbNewPlan.append("  <- ");
 		
