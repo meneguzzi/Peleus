@@ -49,7 +49,12 @@ public class PlanContextExtractor {
 		contextLiterals = new ArrayList<LogicalFormula>();
 		LogicalFormula context = plan.getContext();
 		
-		processTerm(context);
+		if(context != null) {
+			processTerm(context);
+		} else {
+			// for some bizarre reason when a context is null, it is always true
+			contextLiterals.add(Literal.LTrue);
+		}
 	}
 	
 	/**

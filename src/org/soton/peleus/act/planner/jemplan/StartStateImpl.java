@@ -36,6 +36,10 @@ public class StartStateImpl extends StartState {
 				sbStart.append(", ");
 		}
 		
+		if(terms.size() == 0) {
+			sbStart.append("true");
+		}
+		
 		sbStart.append(")");
 		sbStart.append(System.getProperty("line.separator"));
 		

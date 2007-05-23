@@ -10,11 +10,7 @@ import jason.asSyntax.Pred;
 import jason.asSyntax.RelExpr;
 import jason.asSyntax.Structure;
 import jason.asSyntax.Term;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
+
 import java.util.Iterator;
 import java.util.List;
 
@@ -123,27 +119,23 @@ public class EMPlanPlannerConverter implements PlannerConverter {
 	
 	public boolean executePlanner(ProblemObjects objects, StartState startState, GoalState goalState, ProblemOperators operators, int maxPlanSteps) {
 		boolean planFound = false;
-		try {
-			File planningProblem = File.createTempFile("emplan-problem",".txt");
-			File planResult = File.createTempFile("emplan-plan",".txt");
-			
-			StringBuffer sb = new StringBuffer();
-			sb.append(startState.toPlannerString());
-			sb.append(goalState.toPlannerString());
-			sb.append(operators.toPlannerString());
-			String problem = sb.toString().replace(System.getProperty("line.separator"), " ");
-			
-			String planString = planner.emplanStream(problem);
-			planFound = (planString != null);
-			
+		StringBuffer sb = new StringBuffer();
+		sb.append(startState.toPlannerString());
+		sb.append(goalState.toPlannerString());
+		sb.append(operators.toPlannerString());
+		
+		String problem = sb.toString().replace(System.getProperty("line.separator"), " ");
+		System.out.println("Planning problem is: "+problem);
+		//problem = problem.replace(System.getProperty("line.separator"), " ");
+		
+		String planString = planner.emplanStream(problem);
+		
+		planFound = (planString != null);
+		
+		if(planFound) {
 			plan = new StripsPlanImpl(planString.getBytes());
-			
-			planningProblem.deleteOnExit();
-			planResult.deleteOnExit();
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
 		}
+		
 		return planFound;
 	}
 
