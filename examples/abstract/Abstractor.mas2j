@@ -1,0 +1,9 @@
+/* Jason Project                  */
+MAS abstractor {
+
+   environment:
+      org.kcl.jason.env.scripted.ScriptedEnvironment("abstract-script.xml")
+   agents:
+      abstract;
+      abstractAS;
+}

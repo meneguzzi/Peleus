@@ -2,6 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="examples/prodcell"/>
+	<classpathentry kind="src" path="examples/abstract"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/JasonSVN"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/JasonEnvironment"/>

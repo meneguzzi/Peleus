@@ -1,0 +1,2 @@
+   MAS abstractortestgen {      environment:         org.kcl.jason.env.scripted.ScriptedEnvironment("test-script10.xml")      agents: abstractAS10; }
+						

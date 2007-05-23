@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<script>
+<step time="0">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
+<step time="2">object(block,block0).
+type(block0,type2).
+over(block0,feedBelt).
+</step>
+<step time="4">object(block,block1).
+type(block1,type2).
+over(block1,feedBelt).
+</step>
+<step time="6">object(block,block2).
+type(block2,type3).
+over(block2,feedBelt).
+</step>
+<step time="8">object(block,block3).
+type(block3,type3).
+over(block3,feedBelt).
+</step>
+<step time="10">object(block,block4).
+type(block4,type3).
+over(block4,feedBelt).
+</step>
+<step time="12">object(block,block5).
+type(block5,type3).
+over(block5,feedBelt).
+</step>
+<step time="14">object(block,block6).
+type(block6,type1).
+over(block6,feedBelt).
+</step>
+<step time="16">object(block,block7).
+type(block7,type1).
+over(block7,feedBelt).
+</step>
+<step time="18">object(block,block8).
+type(block8,type1).
+over(block8,feedBelt).
+</step>
+<step time="20">object(block,block9).
+type(block9,type1).
+over(block9,feedBelt).
+</step>
+<step time="22">object(block,block10).
+type(block10,type3).
+over(block10,feedBelt).
+</step>
+<step time="24">object(block,block11).
+type(block11,type3).
+over(block11,feedBelt).
+</step>
+<step time="26">object(block,block12).
+type(block12,type1).
+over(block12,feedBelt).
+</step>
+<step time="28">object(block,block13).
+type(block13,type1).
+over(block13,feedBelt).
+</step>
+<step time="30">object(block,block14).
+type(block14,type2).
+over(block14,feedBelt).
+</step>
+<step time="32">object(block,block15).
+type(block15,type3).
+over(block15,feedBelt).
+</step>
+<step time="34">object(block,block16).
+type(block16,type2).
+over(block16,feedBelt).
+</step>
+<step time="36">object(block,block17).
+type(block17,type2).
+over(block17,feedBelt).
+</step>
+<step time="38">object(block,block18).
+type(block18,type2).
+over(block18,feedBelt).
+</step>
+<step time="40">object(block,block19).
+type(block19,type3).
+over(block19,feedBelt).
+</step>
+<step time="42">object(block,block20).
+type(block20,type3).
+over(block20,feedBelt).
+</step>
+<step time="44">object(block,block21).
+type(block21,type3).
+over(block21,feedBelt).
+</step>
+<step time="46">object(block,block22).
+type(block22,type1).
+over(block22,feedBelt).
+</step>
+<step time="48">object(block,block23).
+type(block23,type2).
+over(block23,feedBelt).
+</step>
+<step time="50">object(block,block24).
+type(block24,type3).
+over(block24,feedBelt).
+</step>
+<step time="52">object(block,block25).
+type(block25,type3).
+over(block25,feedBelt).
+</step>
+<step time="54">object(block,block26).
+type(block26,type2).
+over(block26,feedBelt).
+</step>
+<step time="56">object(block,block27).
+type(block27,type1).
+over(block27,feedBelt).
+</step>
+<step time="58">object(block,block28).
+type(block28,type1).
+over(block28,feedBelt).
+</step>
+<step time="60">object(block,block29).
+type(block29,type3).
+over(block29,feedBelt).
+</step>
+<step time="62">object(block,block30).
+type(block30,type2).
+over(block30,feedBelt).
+</step>
+<step time="64">object(block,block31).
+type(block31,type3).
+over(block31,feedBelt).
+</step>
+<step time="66">object(block,block32).
+type(block32,type1).
+over(block32,feedBelt).
+</step>
+<step time="68">object(block,block33).
+type(block33,type3).
+over(block33,feedBelt).
+</step>
+<step time="70">object(block,block34).
+type(block34,type2).
+over(block34,feedBelt).
+</step>
+<step time="72">object(block,block35).
+type(block35,type3).
+over(block35,feedBelt).
+</step>
+<step time="74">object(block,block36).
+type(block36,type1).
+over(block36,feedBelt).
+</step>
+<step time="76">object(block,block37).
+type(block37,type3).
+over(block37,feedBelt).
+</step>
+<step time="78">object(block,block38).
+type(block38,type3).
+over(block38,feedBelt).
+</step>
+<step time="80">object(block,block39).
+type(block39,type3).
+over(block39,feedBelt).
+</step>
+<step time="82">object(block,block40).
+type(block40,type2).
+over(block40,feedBelt).
+</step>
+<step time="84">object(block,block41).
+type(block41,type3).
+over(block41,feedBelt).
+</step>
+<step time="86">object(block,block42).
+type(block42,type3).
+over(block42,feedBelt).
+</step>
+<step time="88">object(block,block43).
+type(block43,type2).
+over(block43,feedBelt).
+</step>
+<step time="90">object(block,block44).
+type(block44,type2).
+over(block44,feedBelt).
+</step>
+<step time="92">object(block,block45).
+type(block45,type1).
+over(block45,feedBelt).
+</step>
+<step time="94">object(block,block46).
+type(block46,type3).
+over(block46,feedBelt).
+</step>
+<step time="96">object(block,block47).
+type(block47,type1).
+over(block47,feedBelt).
+</step>
+<step time="98">object(block,block48).
+type(block48,type2).
+over(block48,feedBelt).
+</step>
+<step time="100">object(block,block49).
+type(block49,type3).
+over(block49,feedBelt).
+</step>
+<step time="102">object(block,block50).
+type(block50,type2).
+over(block50,feedBelt).
+</step>
+<step time="104">object(block,block51).
+type(block51,type3).
+over(block51,feedBelt).
+</step>
+<step time="106">object(block,block52).
+type(block52,type1).
+over(block52,feedBelt).
+</step>
+<step time="108">object(block,block53).
+type(block53,type3).
+over(block53,feedBelt).
+</step>
+<step time="110">object(block,block54).
+type(block54,type1).
+over(block54,feedBelt).
+</step>
+<step time="112">object(block,block55).
+type(block55,type1).
+over(block55,feedBelt).
+</step>
+<step time="114">object(block,block56).
+type(block56,type2).
+over(block56,feedBelt).
+</step>
+<step time="116">object(block,block57).
+type(block57,type2).
+over(block57,feedBelt).
+</step>
+<step time="118">object(block,block58).
+type(block58,type2).
+over(block58,feedBelt).
+</step>
+<step time="120">object(block,block59).
+type(block59,type2).
+over(block59,feedBelt).
+</step>
+<step time="122">endSimulation.
+</step>
+</script>

@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<!-- ====================================================================== 
+     22 May 2007 13:36:49                                                        
+
+     abstract-tests    
+     Abstract tests for Peleus planning
+                   
+     meneguzz                                                                
+     ====================================================================== -->
+<project name="abstract-tests" default="run-tests">
+	<description>
+            Abstract tests for Peleus planning
+    </description>
+
+	<property name="workspace.location" value="${user.home}/My Documents/workspace/" />
+
+	<path id="project.classpath">
+		<!-- pathelement location="."/> -->
+		<pathelement location="${workspace.location}/JasonSVN/bin" />
+		<pathelement location="${workspace.location}/Peleus/bin" />
+		<pathelement location="${workspace.location}/JasonEnvironment/bin" />
+		<pathelement location="${workspace.location}/Peleus/lib/jemplan.jar" />
+	</path>
+
+	<path id="library.path">
+		<pathelement location="${workspace.location}/Peleus/lib" />
+	</path>
+
+	<property name="agent.prefix" value="abstractAS10" />
+	<property name="agent.script" value="test-script" />
+
+	<property name="jason.project.stub1" value="
+		MAS abstractortestgen {
+		   environment:
+		      org.kcl.jason.env.scripted.ScriptedEnvironment(&quot;" />
+	<property name="jason.project.stub2" value="&quot;)
+		   agents: ${agent.prefix}; }" />
+
+	<!-- ================================= 
+          target: run-tests              
+         ================================= -->
+	<target name="run-tests" depends="init" description="--> Abstract tests for Peleus planning">
+		<echo file="test/AbstractorTestGen.mas2j">${jason.project.stub1}${agent.script}1.xml${jason.project.stub2}
+		</echo>
+		<java classname="jason.infra.centralised.RunCentralisedMAS" failonerror="true" fork="yes" dir="${basedir}/test">
+			<classpath refid="project.classpath" />
+			<jvmarg line="-Djava.library.path='${workspace.location}/Peleus/lib'" />
+			<arg file="test/AbstractorTestGen.mas2j" />
+		</java>
+		<echo file="test/AbstractorTestGen.mas2j">${jason.project.stub1}${agent.script}2.xml${jason.project.stub2}
+				</echo>
+		<java classname="jason.infra.centralised.RunCentralisedMAS" failonerror="true" fork="yes" dir="${basedir}/test">
+			<classpath refid="project.classpath" />
+			<jvmarg line="-Djava.library.path='${workspace.location}/Peleus/lib'" />
+			<arg file="test/AbstractorTestGen.mas2j" />
+		</java>
+		<echo file="test/AbstractorTestGen.mas2j">${jason.project.stub1}${agent.script}3.xml${jason.project.stub2}
+				</echo>
+		<java classname="jason.infra.centralised.RunCentralisedMAS" failonerror="true" fork="yes" dir="${basedir}/test">
+			<classpath refid="project.classpath" />
+			<jvmarg line="-Djava.library.path='${workspace.location}/Peleus/lib'" />
+			<arg file="test/AbstractorTestGen.mas2j" />
+		</java>
+		<echo file="test/AbstractorTestGen.mas2j">${jason.project.stub1}${agent.script}4.xml${jason.project.stub2}
+				</echo>
+		<java classname="jason.infra.centralised.RunCentralisedMAS" failonerror="true" fork="yes" dir="${basedir}/test">
+			<classpath refid="project.classpath" />
+			<jvmarg line="-Djava.library.path='${workspace.location}/Peleus/lib'" />
+			<arg file="test/AbstractorTestGen.mas2j" />
+		</java>
+		<echo file="test/AbstractorTestGen.mas2j">${jason.project.stub1}${agent.script}5.xml${jason.project.stub2}
+					</echo>
+		<java classname="jason.infra.centralised.RunCentralisedMAS" failonerror="true" fork="yes" dir="${basedir}/test">
+			<classpath refid="project.classpath" />
+			<jvmarg line="-Djava.library.path='${workspace.location}/Peleus/lib'" />
+			<arg file="test/AbstractorTestGen.mas2j" />
+		</java>
+		<echo file="test/AbstractorTestGen.mas2j">${jason.project.stub1}${agent.script}6.xml${jason.project.stub2}
+					</echo>
+		<java classname="jason.infra.centralised.RunCentralisedMAS" failonerror="true" fork="yes" dir="${basedir}/test">
+			<classpath refid="project.classpath" />
+			<jvmarg line="-Djava.library.path='${workspace.location}/Peleus/lib'" />
+			<arg file="test/AbstractorTestGen.mas2j" />
+		</java>
+		<echo file="test/AbstractorTestGen.mas2j">${jason.project.stub1}${agent.script}7.xml${jason.project.stub2}
+					</echo>
+		<java classname="jason.infra.centralised.RunCentralisedMAS" failonerror="true" fork="yes" dir="${basedir}/test">
+			<classpath refid="project.classpath" />
+			<jvmarg line="-Djava.library.path='${workspace.location}/Peleus/lib'" />
+			<arg file="test/AbstractorTestGen.mas2j" />
+		</java>
+		<echo file="test/AbstractorTestGen.mas2j">${jason.project.stub1}${agent.script}8.xml${jason.project.stub2}
+					</echo>
+		<java classname="jason.infra.centralised.RunCentralisedMAS" failonerror="true" fork="yes" dir="${basedir}/test">
+			<classpath refid="project.classpath" />
+			<jvmarg line="-Djava.library.path='${workspace.location}/Peleus/lib'" />
+			<arg file="test/AbstractorTestGen.mas2j" />
+		</java>
+		<echo file="test/AbstractorTestGen.mas2j">${jason.project.stub1}${agent.script}9.xml${jason.project.stub2}
+						</echo>
+		<java classname="jason.infra.centralised.RunCentralisedMAS" failonerror="true" fork="yes" dir="${basedir}/test">
+			<classpath refid="project.classpath" />
+			<jvmarg line="-Djava.library.path='${workspace.location}/Peleus/lib'" />
+			<arg file="test/AbstractorTestGen.mas2j" />
+		</java>
+		<echo file="test/AbstractorTestGen.mas2j">${jason.project.stub1}${agent.script}10.xml${jason.project.stub2}
+						</echo>
+		<java classname="jason.infra.centralised.RunCentralisedMAS" failonerror="true" fork="yes" dir="${basedir}/test">
+			<classpath refid="project.classpath" />
+			<jvmarg line="-Djava.library.path='${workspace.location}/Peleus/lib'" />
+			<arg file="test/AbstractorTestGen.mas2j" />
+		</java>
+	</target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: depends                      
+         - - - - - - - - - - - - - - - - - -->
+	<target name="init">
+	</target>
+
+</project>
