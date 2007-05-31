@@ -15,6 +15,14 @@ public abstract class ProblemOperators {
 		operators = new ArrayList<Plan>();
 	}
 	
+	/**
+	 * Allows subclasses to access the <code>operators</code> field.
+	 * @return
+	 */
+	public List<Plan> getOperators() {
+		return operators;
+	}
+	
 	public void add(Plan plan) {
 		operators.add(plan);
 	}

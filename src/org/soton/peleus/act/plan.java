@@ -116,16 +116,18 @@ public class plan implements InternalAction {
 		if(!planFound)
 			return false;
 		
-		Plan plan = plannerConverter.getAgentSpeakPlan();
+		Plan plan = plannerConverter.getAgentSpeakPlan(true);
 		if(makeAtomic) {
-			plan.setLabel(Pred.parsePred(plan.getTriggerEvent().getLiteral().getTerm(0)+"[atomic]"));
+			//plan.setLabel(Pred.parsePred(plan.getTriggerEvent().getLiteral().getTerm(0)+"[atomic]"));
+			plan.setLabel(Pred.parsePred("plan"+(planNumber++)+"[atomic]"));
 		}
 		
 		logger.info("Adding new plan: "+System.getProperty("line.separator")+plan);
-		ts.getAg().getPL().add(plan);
+		//ts.getAg().getPL().add(plan);
+		ts.getAg().getPL().add(plan,true);
 		
 		Trigger trigger = plan.getTriggerEvent();
-		logger.info("Invoking "+trigger.getLiteral().getTerm(0));
+		logger.info("Invoking plan "+planNumber);
 		//ts.getC().addAchvGoal(Literal.parseLiteral("executePlan(plan"+(planNumber++)+")"), null);
 		ts.getC().addAchvGoal(trigger.getLiteral(), null);
 

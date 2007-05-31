@@ -1,6 +1,7 @@
 package org.soton.peleus.act.planner.jemplan;
 
 import jason.asSyntax.Literal;
+import jason.asSyntax.LogicalFormula;
 import jason.asSyntax.Plan;
 
 import java.io.BufferedReader;
@@ -11,10 +12,9 @@ import java.io.InputStreamReader;
 import org.soton.peleus.act.planner.StripsPlan;
 
 public class StripsPlanImpl extends StripsPlan {
-	protected byte stripsPlan[];
 	
 	public StripsPlanImpl(byte stripsPlan[]) {
-		this.stripsPlan = stripsPlan;
+		super(stripsPlan);
 	}
 
 	@Override
@@ -32,11 +32,14 @@ public class StripsPlanImpl extends StripsPlan {
 	}
 
 	@Override
-	public Plan toGenericAgentSpeakPlan(Literal triggerCondition) {
+	public Plan toGenericAgentSpeakPlan(Literal triggerCondition, LogicalFormula contextCondition) {
 		StringBuffer sbNewPlan = new StringBuffer();
-		sbNewPlan.append("+"+triggerCondition.toString()+" : true");
+		sbNewPlan.append("+!"+triggerCondition.toString()+" : "+contextCondition.toString());
 		sbNewPlan.append(System.getProperty("line.separator"));
 		sbNewPlan.append("  <- ");
+		
+		sbNewPlan.append(".print(\"Shite!!\");");
+		sbNewPlan.append(".print(\"Executing generated plan\");");
 		
 		sbNewPlan.append(this.convertPlanBody());
 		

@@ -161,7 +161,7 @@ public class JPlanPlannerConverter implements PlannerConverter {
 		return plan;
 	}
 
-	public Plan getAgentSpeakPlan() {
+	public Plan getAgentSpeakPlan(boolean generic) {
 		return plan.toAgentSpeakPlan(planNumber++);
 	}
 	

@@ -78,9 +78,11 @@ public interface PlannerConverter {
 	
 	/**
 	 * Returns the AgentSpeak plan resulting from the invocation of the external planner.
+	 * @param generic Whether or not the generated AgentSpeak <code>Plan</code> should be
+	 * 			made generic for further use in the plan library.
 	 * @return The AgentSpeak from the external planner or null in case planning failed
 	 */
-	public Plan getAgentSpeakPlan();
+	public Plan getAgentSpeakPlan(boolean generic);
 	
 	/**
 	 * Converts an AgentSpeak Literal into a STRIPS string.

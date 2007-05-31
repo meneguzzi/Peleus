@@ -32,4 +32,8 @@ public abstract class ProblemTerms {
 			this.terms.add(term);
 		}
 	}
+	
+	public List<Term> getTerms() {
+		return terms;
+	}
 }

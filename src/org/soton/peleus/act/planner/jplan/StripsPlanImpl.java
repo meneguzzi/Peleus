@@ -1,20 +1,22 @@
 package org.soton.peleus.act.planner.jplan;
 
 import jason.asSyntax.Literal;
+import jason.asSyntax.LogicalFormula;
 import jason.asSyntax.Plan;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.soton.peleus.act.planner.StripsPlan;
 
 public class StripsPlanImpl extends StripsPlan {
-	protected byte stripsPlan[];
 	
 	public StripsPlanImpl(byte stripsPlan[]) {
-		this.stripsPlan = stripsPlan;
+		super(stripsPlan);
 	}
 
 	@Override
@@ -30,7 +32,7 @@ public class StripsPlanImpl extends StripsPlan {
 	}
 
 	@Override
-	public Plan toGenericAgentSpeakPlan(Literal triggerCondition) {
+	public Plan toGenericAgentSpeakPlan(Literal triggerCondition, LogicalFormula contextCondition) {
 		StringBuffer sbNewPlan = new StringBuffer();
 		sbNewPlan.append("+"+triggerCondition.toString()+" : true [atomic]");
 		sbNewPlan.append(System.getProperty("line.separator"));
@@ -78,5 +80,4 @@ public class StripsPlanImpl extends StripsPlan {
 		
 		return sbPlanBody.toString();
 	}
-
 }

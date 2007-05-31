@@ -4,7 +4,10 @@
 package org.soton.peleus.act.planner.jemplan;
 
 import jason.asSyntax.DefaultTerm;
+import jason.asSyntax.ListTerm;
+import jason.asSyntax.ListTermImpl;
 import jason.asSyntax.Literal;
+import jason.asSyntax.LogicalFormula;
 import jason.asSyntax.Plan;
 import jason.asSyntax.Pred;
 import jason.asSyntax.RelExpr;
@@ -16,6 +19,7 @@ import java.util.List;
 
 import org.meneguzzi.jemplan.EMPlan;
 import org.soton.peleus.act.planner.GoalState;
+import org.soton.peleus.act.planner.PlanContextGenerator;
 import org.soton.peleus.act.planner.PlannerConverter;
 import org.soton.peleus.act.planner.ProblemObjects;
 import org.soton.peleus.act.planner.ProblemOperators;
@@ -33,7 +37,7 @@ public class EMPlanPlannerConverter implements PlannerConverter {
 	protected ProblemOperators operators;
 	protected ProblemObjects objects;
 	
-	protected StripsPlan plan;
+	protected StripsPlan stripsPlan;
 	
 	protected int planNumber = 0;
 	
@@ -51,9 +55,7 @@ public class EMPlanPlannerConverter implements PlannerConverter {
 		//XXX This variable is created just so the user don't get a null pointer when requesting for the objects
 		objects = new ProblemObjectsImpl();
 		
-		for (Term goal : goals) {
-			goalState.addTerm(goal);
-		}
+		goalState.addAll(goals);
 		
 		for (Literal literal : beliefs) {
 			if(literal.getFunctor().startsWith("object")) {
@@ -133,7 +135,7 @@ public class EMPlanPlannerConverter implements PlannerConverter {
 		planFound = (planString != null);
 		
 		if(planFound) {
-			plan = new StripsPlanImpl(planString.getBytes());
+			stripsPlan = new StripsPlanImpl(planString.getBytes());
 		}
 		
 		return planFound;
@@ -143,14 +145,23 @@ public class EMPlanPlannerConverter implements PlannerConverter {
 	 * @see org.soton.peleus.act.planner.PlannerConverter#getStripsPlan()
 	 */
 	public StripsPlan getStripsPlan() {
-		return plan;
+		return stripsPlan;
 	}
 
 	/* (non-Javadoc)
 	 * @see org.soton.peleus.act.planner.PlannerConverter#getAgentSpeakPlan()
 	 */
-	public Plan getAgentSpeakPlan() {
-		return plan.toAgentSpeakPlan(planNumber++);
+	public Plan getAgentSpeakPlan(boolean generic) {
+		if(generic) {
+			ListTerm goals = new ListTermImpl();
+			goals.addAll(goalState.getTerms());
+			Literal literal = new Literal("goalConj");
+			literal.addTerm(goals);
+			LogicalFormula contextCondition = PlanContextGenerator.getInstance().generateContext(stripsPlan.getStripsSteps(), operators.getOperators());
+			return stripsPlan.toGenericAgentSpeakPlan(literal, contextCondition);
+		} else {
+			return stripsPlan.toAgentSpeakPlan(planNumber++);
+		}
 	}
 
 	/* (non-Javadoc)
