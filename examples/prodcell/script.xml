@@ -16,7 +16,16 @@
 		type(block1, type1).
 		over(block1, feedBelt).
 	</step>
+	
+	<step time="2" wipe="true">
+	</step>
+	
 	<step time="3">
+		object(block, block1).
+		type(block1, type1).
+		over(block1, feedBelt).
+	</step>
+	<!--  <step time="3">
 		object(block, block2).
 		type(block2, type2).
 		over(block2, feedBelt).
@@ -41,8 +50,8 @@
 		object(block,block6).
 		type(block6, type2).
 		over(block6, feedBelt).
-	</step>
+	</step>  
 	<step time="13">
 		endSimulation.
-	</step>
+	</step>-->
 </script>

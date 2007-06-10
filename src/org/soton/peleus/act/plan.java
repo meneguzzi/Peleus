@@ -129,7 +129,8 @@ public class plan implements InternalAction {
 		Trigger trigger = plan.getTriggerEvent();
 		logger.info("Invoking plan "+planNumber);
 		//ts.getC().addAchvGoal(Literal.parseLiteral("executePlan(plan"+(planNumber++)+")"), null);
-		ts.getC().addAchvGoal(trigger.getLiteral(), null);
+		// Now we are adding the new goal to the current intention
+		ts.getC().addAchvGoal(trigger.getLiteral(), ts.getC().getSelectedIntention());
 
 		return true;
 	}

@@ -76,9 +76,13 @@ totalBlocks(0).
 
 //Cleanup of the no longer needed beliefs
 +finished(Block) : object(block,Block)
-	<-  -object(block,Block)[source(self)];
+	<- -object(block,Block)[source(self)];
+	   -object(block,Block)[source(percept)];
 	   -type(Block,_)[source(self)];
+	   -type(Block,_)[source(percept)];
 	   -finished(Block)[source(self)];
+	   -finished(Block)[source(percept)];
+	   -over(Block,_)[source(percept)];
 	   .abolish(processed(Block,_)[source(self)]);
 	   ?totalBlocks(B);
 	   -+totalBlocks(B+1);

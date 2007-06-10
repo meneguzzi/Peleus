@@ -38,7 +38,7 @@ public class StripsPlanImpl extends StripsPlan {
 		sbNewPlan.append(System.getProperty("line.separator"));
 		sbNewPlan.append("  <- ");
 		
-		sbNewPlan.append(".print(\"Shite!!\");");
+		//sbNewPlan.append(".print(\"Shite!!\");");
 		sbNewPlan.append(".print(\"Executing generated plan\");");
 		
 		sbNewPlan.append(this.convertPlanBody());

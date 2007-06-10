@@ -75,9 +75,16 @@ public class ProblemOperatorsImpl extends ProblemOperators {
 			for (BodyLiteral literal : body) {
 				PropositionImpl proposition = null;
 				if(literal.getType() == BodyLiteral.BodyType.delBel) {
-					proposition = new PropositionImpl(false, literal.getLiteralFormula().toString());
+					// XXX We were having problems with the variables using this method of instantiation
+					//proposition = new PropositionImpl(false, literal.getLiteralFormula().toString());
+					// XXX So we changed it to this mode
+					proposition = new PropositionImpl(literal.getLiteralFormula());
+					proposition.setNegated(Literal.LNeg);
 				} else if(literal.getType() == BodyLiteral.BodyType.addBel) {
-					proposition = new PropositionImpl(true, literal.getLiteralFormula().toString());
+					// XXX We were having problems with the variables using this method of instantiation
+					//proposition = new PropositionImpl(true, literal.getLiteralFormula().toString());
+					// XXX So we changed it to this mode
+					proposition = new PropositionImpl(literal.getLiteralFormula());
 				}
 				
 				//If proposition is null, this is a part of the plan we can't cope, 
