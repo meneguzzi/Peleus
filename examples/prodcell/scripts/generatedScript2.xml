@@ -6,86 +6,106 @@ empty(procUnit3).
 empty(procUnit4).
 empty(depositBelt).
 </step>
-<step time="2">object(block,block0).
-type(block0,type1).
-over(block0,feedBelt).
-</step>
-<step time="4">object(block,block1).
-type(block1,type3).
-over(block1,feedBelt).
-</step>
-<step time="6">object(block,block2).
-type(block2,type3).
-over(block2,feedBelt).
-</step>
-<step time="8">object(block,block3).
-type(block3,type2).
+<step time="2">object(block,block3).
+type(block3,type3).
 over(block3,feedBelt).
 </step>
-<step time="10">object(block,block4).
-type(block4,type3).
-over(block4,feedBelt).
+<step time="3" wipe="false"> </step>
+<step time="4">object(block,block1).
+type(block1,type1).
+over(block1,feedBelt).
 </step>
-<step time="12">object(block,block5).
-type(block5,type2).
-over(block5,feedBelt).
+<step time="5" wipe="false"> </step>
+<step time="6">object(block,block1).
+type(block1,type1).
+over(block1,feedBelt).
 </step>
-<step time="14">object(block,block6).
-type(block6,type3).
-over(block6,feedBelt).
+<step time="7" wipe="false"> </step>
+<step time="8">object(block,block1).
+type(block1,type1).
+over(block1,feedBelt).
 </step>
-<step time="16">object(block,block7).
-type(block7,type1).
-over(block7,feedBelt).
+<step time="9" wipe="false"> </step>
+<step time="10">object(block,block1).
+type(block1,type1).
+over(block1,feedBelt).
 </step>
-<step time="18">object(block,block8).
-type(block8,type3).
-over(block8,feedBelt).
+<step time="11" wipe="false"> </step>
+<step time="12">object(block,block2).
+type(block2,type2).
+over(block2,feedBelt).
 </step>
-<step time="20">object(block,block9).
-type(block9,type1).
-over(block9,feedBelt).
+<step time="13" wipe="false"> </step>
+<step time="14">object(block,block3).
+type(block3,type3).
+over(block3,feedBelt).
 </step>
-<step time="22">object(block,block10).
-type(block10,type2).
-over(block10,feedBelt).
+<step time="15" wipe="false"> </step>
+<step time="16">object(block,block2).
+type(block2,type2).
+over(block2,feedBelt).
 </step>
-<step time="24">object(block,block11).
-type(block11,type2).
-over(block11,feedBelt).
+<step time="17" wipe="false"> </step>
+<step time="18">object(block,block2).
+type(block2,type2).
+over(block2,feedBelt).
 </step>
-<step time="26">object(block,block12).
-type(block12,type2).
-over(block12,feedBelt).
+<step time="19" wipe="false"> </step>
+<step time="20">object(block,block1).
+type(block1,type1).
+over(block1,feedBelt).
 </step>
-<step time="28">object(block,block13).
-type(block13,type3).
-over(block13,feedBelt).
+<step time="21" wipe="false"> </step>
+<step time="22">object(block,block3).
+type(block3,type3).
+over(block3,feedBelt).
 </step>
-<step time="30">object(block,block14).
-type(block14,type3).
-over(block14,feedBelt).
+<step time="23" wipe="false"> </step>
+<step time="24">object(block,block3).
+type(block3,type3).
+over(block3,feedBelt).
 </step>
-<step time="32">object(block,block15).
-type(block15,type3).
-over(block15,feedBelt).
+<step time="25" wipe="false"> </step>
+<step time="26">object(block,block2).
+type(block2,type2).
+over(block2,feedBelt).
 </step>
-<step time="34">object(block,block16).
-type(block16,type2).
-over(block16,feedBelt).
+<step time="27" wipe="false"> </step>
+<step time="28">object(block,block1).
+type(block1,type1).
+over(block1,feedBelt).
 </step>
-<step time="36">object(block,block17).
-type(block17,type2).
-over(block17,feedBelt).
+<step time="29" wipe="false"> </step>
+<step time="30">object(block,block1).
+type(block1,type1).
+over(block1,feedBelt).
 </step>
-<step time="38">object(block,block18).
-type(block18,type2).
-over(block18,feedBelt).
+<step time="31" wipe="false"> </step>
+<step time="32">object(block,block3).
+type(block3,type3).
+over(block3,feedBelt).
 </step>
-<step time="40">object(block,block19).
-type(block19,type1).
-over(block19,feedBelt).
+<step time="33" wipe="false"> </step>
+<step time="34">object(block,block1).
+type(block1,type1).
+over(block1,feedBelt).
 </step>
+<step time="35" wipe="false"> </step>
+<step time="36">object(block,block3).
+type(block3,type3).
+over(block3,feedBelt).
+</step>
+<step time="37" wipe="false"> </step>
+<step time="38">object(block,block2).
+type(block2,type2).
+over(block2,feedBelt).
+</step>
+<step time="39" wipe="false"> </step>
+<step time="40">object(block,block2).
+type(block2,type2).
+over(block2,feedBelt).
+</step>
+<step time="41" wipe="false"> </step>
 <step time="42">endSimulation.
 </step>
 </script>

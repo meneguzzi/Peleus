@@ -85,6 +85,11 @@ public class plan implements InternalAction {
 			//logger.info("Making plans atomic: "+makeAtomic);
 		}
 		
+		boolean makeGeneric = true;
+		if(args.length > 2 && (args[2] instanceof Term)) {
+			makeGeneric = Boolean.parseBoolean(args[2].toString());
+		}
+		
 		//Extract the literals in the belief base to be used
 		//as the initial state for the planning problem
 		BeliefBase beliefBase = ts.getAg().getBB();
@@ -116,7 +121,8 @@ public class plan implements InternalAction {
 		if(!planFound)
 			return false;
 		
-		Plan plan = plannerConverter.getAgentSpeakPlan(true);
+		Plan plan = plannerConverter.getAgentSpeakPlan(makeGeneric);
+		
 		if(makeAtomic) {
 			//plan.setLabel(Pred.parsePred(plan.getTriggerEvent().getLiteral().getTerm(0)+"[atomic]"));
 			plan.setLabel(Pred.parsePred("plan"+(planNumber++)+"[atomic]"));

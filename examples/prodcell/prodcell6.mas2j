@@ -5,5 +5,5 @@ MAS prodcell6 {
    environment:
       org.kcl.jason.env.scripted.ScriptedEnvironment("scripts/generatedScript6.xml")
    agents:
-      prodcell;
+      prodcellAS;
 }

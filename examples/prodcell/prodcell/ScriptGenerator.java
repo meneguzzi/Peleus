@@ -27,6 +27,8 @@ public class ScriptGenerator {
 	protected Random random;
 	protected int steps;
 	protected int timeBetweenSteps;
+	protected boolean wipe;
+	protected int wipeInterval;
 	protected OutputStream outputStream;
 	protected int firstStep;
 	protected List<Literal> initialBeliefs;
@@ -141,6 +143,17 @@ public class ScriptGenerator {
 				} else {
 					System.err.println("-finalevents parameter requires a list of beliefs");
 				}
+			} else if (args[i].equals("-wipe")) {
+				if(++i < args.length) {
+					this.wipe = true;
+					try {
+						this.wipeInterval = Integer.parseInt(args[i]);
+					}catch (NumberFormatException e) {
+						System.err.println("-stepsize parameter requires an integer");
+					}
+				} else {
+					System.err.println("-finalevents parameter requires a list of beliefs");
+				}
 			} else {
 				System.err.println("Unrecognized parameter: "+args[i]);
 			}
@@ -188,6 +201,18 @@ public class ScriptGenerator {
 		for(int i=0; i < steps; i++) {
 			List<Literal> percepts = createPercepts(i);
 			Element step = createScriptStep(document, i, percepts);
+			
+			if(wipe) {
+				if(this.wipeInterval > 0) {
+					scriptElement.appendChild(step);
+					step = document.createElement("step");
+					step.setAttribute("time", ""+(firstStep + (i*timeBetweenSteps) + wipeInterval));
+					step.appendChild(document.createTextNode(" "));
+				}
+				
+				step.setAttribute("wipe", "true");
+			}
+			
 			scriptElement.appendChild(step);
 		}
 	}
@@ -196,11 +221,14 @@ public class ScriptGenerator {
 		List<Literal> percepts = new ArrayList<Literal>();
 		
 		Block block = new Block(0,0);
-				
-		do {
+		
+		block.blockType = random.nextInt(maxBlockType)+1;
+		//We should be able to repeat block numbers if we add the wipe directive
+		if(wipe) {
+			block.blockNumber = block.blockType;
+		} else {
 			block.blockNumber = time;
-			block.blockType = random.nextInt(maxBlockType)+1;
-		} while (blocks.contains(block));
+		}
 		
 		blocks.add(block);
 		percepts.add(Literal.parseLiteral("object(block, block"+block.blockNumber+")"));

@@ -24,6 +24,7 @@
 		<pathelement location="${jasonJar}" />
 		<pathelement location="${workspace.location}/Peleus/bin" />
 		<pathelement location="${workspace.location}/JasonEnvironment/bin" />
+		<pathelement location="${workspace.location}/JavaGP/bin" />
 		<pathelement location="${workspace.location}/Peleus/lib/jemplan.jar" />
 	</path>
 
@@ -106,46 +107,46 @@
 	<target name="generate-scripts" depends="init" description="--> Generates the test scripts">
 		<property name="initial-beliefs" value="empty(procUnit1) empty(procUnit2) empty(procUnit3) empty(procUnit4) empty(depositBelt)" />
 		<property name="final-events" value="endSimulation" />
-		<property name="params" value="-firststep 2 -stepsize 2" />
+		<property name="params" value="-firststep 2 -stepsize 2 -initbeliefs ${initial-beliefs} -finalevents ${final-events} -wipe 1" />
 		<java classname="prodcell.ScriptGenerator" failonerror="true" fork="yes" dir="${basedir}/scripts">
 			<classpath refid="project.classpath" />
-			<arg line="-o generatedScript1.xml -steps 10 ${params} -initbeliefs ${initial-beliefs} -finalevents ${final-events}" />
+			<arg line="-o generatedScript1.xml -steps 10 ${params}" />
 		</java>
 		<java classname="prodcell.ScriptGenerator" failonerror="true" fork="yes" dir="${basedir}/scripts">
 			<classpath refid="project.classpath" />
-			<arg line="-o generatedScript2.xml -steps 20 ${params} -initbeliefs ${initial-beliefs} -finalevents ${final-events}" />
+			<arg line="-o generatedScript2.xml -steps 20 ${params}" />
 		</java>
 		<java classname="prodcell.ScriptGenerator" failonerror="true" fork="yes" dir="${basedir}/scripts">
 			<classpath refid="project.classpath" />
-			<arg line="-o generatedScript3.xml -steps 30 ${params} -initbeliefs ${initial-beliefs} -finalevents ${final-events}" />
+			<arg line="-o generatedScript3.xml -steps 30 ${params}" />
 		</java>
 		<java classname="prodcell.ScriptGenerator" failonerror="true" fork="yes" dir="${basedir}/scripts">
 			<classpath refid="project.classpath" />
-			<arg line="-o generatedScript4.xml -steps 40 ${params} -initbeliefs ${initial-beliefs} -finalevents ${final-events}" />
+			<arg line="-o generatedScript4.xml -steps 40 ${params}" />
 		</java>
 		<java classname="prodcell.ScriptGenerator" failonerror="true" fork="yes" dir="${basedir}/scripts">
 			<classpath refid="project.classpath" />
-			<arg line="-o generatedScript5.xml -steps 50 ${params} -initbeliefs ${initial-beliefs} -finalevents ${final-events}" />
+			<arg line="-o generatedScript5.xml -steps 50 ${params}" />
 		</java>
 		<java classname="prodcell.ScriptGenerator" failonerror="true" fork="yes" dir="${basedir}/scripts">
 			<classpath refid="project.classpath" />
-			<arg line="-o generatedScript6.xml -steps 60 ${params} -initbeliefs ${initial-beliefs} -finalevents ${final-events}" />
+			<arg line="-o generatedScript6.xml -steps 60 ${params}" />
 		</java>
 		<java classname="prodcell.ScriptGenerator" failonerror="true" fork="yes" dir="${basedir}/scripts">
 			<classpath refid="project.classpath" />
-			<arg line="-o generatedScript7.xml -steps 70 ${params} -initbeliefs ${initial-beliefs} -finalevents ${final-events}" />
+			<arg line="-o generatedScript7.xml -steps 70 ${params}" />
 		</java>
 		<java classname="prodcell.ScriptGenerator" failonerror="true" fork="yes" dir="${basedir}/scripts">
 			<classpath refid="project.classpath" />
-			<arg line="-o generatedScript8.xml -steps 80 ${params} -initbeliefs ${initial-beliefs} -finalevents ${final-events}" />
+			<arg line="-o generatedScript8.xml -steps 80 ${params}" />
 		</java>
 		<java classname="prodcell.ScriptGenerator" failonerror="true" fork="yes" dir="${basedir}/scripts">
 			<classpath refid="project.classpath" />
-			<arg line="-o generatedScript9.xml -steps 90 ${params} -initbeliefs ${initial-beliefs} -finalevents ${final-events}" />
+			<arg line="-o generatedScript9.xml -steps 90 ${params}" />
 		</java>
 		<java classname="prodcell.ScriptGenerator" failonerror="true" fork="yes" dir="${basedir}/scripts">
 			<classpath refid="project.classpath" />
-			<arg line="-o generatedScript10.xml -steps 100 ${params} -initbeliefs ${initial-beliefs} -finalevents ${final-events}" />
+			<arg line="-o generatedScript10.xml -steps 100 ${params}" />
 		</java>
 	</target>
 

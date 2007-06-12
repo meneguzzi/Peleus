@@ -17,13 +17,16 @@ totalBlocks(0).
 //----------------------------------------------------------
 // Plans to update the Belief Base and optimise the testing
 +empty(Device) [source(percept)] : true
-	<- +empty(Device).
+	<- .print("Acknowledging ",empty(Device));
+		+empty(Device).
 
 +object(Type, Object) [source(percept)] : not object(Type, Object) [source(self)]
-	<- +object(Type, Object).
+	<- .print("Acknowledging ",object(Type, Object));
+		+object(Type, Object).
 
 +type(Block, Type) [source(percept)] : not type(Block, Type) [source(self)]
-	<- +type(Block, Type).
+	<- .print("Acknowledging ",type(Block, Type));
+		+type(Block, Type).
 
 +over(Object, Device) [source(percept)] : not over(Object, Device)[source(self)]
 	<-  .print("Acknowledging ",over(Object, Device));
@@ -32,7 +35,6 @@ totalBlocks(0).
 
 //----------------------------------------------------------
 
-@breakpoint
 +over(Block, feedBelt)[source(self)] : true
 	<- 	.print("Processing ",Block);
 		org.soton.peleus.act.time_in_millis(Time1);

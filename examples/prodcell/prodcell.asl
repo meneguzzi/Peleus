@@ -76,13 +76,9 @@ totalBlocks(0).
 
 //Cleanup of the no longer needed beliefs
 +finished(Block) : object(block,Block)
-	<- -object(block,Block)[source(self)];
-	   -object(block,Block)[source(percept)];
+	<-  -object(block,Block)[source(self)];
 	   -type(Block,_)[source(self)];
-	   -type(Block,_)[source(percept)];
 	   -finished(Block)[source(self)];
-	   -finished(Block)[source(percept)];
-	   -over(Block,_)[source(percept)];
 	   .abolish(processed(Block,_)[source(self)]);
 	   ?totalBlocks(B);
 	   -+totalBlocks(B+1);
@@ -91,7 +87,7 @@ totalBlocks(0).
 
 //Planning Plan
 +!goalConj(Goals) : true
-	<- org.soton.peleus.act.plan(Goals,10);
+	<- org.soton.peleus.act.plan(Goals,10,false);
 	   .print("Goals ",Goals," were satisfied").
 
 //Actions
