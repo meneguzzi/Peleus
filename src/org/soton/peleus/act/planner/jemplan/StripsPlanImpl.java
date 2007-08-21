@@ -47,7 +47,7 @@ public class StripsPlanImpl extends StripsPlan {
 	}
 	
 	/**
-	 * Helper method to conver the plan body into a string representation of an
+	 * Helper method to convert the plan body into a string representation of an
 	 * AgentSpeak plan, as this is shared between the <code>toAgentSpeakPlan</code> and 
 	 * <code>toGenericAgentSpeakPlan</code> methods.
 	 * @return A string representation of the plan body.

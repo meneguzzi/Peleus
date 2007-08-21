@@ -37,7 +37,7 @@ public class ProblemOperatorsImpl extends ProblemOperators {
 	public String toPlannerString() {
 		StringBuffer sb = new StringBuffer();
 		
-		for (Plan plan : operators) {
+		for (Plan plan : plans) {
 			Trigger trigger = plan.getTriggerEvent();
 			sb.append("operator ");
 			sb.append(trigger.getLiteral());

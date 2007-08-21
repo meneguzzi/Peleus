@@ -23,6 +23,10 @@ public abstract class StripsPlan extends ProblemTerms {
 	
 	protected byte stripsPlan[];
 	
+	protected StripsPlan() {
+		
+	}
+	
 	public StripsPlan(byte stripsPlan[]) {
 		this.stripsPlan = stripsPlan;
 	}

@@ -26,8 +26,7 @@ import org.soton.peleus.act.planner.PlannerConverter;
 import org.soton.peleus.act.planner.ProblemObjects;
 import org.soton.peleus.act.planner.ProblemOperators;
 import org.soton.peleus.act.planner.StartState;
-import org.soton.peleus.act.planner.jemplan.EMPlanPlannerConverter;
-import org.soton.peleus.act.planner.jplan.JPlanPlannerConverter;
+import org.soton.peleus.act.planner.javagp.JavaGPPlannerConverter;
 
 /**
  * An <code>InternalAction</code> that links an AgentSpeak agent to
@@ -39,9 +38,7 @@ import org.soton.peleus.act.planner.jplan.JPlanPlannerConverter;
  * @author  Felipe Meneguzzi
  */
 public class plan implements InternalAction {
-	protected PlannerConverter plannerConverter = 
-		//new JPlanPlannerConverter();
-		new EMPlanPlannerConverter();
+	protected PlannerConverter plannerConverter;
 	
 	protected static final Term trueTerm = DefaultTerm.parse("true");
 	
@@ -49,6 +46,15 @@ public class plan implements InternalAction {
 
 	@SuppressWarnings("unused")
 	private Logger logger = Logger.getLogger(InternalAction.class.getName());
+	
+	/**
+	 * Default constructor
+	 */
+	public plan() {
+		//plannerConverter = new EMPlanPlannerConverter();
+		//plannerConverter = new JPlanPlannerConverter();
+		plannerConverter = new JavaGPPlannerConverter();
+	}
 	
 	public boolean suspendIntention() {
 		// TODO Auto-generated method stub

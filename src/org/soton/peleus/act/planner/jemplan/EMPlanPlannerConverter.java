@@ -157,7 +157,7 @@ public class EMPlanPlannerConverter implements PlannerConverter {
 			goals.addAll(goalState.getTerms());
 			Literal literal = new Literal("goalConj");
 			literal.addTerm(goals);
-			LogicalFormula contextCondition = PlanContextGenerator.getInstance().generateContext(stripsPlan.getStripsSteps(), operators.getOperators());
+			LogicalFormula contextCondition = PlanContextGenerator.getInstance().generateContext(stripsPlan.getStripsSteps(), operators.getPlans());
 			return stripsPlan.toGenericAgentSpeakPlan(literal, contextCondition);
 		} else {
 			return stripsPlan.toAgentSpeakPlan(planNumber++);

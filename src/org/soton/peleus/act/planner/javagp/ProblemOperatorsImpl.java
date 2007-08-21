@@ -9,7 +9,9 @@ import jason.asSyntax.BodyLiteral;
 import jason.asSyntax.Literal;
 import jason.asSyntax.LogicalFormula;
 import jason.asSyntax.Plan;
+import jason.asSyntax.Pred;
 import jason.asSyntax.Structure;
+import jason.asSyntax.Term;
 import jason.asSyntax.Trigger;
 
 import java.util.ArrayList;
@@ -20,15 +22,21 @@ import org.soton.peleus.act.planner.ProblemOperators;
 
 public class ProblemOperatorsImpl extends ProblemOperators {
 	
-	protected DomainDescription domainDescription = null;
+	protected final List<Operator> operators;
 	
 	public ProblemOperatorsImpl() {
 		super();
+		operators = new ArrayList<Operator>();
 	}
 	
+	/**
+	 * Creates problem operators given a set of AgentSpeak plans.
+	 * @param plans
+	 */
 	public ProblemOperatorsImpl(List<Plan> plans) {
 		this();
-		this.domainDescription = this.generateDomainDescription(plans);
+		this.plans = plans;
+		this.generateOperators();
 	}
 	
 	/**
@@ -37,30 +45,52 @@ public class ProblemOperatorsImpl extends ProblemOperators {
 	 * @param problemOperators
 	 */
 	public ProblemOperatorsImpl(ProblemOperators problemOperators) {
-		this(problemOperators.getOperators());
+		this(problemOperators.getPlans());
 	}
 	
 	/**
-	 * Generates an instance of <code>DomainDescription</code> containing operators
-	 * derived from the list of Jason <code>Plan</code>s.
 	 * 
-	 * @param plans
 	 * @return
 	 */
-	protected DomainDescription generateDomainDescription(List<Plan> plans) {
-		DomainDescription description = null;
-		List<Operator> operators = new ArrayList<Operator>();
+	public List<Operator> getOperators() {
+		return this.operators;
+	}
+	
+	/**
+	 * Generates the planner operators from the list of plans from the
+	 * Jason plan library.
+	 */
+	protected void generateOperators() {
+		this.operators.clear();
 		for (Plan plan : plans) {
+			//Ignore plans that are not marked with the 
+			//action annotation
+			Pred pred = plan.getLabel();
+			if (pred != null && !pred.toString().startsWith("action")) {
+				continue;
+			}
 			Trigger trigger = plan.getTriggerEvent();
 			
 			PlanContextExtractor contextExtractor = PlanContextExtractor.getPlanContextExtractor();
 			contextExtractor.extractContext(plan);
 			List<LogicalFormula> contextTerms = contextExtractor.getContext();
 			
-			//We ignore type constraints here, so annotations are ignored
+			//We create the preconditions based on the AgentSpeak context
+			List<Proposition> preconds = new ArrayList<Proposition>();
 			
-			//We then create the preconditions based on the AgentSpeak context
-			List<PropositionImpl> preconds = new ArrayList<PropositionImpl>();
+			//The constraints to the types are represented as preconditions
+			if(trigger.getLiteral().getTermsSize() > 0) {
+				Term types[] = plan.getLabel().getTermsArray();
+				Term terms[] = trigger.getLiteral().getTermsArray();
+				for (int i = 0; i < terms.length; i++) {
+					PropositionImpl proposition = new PropositionImpl(true,types[i].toString());
+					proposition.addTerm(terms[i]);
+					
+					preconds.add(proposition);
+				}
+			}
+			
+			//We then add the AgentSpeak plan context to the preconditions
 			for (LogicalFormula formula : contextTerms) {
 				//Right now we only deal with literals in the context
 				//So for each literal, we create a proposition for JavaGP
@@ -71,7 +101,7 @@ public class ProblemOperatorsImpl extends ProblemOperators {
 			
 			//Then we try to extract belief the effects from the plan body
 			List<BodyLiteral> body = plan.getBody();
-			List<PropositionImpl> effects = new ArrayList<PropositionImpl>();
+			List<Proposition> effects = new ArrayList<Proposition>();
 			for (BodyLiteral literal : body) {
 				PropositionImpl proposition = null;
 				if(literal.getType() == BodyLiteral.BodyType.delBel) {
@@ -98,6 +128,17 @@ public class ProblemOperatorsImpl extends ProblemOperators {
 			OperatorImpl operator = new OperatorImpl(operatorSignature, preconds, effects);
 			operators.add(operator);
 		}
+	}
+	
+	/**
+	 * Generates an instance of <code>DomainDescription</code> containing operators
+	 * derived from the list of Jason <code>Plan</code>s.
+	 * 
+	 * @param plans
+	 * @return
+	 */
+	protected DomainDescription generateDomainDescription(List<Operator> operators) {
+		DomainDescription description = null;		
 		List<Proposition> empty = new ArrayList<Proposition>();
 		description = new DomainDescription(operators, empty, empty);
 		return description;
@@ -108,16 +149,12 @@ public class ProblemOperatorsImpl extends ProblemOperators {
 	 * @return
 	 */
 	public DomainDescription getDomainDescription() {
-		return this.domainDescription;
+		return this.generateDomainDescription(operators);
 	}
 
 	@Override
 	public String toPlannerString() {
-		if(domainDescription != null) {
-			return domainDescription.toString();
-		} else {
-			return null;
-		}
+		return generateDomainDescription(operators).toString();
 	}
 
 }

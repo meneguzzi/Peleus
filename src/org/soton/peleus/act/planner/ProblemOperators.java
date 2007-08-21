@@ -9,27 +9,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class ProblemOperators {
-	protected List<Plan> operators;
+	protected List<Plan> plans;
 	
 	public ProblemOperators() {
-		operators = new ArrayList<Plan>();
+		plans = new ArrayList<Plan>();
 	}
 	
 	/**
 	 * Allows subclasses to access the <code>operators</code> field.
 	 * @return
 	 */
-	public List<Plan> getOperators() {
-		return operators;
+	public List<Plan> getPlans() {
+		return plans;
 	}
 	
 	public void add(Plan plan) {
-		operators.add(plan);
+		plans.add(plan);
 	}
 	
 	public String toPlainString() {
 		StringBuffer sb = new StringBuffer();
-		for (Plan plan : operators) {
+		for (Plan plan : plans) {
 			sb.append(plan.toString());
 		}
 		return sb.toString();

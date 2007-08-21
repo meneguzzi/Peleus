@@ -1,0 +1,11 @@
+/* Jason Project */
+
+MAS prodcell {
+	environment: 
+         org.kcl.jason.env.scripted.ScriptedEnvironment("script.xml")
+
+	//infrastructure: Centralised
+	agents: 
+	 prodcell;
+	 //prodcellAS;
+}
