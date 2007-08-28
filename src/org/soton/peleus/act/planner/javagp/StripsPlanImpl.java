@@ -55,6 +55,7 @@ public class StripsPlanImpl extends StripsPlan {
 		StringBuilder sb = new StringBuilder();
 		
 		for(Operator operator: planResult) {
+			sb.append("!");
 			sb.append(operator.getSignature());
 			sb.append(";");
 			sb.append(System.getProperty("line.separator"));

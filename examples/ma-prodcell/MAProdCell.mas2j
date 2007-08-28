@@ -1,0 +1,9 @@
+/* Jason Project */
+
+MAS maprodcell {
+	environment: 
+         org.kcl.jason.env.scripted.ScriptedEnvironment("script.xml",act)
+
+	agents: 
+		controller;
+}
