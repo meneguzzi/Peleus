@@ -5,27 +5,42 @@
 	is instantiated. -->
 <script>
 	<step time="0">
-		empty(procUnit1).
-		empty(procUnit2).
-		empty(procUnit3).
-		empty(procUnit4).
+		empty(pu1).
+		empty(pu2).
+		empty(pu3).
+		empty(pu4).
 		empty(depositBelt).
+		empty(transferBelt).
 	</step>
+	
+	<!-- 
 	<step time="1">
 		object(block, block1).
 		type(block1, type1).
-		over(block1, feedBelt).
+		over(block1, feedBelt1).
 	</step>
-	
+	 -->
+	 
+	<!-- 
 	<step time="4" wipe="true">
-	</step>
+	</step>  
+	-->
 	
+	<!--
 	<step time="5">
-		object(block, block1).
-		type(block1, type1).
-		over(block1, feedBelt).
+		object(block, block2).
+		type(block2, type2).
+		over(block2, feedBelt2).
 	</step>
-	<!--  <step time="3">
+	-->
+	
+	<step time="2">
+		object(block, block3).
+		type(block3, type3).
+		over(block3, feedBelt2).
+	</step>
+	<!--  
+	<step time="3">
 		object(block, block2).
 		type(block2, type2).
 		over(block2, feedBelt).
@@ -53,5 +68,6 @@
 	</step>  
 	<step time="13">
 		endSimulation.
-	</step>-->
+	</step>
+	-->
 </script>

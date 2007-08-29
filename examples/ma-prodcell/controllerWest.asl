@@ -1,12 +1,11 @@
 {include("print.asl")}
 {include("domain.asl")}
 {include("stats.asl")}
-logging(true).
 //-----------------------------------------------------------------------------
 //                   Plans to trigger processing of blocks
 //-----------------------------------------------------------------------------
 
-+over(Block, feedBelt2)[source(self)] : true
++over(Block, feedBelt1)[source(self)] : true
 	<- 	.print("Processing ",Block);
 		org.soton.peleus.act.time_in_millis(Time1);
 		!finish(Block);
@@ -29,7 +28,7 @@ logging(true).
 //                    East Controller Actions
 //-----------------------------------------------------------------------------
 @action1(block, procUnit)
-+!processEast(Block, ProcUnit) : over(Block, ProcUnit) & east(ProcUnit)
++!processWest(Block, ProcUnit) : over(Block, ProcUnit) & west(ProcUnit)
    <- .print("Processing ",Block," in ",ProcUnit);
       //.wait(50);
       +processed(Block, ProcUnit);
@@ -45,8 +44,8 @@ logging(true).
       consume(Block).
 
 @action3(block, device, device)
-+!moveEast(Block, Device1, Device2) 
-   : over(Block,Device1) & empty(Device2) & east(Device1) & east(Device2)
++!moveWest(Block, Device1, Device2) 
+   : over(Block,Device1) & empty(Device2) & west(Device1) & west(Device2)
    <- .print("Moving ",Block," from ",Device1," to ",Device2);
       //.wait(50);
       +over(Block, Device2);
@@ -59,30 +58,24 @@ logging(true).
 //                 Plans to act along with multiple agents
 //-----------------------------------------------------------------------------
 
--!goalConj(Goals) : not tried
-	<- .print("Failed planning for Goals ",Goals,", will try another strategy");
-	   +tried;
-	   !gatherSharedOperators.
+shared([action1,
+        action2,
+        action3]).
 
-/*shared([action1,
-         action2,
-         action3]).*/
++?sharedOperators(S) : true
+   <- .print(S," asked for my operators.");
+      ?shared(Ops);
+      !sendSharedPlans(Ops,[]).
+      
++!sendSharedPlans([],Plans) : true
+   <- .print("Sending plans: ",Plans);
+      .send(controllerEast,tell,sharedOperators(Plans)).
 
-+!gatherSharedOperators : true
-   <- !print("Gathering shared operators");
-      .send(controllerWest,askOne,sharedOperators(S),A);
-      !print("Answer was: ",A);
-      A = sharedOperators(Plans);
-      !print("Adding shared operators: ",Plans);
-      !addSharedOperators(Plans);
-      !print("Operators added.");
-      true.
++!sendSharedPlans([Op | Ops], Plans) : true
+   <- .print("Getting plan for label ",Op);
+      .plan_label(Plan,Op);
+      .print("Plan is ",Plan);
+      !sendSharedPlans(Ops, [Plan | Plans]).
 
-+!addSharedOperators([]) : true
-   <- !print("Done").
-
-+!addSharedOperators([Plan | Plans]) : true
-   <- .add_plan(Plan);
-      !addSharedOperators(Plans).
 //{include("controllerActions.asl")}
 {include("peleus.asl")}
