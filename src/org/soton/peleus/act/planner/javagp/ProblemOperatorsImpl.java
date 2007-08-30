@@ -9,7 +9,6 @@ import jason.asSyntax.BodyLiteral;
 import jason.asSyntax.Literal;
 import jason.asSyntax.LogicalFormula;
 import jason.asSyntax.Plan;
-import jason.asSyntax.Pred;
 import jason.asSyntax.Structure;
 import jason.asSyntax.Term;
 import jason.asSyntax.Trigger;
@@ -63,12 +62,6 @@ public class ProblemOperatorsImpl extends ProblemOperators {
 	protected void generateOperators() {
 		this.operators.clear();
 		for (Plan plan : plans) {
-			//Ignore plans that are not marked with the 
-			//action annotation
-			Pred pred = plan.getLabel();
-			if (pred != null && !pred.toString().startsWith("action")) {
-				continue;
-			}
 			Trigger trigger = plan.getTriggerEvent();
 			
 			PlanContextExtractor contextExtractor = PlanContextExtractor.getPlanContextExtractor();
@@ -79,7 +72,7 @@ public class ProblemOperatorsImpl extends ProblemOperators {
 			List<Proposition> preconds = new ArrayList<Proposition>();
 			
 			//The constraints to the types are represented as preconditions
-			if(trigger.getLiteral().getTermsSize() > 0) {
+			if(trigger.getLiteral().getArity() > 0) {
 				Term types[] = plan.getLabel().getTermsArray();
 				Term terms[] = trigger.getLiteral().getTermsArray();
 				for (int i = 0; i < terms.length; i++) {

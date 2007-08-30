@@ -27,6 +27,7 @@ import org.soton.peleus.act.planner.ProblemObjects;
 import org.soton.peleus.act.planner.ProblemOperators;
 import org.soton.peleus.act.planner.StartState;
 import org.soton.peleus.act.planner.javagp.JavaGPPlannerConverter;
+import org.soton.peleus.act.planner.jemplan.EMPlanPlannerConverter;
 
 /**
  * An <code>InternalAction</code> that links an AgentSpeak agent to
@@ -51,9 +52,9 @@ public class plan implements InternalAction {
 	 * Default constructor
 	 */
 	public plan() {
-		//plannerConverter = new EMPlanPlannerConverter();
+		plannerConverter = new EMPlanPlannerConverter();
 		//plannerConverter = new JPlanPlannerConverter();
-		plannerConverter = new JavaGPPlannerConverter();
+		//plannerConverter = new JavaGPPlannerConverter();
 	}
 	
 	public boolean suspendIntention() {
@@ -113,6 +114,9 @@ public class plan implements InternalAction {
 		//STRIPS operators in the conversion process
 		PlanLibrary planLibrary = ts.getAg().getPL();
 		List<Plan> plans = planLibrary.getPlans();
+		//Ignore plans that are not marked with the 
+		//action annotation
+		plans = ProblemOperators.getLabelledPlans(plans, "action(.)*");
 		
 		plannerConverter.createPlanningProblem(beliefs, plans, goals);
 		
