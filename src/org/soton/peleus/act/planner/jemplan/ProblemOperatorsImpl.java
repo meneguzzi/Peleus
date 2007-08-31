@@ -68,7 +68,7 @@ public class ProblemOperatorsImpl extends ProblemOperators {
 			StringBuffer sbOpPreconds = new StringBuffer();
 			
 			//The constraints to the types are represented as preconditions
-			if(trigger.getLiteral().getTermsSize() > 0) {
+			if(trigger.getLiteral().getArity() > 0) {
 				Term types[] = plan.getLabel().getTermsArray();
 				Term terms[] = trigger.getLiteral().getTermsArray();
 				for (int i = 0; i < terms.length; i++) {

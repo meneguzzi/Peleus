@@ -63,7 +63,7 @@ public class JPlanPlannerConverter implements PlannerConverter {
 			if(literal.getFunctor().startsWith("object")) {
 				Term newTerm = DefaultTerm.parse(literal.getTerm(0)+"("+literal.getTerm(1)+")");
 				objects.addTerm(newTerm);
-			}else if( (literal.getTermsSize()!= 0) && (!literal.getFunctor().startsWith("des"))){
+			}else if( (literal.getArity()!= 0) && (!literal.getFunctor().startsWith("des"))){
 				startState.addTerm(literal);
 			}
 		}
@@ -72,11 +72,7 @@ public class JPlanPlannerConverter implements PlannerConverter {
 
 		// logger.info("Plans found: ");
 		for (Plan plan : plans) {
-			Pred pred = plan.getLabel();
-			if (pred != null && pred.toString().startsWith("action")) {
-				operators.add(plan);
-			}
-
+			operators.add(plan);
 			// logger.info(plan.toString());
 		}
 	}
