@@ -2,6 +2,7 @@
 
 package org.soton.peleus.act;
 
+import jason.JasonException;
 import jason.asSemantics.InternalAction;
 import jason.asSemantics.TransitionSystem;
 import jason.asSemantics.Unifier;
@@ -12,6 +13,7 @@ import jason.asSyntax.NumberTerm;
 import jason.asSyntax.Plan;
 import jason.asSyntax.PlanLibrary;
 import jason.asSyntax.Pred;
+import jason.asSyntax.Structure;
 import jason.asSyntax.Term;
 import jason.asSyntax.Trigger;
 import jason.bb.BeliefBase;
@@ -42,6 +44,7 @@ public class plan implements InternalAction {
 	protected PlannerConverter plannerConverter;
 	
 	protected static final Term trueTerm = DefaultTerm.parse("true");
+	protected static final Term remote = DefaultTerm.parse("remote");
 	
 	protected int planNumber = 0;
 
@@ -61,45 +64,40 @@ public class plan implements InternalAction {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-	@SuppressWarnings("unchecked")
-	public Object execute(TransitionSystem ts, Unifier un, Term[] args)
-			throws Exception {
-		
-		//First check that the action was properly invoked with an AgentSpeak
-		//list as its parameter.
-		if(args.length < 1) {
-			logger.info("plan action must have a parameter");
-			return false;
+	
+	/**
+	 * Returns the regular expression that selects the plans
+	 * that will be used in composing a new plan
+	 * @return
+	 */
+	protected String getPlanSelector() {
+		return "action(.)*";
+	}
+	
+	/**
+	 * Ignore plans that are not marked with the action annotation
+	 * @param plans
+	 * @param useRemote TODO
+	 * @return
+	 */
+	protected List<Plan> selectUseablePlans(List<Plan> plans, boolean useRemote) {
+		plans = ProblemOperators.getLabelledPlans(plans, getPlanSelector());
+		for(Plan plan : plans) {
+			if(!useRemote && plan.getLabel().getAnnots().contains(remote)) {
+				plans.remove(plan);
+			}
 		}
-		if(!(args[0] instanceof ListTerm)){
-			logger.info("plan action requires a list of literals as its parameter");
-			return false;
-		}
-		
-		ListTerm listTerm = (ListTerm) args[0];
-		List<Term> goals = listTerm.getAsList();
-		int maxPlanSteps = 10;
-		boolean makeAtomic = true;
-		
-		//The second optional parameter is the maximum number of steps
-		//allowed for the generated plan (to constrain the planner).
-		if(args.length > 1 && (args[1] instanceof NumberTerm)) {
-			NumberTerm term = (NumberTerm) args[1];
-			maxPlanSteps = (int) term.solve();
-		} else if(args.length > 1 && (args[1] instanceof Term)) {
-			makeAtomic = Boolean.parseBoolean(args[1].toString());
-			//logger.info("Making plans atomic: "+makeAtomic);
-		}
-		
-		boolean makeGeneric = true;
-		if(args.length > 2 && (args[2] instanceof Term)) {
-			makeGeneric = Boolean.parseBoolean(args[2].toString());
-		}
-		
-		//Extract the literals in the belief base to be used
-		//as the initial state for the planning problem
-		BeliefBase beliefBase = ts.getAg().getBB();
+		return plans;
+	}
+	
+	/**
+	 * Extracts the literals in the belief base to be used 
+	 * as the initial state for the planning problem
+	 * 
+	 * @param beliefBase
+	 * @return
+	 */
+	protected List<Literal> selectRelevantBeliefs(BeliefBase beliefBase) {
 		Iterator<Literal> beliefsIterator = beliefBase.iterator();
 		List<Literal> beliefs = new ArrayList<Literal>();
 		while(beliefsIterator.hasNext()) {
@@ -109,15 +107,21 @@ public class plan implements InternalAction {
 				beliefs.add(belief);
 			}
 		}
-		
-		//Extract the plans from the plan library to generate
-		//STRIPS operators in the conversion process
-		PlanLibrary planLibrary = ts.getAg().getPL();
-		List<Plan> plans = planLibrary.getPlans();
-		//Ignore plans that are not marked with the 
-		//action annotation
-		plans = ProblemOperators.getLabelledPlans(plans, "action(.)*");
-		
+		return beliefs;
+	}
+	
+	/**
+	 * Invokes the external planner.
+	 * @param beliefs
+	 * @param goals
+	 * @param plans
+	 * @param maxPlanSteps
+	 * @return
+	 */
+	protected boolean invokePlanner(List<Literal> beliefs,
+									List<Term> goals,
+									List<Plan> plans,
+			                        int maxPlanSteps) {
 		plannerConverter.createPlanningProblem(beliefs, plans, goals);
 		
 		ProblemObjects objects = plannerConverter.getProblemObjects();
@@ -126,20 +130,47 @@ public class plan implements InternalAction {
 		ProblemOperators operators = plannerConverter.getProblemOperators();
 		
 		//Invoke the planner with the generated planning problem
-		boolean planFound = plannerConverter.executePlanner(objects, startState, goalState, operators, maxPlanSteps);
-		
-		if(!planFound)
-			return false;
-		
+		return plannerConverter.executePlanner(objects, startState, goalState, operators, maxPlanSteps);
+	}
+	
+	/**
+	 * Converts the last plan into an AgentSpeak representation
+	 * And add the appropriate modifications to it.
+	 * @param makeGeneric	Whether or not the plan should be made generic for reuse
+	 * @param makeAtomic	Whether or not the plan should be make atomic
+	 * @return
+	 */
+	protected Plan convertPlan(boolean makeGeneric, boolean makeAtomic, boolean makeRemote) {
 		Plan plan = plannerConverter.getAgentSpeakPlan(makeGeneric);
 		
+		String atomic = "";
+		String remote = "";
+		
 		if(makeAtomic) {
-			//plan.setLabel(Pred.parsePred(plan.getTriggerEvent().getLiteral().getTerm(0)+"[atomic]"));
-			plan.setLabel(Pred.parsePred("plan"+(planNumber++)+"[atomic]"));
+			atomic = "atomic";
+			if(makeRemote) {
+				atomic+=",";
+			}
 		}
 		
+		if(makeRemote) {
+			remote = "remote";
+		}
+		
+		//plan.setLabel(Pred.parsePred(plan.getTriggerEvent().getLiteral().getTerm(0)+"[atomic]"));
+		plan.setLabel(Pred.parsePred("plan"+(planNumber++)+"["+atomic+remote+"]"));
+		
+		return plan;
+	}
+	
+	/**
+	 * Adds the new plan to the intention structure to execute it
+	 * @param plan
+	 * @param ts
+	 * @throws JasonException
+	 */
+	protected void executeNewPlan(Plan plan, TransitionSystem ts) throws JasonException {
 		logger.info("Adding new plan: "+System.getProperty("line.separator")+plan);
-		//ts.getAg().getPL().add(plan);
 		ts.getAg().getPL().add(plan,true);
 		
 		Trigger trigger = plan.getTriggerEvent();
@@ -147,6 +178,78 @@ public class plan implements InternalAction {
 		//ts.getC().addAchvGoal(Literal.parseLiteral("executePlan(plan"+(planNumber++)+")"), null);
 		// Now we are adding the new goal to the current intention
 		ts.getC().addAchvGoal(trigger.getLiteral(), ts.getC().getSelectedIntention());
+	}
+
+	@SuppressWarnings("unchecked")
+	public Object execute(TransitionSystem ts, Unifier un, Term[] args)
+			throws Exception {
+		
+		//First check that the action was properly invoked with an AgentSpeak
+		//list as its parameter.
+		if(args.length < 1) {
+			logger.info("plan action must have at least one parameter");
+			return false;
+		}
+		if(!(args[0] instanceof ListTerm)){
+			logger.info("plan action requires a list of literals as its parameter");
+			return false;
+		}
+		
+		//The second optional parameter is a list of options for the
+		//planner
+		if(args.length > 2) {
+			logger.info("plan action cannot have more than thow parameters");
+			return false;
+		}
+		if(!(args[1] instanceof ListTerm)){
+			logger.info("plan action requires a list as its second parameter");
+			return false;
+		}
+		
+		ListTerm listTerm = (ListTerm) args[0];
+		List<Term> goals = listTerm.getAsList();
+		ListTerm plannerParams = (ListTerm) args[1];
+		List<Term> params = plannerParams.getAsList();
+		int maxPlanSteps = 50;
+		boolean makeAtomic = true;
+		boolean makeGeneric = true;
+		//Whether or not to use remote operators
+		boolean useRemote = false;
+		
+		for(int i=0; i<params.size(); i++) {
+			Structure param = (Structure) params.get(i);
+			if(param.getFunctor().equals("maxSteps")) {
+				NumberTerm term = (NumberTerm) param.getTerm(0);
+				maxPlanSteps = (int) term.solve();
+			} else if(param.getFunctor().equals("makeGeneric")) {
+				makeGeneric = Boolean.parseBoolean(param.getTerm(0).toString());
+			} else if(param.getFunctor().equals("makeAtomic")) {
+				makeAtomic = Boolean.parseBoolean(param.getTerm(0).toString());
+			} else if(param.getFunctor().equals("useRemote")) {
+				useRemote = Boolean.parseBoolean(param.getTerm(0).toString());
+			}
+		}
+		
+		//Extract the literals in the belief base to be used
+		//as the initial state for the planning problem
+		BeliefBase beliefBase = ts.getAg().getBB();
+		List<Literal> beliefs = selectRelevantBeliefs(beliefBase);
+		
+		//Extract the plans from the plan library to generate
+		//STRIPS operators in the conversion process
+		PlanLibrary planLibrary = ts.getAg().getPL();
+		List<Plan> plans = planLibrary.getPlans();
+		plans = selectUseablePlans(plans, useRemote);
+		
+		//Invoke the planner
+		boolean planFound = invokePlanner(beliefs, goals, plans, maxPlanSteps);
+		
+		if(!planFound)
+			return false;
+		
+		Plan plan = convertPlan(makeGeneric, makeAtomic, useRemote);
+		
+		executeNewPlan(plan, ts);
 
 		return true;
 	}

@@ -87,7 +87,7 @@ totalBlocks(0).
 
 //Planning Plan
 +!goalConj(Goals) : true
-	<- org.soton.peleus.act.plan(Goals,10,false);
+	<- org.soton.peleus.act.plan(Goals,[maxSteps(10),makeGeneric(false)]);
 	   .print("Goals ",Goals," were satisfied").
 
 //Actions
