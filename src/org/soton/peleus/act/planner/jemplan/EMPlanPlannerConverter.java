@@ -9,13 +9,13 @@ import jason.asSyntax.ListTermImpl;
 import jason.asSyntax.Literal;
 import jason.asSyntax.LogicalFormula;
 import jason.asSyntax.Plan;
-import jason.asSyntax.Pred;
 import jason.asSyntax.RelExpr;
 import jason.asSyntax.Structure;
 import jason.asSyntax.Term;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 import org.meneguzzi.jemplan.EMPlan;
 import org.soton.peleus.act.planner.GoalState;
@@ -137,6 +137,13 @@ public class EMPlanPlannerConverter implements PlannerConverter {
 		
 		return planFound;
 	}
+	
+	public boolean executePlanner(ProblemObjects objects,
+			StartState startState, GoalState goalState,
+			ProblemOperators operators, int maxPlanSteps, long timeout)
+			throws TimeoutException {
+		return false;
+	}
 
 	/* (non-Javadoc)
 	 * @see org.soton.peleus.act.planner.PlannerConverter#getStripsPlan()
@@ -196,9 +203,9 @@ public class EMPlanPlannerConverter implements PlannerConverter {
 			Structure structure = (Structure) term;
 			sbTerm.append(structure.getFunctor());
 			
-			if(structure.getTermsSize() != 0) {
+			if(structure.getArity() != 0) {
 				sbTerm.append("(");
-				for (Iterator iter = structure.getTerms().iterator(); iter.hasNext();) {
+				for (Iterator<Term> iter = structure.getTerms().iterator(); iter.hasNext();) {
 					Term t = (Term) iter.next();
 					sbTerm.append(toStripsString(t));
 					if(iter.hasNext()) {

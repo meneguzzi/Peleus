@@ -36,7 +36,7 @@ public class ProblemOperatorsImpl extends ProblemOperators {
 			
 			//Append operator parameters
 			sb.append("(");
-			if(trigger.getLiteral().getTermsSize() > 0) {
+			if(trigger.getLiteral().getArity() > 0) {
 				Term types[] = plan.getLabel().getTermsArray();
 				Term terms[] = trigger.getLiteral().getTermsArray();
 				for (int i = 0; i < terms.length; i++) {

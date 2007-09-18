@@ -12,6 +12,7 @@ import jason.asSyntax.RelExpr;
 import jason.asSyntax.Term;
 
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 import org.soton.peleus.act.planner.GoalState;
 import org.soton.peleus.act.planner.PlanContextGenerator;
@@ -86,7 +87,46 @@ public class JavaGPPlannerConverter implements PlannerConverter {
 		}
 		return false;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.soton.peleus.act.planner.PlannerConverter#executePlanner(org.soton.peleus.act.planner.ProblemObjects, org.soton.peleus.act.planner.StartState, org.soton.peleus.act.planner.GoalState, org.soton.peleus.act.planner.ProblemOperators, int, int)
+	 */
+	public boolean executePlanner(ProblemObjects objects,
+			StartState startState, GoalState goalState,
+			ProblemOperators operators, int maxPlanSteps, long timeout)
+			throws TimeoutException {
+		if((startState == this.startState) &&
+				   (goalState == this.goalState) &&
+				   (operators == this.operators)) {
+					DomainDescription description = new DomainDescription(this.operators.getOperators(),
+																		  this.startState.getStartState(),
+																		  this.goalState.getGoalState());
+					
+					PlanResult planResult;
+					try {
+						graphplan.setMaxLevels(maxPlanSteps);
+						planResult = graphplan.plan(description,timeout);
+						if(planResult.isTrue()) {
+							this.stripsPlan = new StripsPlanImpl(planResult);
+						}
+						return planResult.isTrue();
+					} catch (TimeoutException e) {
+						//If planning was interrupted because of a timeout
+						//we propagate the exception to the caller
+						throw e;
+					} catch (Exception e) {
+						e.printStackTrace();
+						return false;
+					}
+				}
+				return false;
+	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.soton.peleus.act.planner.PlannerConverter#getAgentSpeakPlan(boolean)
+	 */
 	public Plan getAgentSpeakPlan(boolean generic) {
 		if(generic) {
 			ListTerm goals = new ListTermImpl();
@@ -131,5 +171,4 @@ public class JavaGPPlannerConverter implements PlannerConverter {
 	public String toStripsString(RelExpr expr) {
 		return null;
 	}
-
 }

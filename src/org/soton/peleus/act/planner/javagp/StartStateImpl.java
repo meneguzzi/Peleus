@@ -19,7 +19,7 @@ public class StartStateImpl extends StartState {
 			if(literal.getFunctor().startsWith("object")) {
 				PropositionImpl proposition = new PropositionImpl(literal.getTerm(0)+"("+literal.getTerm(1)+")");
 				startState.add(proposition);
-			}else if( (literal.getTermsSize()!= 0) && (!literal.getFunctor().startsWith("des"))){
+			}else if( (literal.getArity()!= 0) && (!literal.getFunctor().startsWith("des"))){
 				PropositionImpl proposition = new PropositionImpl(literal);
 				proposition.clearAnnots();
 				startState.add(proposition);

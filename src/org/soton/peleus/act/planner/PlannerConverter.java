@@ -6,6 +6,7 @@ import jason.asSyntax.RelExpr;
 import jason.asSyntax.Term;
 
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 /**
  * An interface responsible for converting AgentSpeak mental components into a planning formalism 
@@ -47,7 +48,8 @@ public interface PlannerConverter {
 	public ProblemObjects getProblemObjects();
 	
 	/**
-	 * Executes the underlying planner returning true or false depending on whether planning was successful.
+	 * Executes the underlying planner returning true or false depending on 
+	 * whether planning was successful.
 	 * 
 	 * @param objects 		The objects declared for the planning problem
 	 * @param startState	The start state for the planning problem
@@ -58,8 +60,10 @@ public interface PlannerConverter {
 	public boolean executePlanner(ProblemObjects objects, StartState startState, GoalState goalState, ProblemOperators operators);
 	
 	/**
-	 * Executes the underlying planner returning true or false depending on whether planning was successful, and 
-	 * tells the planner to limit search for plans with a maximum of maxPlanSteps, if allowed by the 
+	 * Executes the underlying planner returning true or false depending on 
+	 * whether planning was successful, and tells the planner to limit search 
+	 * for plans with a maximum of maxPlanSteps, if allowed by the planner
+	 * implementation. 
 	 * 
 	 * @param objects 		The objects declared for the planning problem
 	 * @param startState	The start state for the planning problem
@@ -68,7 +72,30 @@ public interface PlannerConverter {
 	 * @param maxPlanSteps  The maximum number of plan steps allowed for any solution.
 	 * @return 				Whether or not planning suceeded in generating a valid plan
 	 */
-	public boolean executePlanner(ProblemObjects objects, StartState startState, GoalState goalState, ProblemOperators operators, int maxPlanSteps);
+	public boolean executePlanner(ProblemObjects objects, StartState startState, 
+			                      GoalState goalState, ProblemOperators operators,
+			                      int maxPlanSteps);
+	
+	/**
+	 * Executes the underlying planner returning true or false depending on 
+	 * whether planning was successful, and tells the planner to limit search
+	 *  for plans with a maximum of maxPlanSteps, or the computation to the 
+	 *  specified amount of time (in milliseconds) if allowed by the planner 
+	 *  implementation.
+	 * 
+	 * @param objects 		The objects declared for the planning problem
+	 * @param startState	The start state for the planning problem
+	 * @param goalState		The goal state for the planning problem
+	 * @param operators		The operatores for the planning problem
+	 * @param maxPlanSteps  The maximum number of plan steps allowed for any solution.
+	 * @param timeout		The maximum amount of time before the planner should quit 
+	 *                      searching
+	 * @return 				Whether or not planning suceeded in generating a valid plan
+	 * @throws TimeoutException If the specified timeout is reached 
+	 */
+	public boolean executePlanner(ProblemObjects objects, StartState startState, 
+			                      GoalState goalState, ProblemOperators operators, 
+			                      int maxPlanSteps, long timeout) throws TimeoutException;
 	
 	/**
 	 * Returns the StripsPlan resulting from the invocation of the external planner.

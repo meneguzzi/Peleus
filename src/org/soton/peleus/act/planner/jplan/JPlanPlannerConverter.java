@@ -5,10 +5,10 @@ import jason.asSyntax.DefaultTerm;
 import jason.asSyntax.Literal;
 import jason.asSyntax.LogExpr;
 import jason.asSyntax.Plan;
-import jason.asSyntax.Pred;
 import jason.asSyntax.RelExpr;
 import jason.asSyntax.Structure;
 import jason.asSyntax.Term;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 import java.util.logging.Logger;
 
 import jplan.JPlan;
@@ -54,8 +55,8 @@ public class JPlanPlannerConverter implements PlannerConverter {
 		startState = new StartStateImpl(this);
 		goalState = new GoalStateImpl();
 
-		for (Iterator iter = goals.iterator(); iter.hasNext();) {
-			Term term = (Term) iter.next();
+		for (Iterator<Term> iter = goals.iterator(); iter.hasNext();) {
+			Term term = iter.next();
 			goalState.addTerm(term);
 		}
 		
@@ -153,6 +154,14 @@ public class JPlanPlannerConverter implements PlannerConverter {
 		return true;
 	}
 	
+	public boolean executePlanner(ProblemObjects objects,
+			StartState startState, GoalState goalState,
+			ProblemOperators operators, int maxPlanSteps, long timeout)
+			throws TimeoutException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
 	public StripsPlan getStripsPlan() {
 		return plan;
 	}
@@ -182,7 +191,7 @@ public class JPlanPlannerConverter implements PlannerConverter {
 		if(term.isStructure()) {
 			Structure structure = (Structure) term;
 			sb.append(structure.getFunctor());
-			if(structure.getTermsSize() > 0) {
+			if(structure.getArity() > 0) {
 				sb.append("(");
 				for (Term termPar : structure.getTermsArray()) {
 					if(sb.charAt(sb.length()-1) != '(')
@@ -227,7 +236,7 @@ public class JPlanPlannerConverter implements PlannerConverter {
 			sb.append("-");
 		}
 		sb.append(literal.getFunctor());
-		if(literal.getTermsSize() > 0) {
+		if(literal.getArity() > 0) {
 			sb.append("(");
 			for (Term termPar : literal.getTermsArray()) {
 				if(sb.charAt(sb.length()-1) != '(')
@@ -254,7 +263,7 @@ public class JPlanPlannerConverter implements PlannerConverter {
 		if(term.isStructure()) {
 			Structure structure = (Structure) term;
 			sb.append(structure.getFunctor());
-			if(structure.getTermsSize() > 0) {
+			if(structure.getArity() > 0) {
 				sb.append("(");
 				for (Term termPar : structure.getTermsArray()) {
 					if(sb.charAt(sb.length()-1) != '(')

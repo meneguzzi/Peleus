@@ -30,6 +30,7 @@ import org.soton.peleus.act.planner.ProblemOperators;
 import org.soton.peleus.act.planner.StartState;
 import org.soton.peleus.act.planner.javagp.JavaGPPlannerConverter;
 import org.soton.peleus.act.planner.jemplan.EMPlanPlannerConverter;
+import org.soton.peleus.act.planner.jplan.JPlanPlannerConverter;
 
 /**
  * An <code>InternalAction</code> that links an AgentSpeak agent to
@@ -55,9 +56,7 @@ public class plan implements InternalAction {
 	 * Default constructor
 	 */
 	public plan() {
-		plannerConverter = new EMPlanPlannerConverter();
-		//plannerConverter = new JPlanPlannerConverter();
-		//plannerConverter = new JavaGPPlannerConverter();
+		plannerConverter = createPlannerConverter("emplan");
 	}
 	
 	public boolean suspendIntention() {
@@ -72,6 +71,31 @@ public class plan implements InternalAction {
 	 */
 	protected String getPlanSelector() {
 		return "action(.)*";
+	}
+	
+	/**
+	 * Instantiates a planner converter based on the supplied planner 
+	 * selection string.
+	 * 
+	 * TODO Perhaps I should do this instantiation using reflection.
+	 * 
+	 * @param plannerName
+	 * @return
+	 */
+	protected PlannerConverter createPlannerConverter(String plannerName) {
+		PlannerConverter converter = null;
+		
+		if(plannerName == "emplan") {
+			converter = new EMPlanPlannerConverter();
+		} else if (plannerName == "jplan") {
+			converter = new JPlanPlannerConverter();
+		} else if (plannerName == "javagp") {
+			converter = new JavaGPPlannerConverter();
+		} else {
+			converter = new JavaGPPlannerConverter();
+		}
+		
+		return converter;
 	}
 	
 	/**
@@ -215,6 +239,7 @@ public class plan implements InternalAction {
 		boolean makeGeneric = true;
 		//Whether or not to use remote operators
 		boolean useRemote = false;
+		String plannerName = null;
 		
 		for(int i=0; i<params.size(); i++) {
 			Structure param = (Structure) params.get(i);
@@ -227,6 +252,17 @@ public class plan implements InternalAction {
 				makeAtomic = Boolean.parseBoolean(param.getTerm(0).toString());
 			} else if(param.getFunctor().equals("useRemote")) {
 				useRemote = Boolean.parseBoolean(param.getTerm(0).toString());
+			} else if(param.getFunctor().equals("planner")) {
+				plannerName = param.getTerm(0).toString();
+			}
+		}
+		
+		//If the planner(X) parameter was specified
+		//select another planner converter
+		if(plannerName != null) {
+			PlannerConverter converter = createPlannerConverter(plannerName);
+			if(converter != null) {
+				this.plannerConverter = converter;
 			}
 		}
 		
