@@ -12,11 +12,12 @@
             Abstract tests for Peleus planning
     </description>
 
-	<property name="workspace.location" value="${user.home}/My Documents/workspace/" />
+	<!-- <property name="workspace.location" value="${user.home}/My Documents/workspace/" /> -->
+	<property name="workspace.location" value="C:/Local Files/workspace/" />
 
 	<path id="project.classpath">
 		<!-- pathelement location="."/> -->
-		<pathelement location="${workspace.location}/JasonSVN/bin" />
+		<pathelement location="${workspace.location}/JasonSVN/build" />
 		<pathelement location="${workspace.location}/Peleus/bin" />
 		<pathelement location="${workspace.location}/JasonEnvironment/bin" />
 		<pathelement location="${workspace.location}/Peleus/lib/jemplan.jar" />
@@ -26,8 +27,10 @@
 		<pathelement location="${workspace.location}/Peleus/lib" />
 	</path>
 
+	<!-- 
 	<property name="agent.prefix" value="abstractAS10" />
-	<property name="agent.script" value="test-script" />
+	<property name="agent.script" value="test-script" /> 
+	-->
 
 	<property name="jason.project.stub1" value="
 		MAS abstractortestgen {
@@ -39,7 +42,100 @@
 	<!-- ================================= 
           target: run-tests              
          ================================= -->
-	<target name="run-tests" depends="init" description="--> Abstract tests for Peleus planning">
+
+	<target name="run-tests">
+		<echo append="true" file="test/stats.txt">
+		Tests for AgentSpeak
+	    </echo>
+		<antcall target="run-test" inheritall="false">
+			<param name="agent.prefix" value="abstractAS10" />
+			<param name="agent.script" value="test-script" />
+		</antcall>
+		<antcall target="run-test" inheritall="false">
+			<param name="agent.prefix" value="abstractAS10" />
+			<param name="agent.script" value="test-script" />
+		</antcall>
+		<antcall target="run-test" inheritall="false">
+			<param name="agent.prefix" value="abstractAS10" />
+			<param name="agent.script" value="test-script" />
+		</antcall>
+		<antcall target="run-test" inheritall="false">
+			<param name="agent.prefix" value="abstractAS10" />
+			<param name="agent.script" value="test-script" />
+		</antcall>
+		<antcall target="run-test" inheritall="false">
+			<param name="agent.prefix" value="abstractAS10" />
+			<param name="agent.script" value="test-script" />
+		</antcall>
+		<antcall target="run-test" inheritall="false">
+			<param name="agent.prefix" value="abstractAS10" />
+			<param name="agent.script" value="test-script" />
+		</antcall>
+		<antcall target="run-test" inheritall="false">
+			<param name="agent.prefix" value="abstractAS10" />
+			<param name="agent.script" value="test-script" />
+		</antcall>
+		<antcall target="run-test" inheritall="false">
+			<param name="agent.prefix" value="abstractAS10" />
+			<param name="agent.script" value="test-script" />
+		</antcall>
+		<antcall target="run-test" inheritall="false">
+			<param name="agent.prefix" value="abstractAS10" />
+			<param name="agent.script" value="test-script" />
+		</antcall>
+		<antcall target="run-test" inheritall="false">
+			<param name="agent.prefix" value="abstractAS10" />
+			<param name="agent.script" value="test-script" />
+		</antcall>
+		<echo append="true" file="test/stats.txt">
+		Tests for AgentSpeak-PL
+		</echo>
+		<antcall target="run-test" inheritall="false">
+			<param name="agent.prefix" value="abstract10" />
+			<param name="agent.script" value="test-script" />
+		</antcall>
+		<antcall target="run-test" inheritall="false">
+			<param name="agent.prefix" value="abstract10" />
+			<param name="agent.script" value="test-script" />
+		</antcall>
+		<antcall target="run-test" inheritall="false">
+			<param name="agent.prefix" value="abstract10" />
+			<param name="agent.script" value="test-script" />
+		</antcall>
+		<antcall target="run-test" inheritall="false">
+			<param name="agent.prefix" value="abstract10" />
+			<param name="agent.script" value="test-script" />
+		</antcall>
+		<antcall target="run-test" inheritall="false">
+			<param name="agent.prefix" value="abstract10" />
+			<param name="agent.script" value="test-script" />
+		</antcall>
+		<antcall target="run-test" inheritall="false">
+			<param name="agent.prefix" value="abstract10" />
+			<param name="agent.script" value="test-script" />
+		</antcall>
+		<antcall target="run-test" inheritall="false">
+			<param name="agent.prefix" value="abstract10" />
+			<param name="agent.script" value="test-script" />
+		</antcall>
+		<antcall target="run-test" inheritall="false">
+			<param name="agent.prefix" value="abstract10" />
+			<param name="agent.script" value="test-script" />
+		</antcall>
+		<antcall target="run-test" inheritall="false">
+			<param name="agent.prefix" value="abstract10" />
+			<param name="agent.script" value="test-script" />
+		</antcall>
+		<antcall target="run-test" inheritall="false">
+			<param name="agent.prefix" value="abstract10" />
+			<param name="agent.script" value="test-script" />
+		</antcall>
+	</target>
+
+	<!-- ================================= 
+          target: run-test              
+         ================================= -->
+	<target name="run-test" depends="init" description="--> Abstract tests for Peleus planning">
 		<echo file="test/AbstractorTestGen.mas2j">${jason.project.stub1}${agent.script}1.xml${jason.project.stub2}
 		</echo>
 		<java classname="jason.infra.centralised.RunCentralisedMAS" failonerror="true" fork="yes" dir="${basedir}/test">

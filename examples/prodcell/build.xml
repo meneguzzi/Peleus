@@ -16,8 +16,10 @@
 	<property name="debug" value="" />
 	<!-- use "-debug" to run in debug mode -->
 
-	<property name="workspace.location" value="${user.home}/My Documents/workspace/" />
-	<property name="jasonJar" value="${workspace.location}/JasonSVN/bin" />
+	<!-- <property name="workspace.location" value="${user.home}/My Documents/workspace/" /> -->
+	
+	<property name="workspace.location" value="C:/Local Files/workspace/" />
+	<property name="jasonJar" value="${workspace.location}/JasonSVN/build" />
 
 	<path id="project.classpath">
 		<!-- pathelement location="."/> -->
