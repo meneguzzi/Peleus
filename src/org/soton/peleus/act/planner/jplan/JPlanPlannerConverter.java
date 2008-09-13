@@ -1,10 +1,10 @@
 package org.soton.peleus.act.planner.jplan;
 
-import jason.asSyntax.BodyLiteral;
 import jason.asSyntax.DefaultTerm;
 import jason.asSyntax.Literal;
 import jason.asSyntax.LogExpr;
 import jason.asSyntax.Plan;
+import jason.asSyntax.PlanBody;
 import jason.asSyntax.RelExpr;
 import jason.asSyntax.Structure;
 import jason.asSyntax.Term;
@@ -219,10 +219,10 @@ public class JPlanPlannerConverter implements PlannerConverter {
 		return sb.toString();
 	}
 	
-	public String toStripsString(BodyLiteral bodyLiteral) {
+	public String toStripsString(PlanBody planBody) {
 		StringBuffer sb = new StringBuffer();
 		
-		Literal literal = bodyLiteral.getLiteralFormula();
+		Literal literal = (Literal) planBody.getBodyTerm();
 		
 		sb.append(toStripsString2(literal));
 		

@@ -201,3 +201,6 @@ Tests for AgentSpeak-PL
 8.0 328.0 
 9.0 360.0 
 10.0 390.0 
+
+		Tests for AgentSpeak
+	    

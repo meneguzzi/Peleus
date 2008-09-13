@@ -1,2 +1,2 @@
-   MAS abstractortestgen {      environment:         org.kcl.jason.env.scripted.ScriptedEnvironment("test-script10.xml")      agents: abstract10; }
-						
+   MAS abstractortestgen {      environment:         org.kcl.jason.env.scripted.ScriptedEnvironment("${agent.script}1.xml")      agents: ${agent.prefix}; }
+		

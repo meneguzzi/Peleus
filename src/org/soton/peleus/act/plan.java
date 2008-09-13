@@ -197,7 +197,7 @@ public class plan implements InternalAction {
 		logger.info("Adding new plan: "+System.getProperty("line.separator")+plan);
 		ts.getAg().getPL().add(plan,true);
 		
-		Trigger trigger = plan.getTriggerEvent();
+		Trigger trigger = plan.getTrigger();
 		logger.info("Invoking plan "+planNumber);
 		//ts.getC().addAchvGoal(Literal.parseLiteral("executePlan(plan"+(planNumber++)+")"), null);
 		// Now we are adding the new goal to the current intention
@@ -288,6 +288,11 @@ public class plan implements InternalAction {
 		executeNewPlan(plan, ts);
 
 		return true;
+	}
+
+	//Never let the planner be used in the context
+	public boolean canBeUsedInContext() {
+		return false;
 	}
 
 }

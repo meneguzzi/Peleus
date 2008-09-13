@@ -41,4 +41,8 @@ public class isTrue implements InternalAction {
 		return (lit!= null);
 	}
 
+	public boolean canBeUsedInContext() {
+		return true;
+	}
+
 }

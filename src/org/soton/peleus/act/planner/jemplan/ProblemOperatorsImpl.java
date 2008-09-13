@@ -3,12 +3,14 @@
  */
 package org.soton.peleus.act.planner.jemplan;
 
-import jason.asSyntax.BodyLiteral;
 import jason.asSyntax.Literal;
 import jason.asSyntax.LogicalFormula;
 import jason.asSyntax.Plan;
+import jason.asSyntax.PlanBody;
+import jason.asSyntax.PlanBodyImpl;
 import jason.asSyntax.Term;
 import jason.asSyntax.Trigger;
+import jason.asSyntax.PlanBody.BodyType;
 
 import java.util.Iterator;
 import java.util.List;
@@ -38,7 +40,7 @@ public class ProblemOperatorsImpl extends ProblemOperators {
 		StringBuffer sb = new StringBuffer();
 		
 		for (Plan plan : plans) {
-			Trigger trigger = plan.getTriggerEvent();
+			Trigger trigger = plan.getTrigger();
 			sb.append("operator ");
 			sb.append(trigger.getLiteral());
 			
@@ -104,20 +106,20 @@ public class ProblemOperatorsImpl extends ProblemOperators {
 			sb.append(")");
 			sb.append(System.getProperty("line.separator"));
 			
-			List<BodyLiteral> body = plan.getBody();
+			PlanBody body = plan.getBody();
 			StringBuffer sbEffects = new StringBuffer();
-			for (BodyLiteral literal : body) {
-				if(literal.getType() == BodyLiteral.BodyType.delBel) {
+			for (PlanBody literal : (PlanBodyImpl)body) {
+				if(literal.getBodyType() == BodyType.delBel) {
 					if(sbEffects.length() != 0) {
 						sbEffects.append(", ");
 					}
 					sbEffects.append("-");
-					sbEffects.append(converter.toStripsString(literal.getLiteralFormula()));
-				}else if(literal.getType() == BodyLiteral.BodyType.addBel) {
+					sbEffects.append(converter.toStripsString(literal.getBodyTerm()));
+				}else if(literal.getBodyType() == BodyType.addBel) {
 					if(sbEffects.length() != 0) {
 						sbEffects.append(", ");
 					}
-					sbEffects.append(converter.toStripsString(literal.getLiteralFormula()));
+					sbEffects.append(converter.toStripsString(literal.getBodyTerm()));
 				}
 			}
 			

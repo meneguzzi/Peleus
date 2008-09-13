@@ -5,13 +5,15 @@ import graphplan.domain.Operator;
 import graphplan.domain.Proposition;
 import graphplan.domain.jason.OperatorImpl;
 import graphplan.domain.jason.PropositionImpl;
-import jason.asSyntax.BodyLiteral;
 import jason.asSyntax.Literal;
 import jason.asSyntax.LogicalFormula;
 import jason.asSyntax.Plan;
+import jason.asSyntax.PlanBody;
+import jason.asSyntax.PlanBodyImpl;
 import jason.asSyntax.Structure;
 import jason.asSyntax.Term;
 import jason.asSyntax.Trigger;
+import jason.asSyntax.PlanBody.BodyType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,21 +95,20 @@ public class ProblemOperatorsImpl extends ProblemOperators {
 			}
 			
 			//Then we try to extract belief the effects from the plan body
-			List<BodyLiteral> body = plan.getBody();
 			List<Proposition> effects = new ArrayList<Proposition>();
-			for (BodyLiteral literal : body) {
+			for (PlanBody bodyLiteral : (PlanBodyImpl)plan.getBody()) {
 				PropositionImpl proposition = null;
-				if(literal.getType() == BodyLiteral.BodyType.delBel) {
+				if(bodyLiteral.getBodyType() == BodyType.delBel) {
 					// XXX We were having problems with the variables using this method of instantiation
 					//proposition = new PropositionImpl(false, literal.getLiteralFormula().toString());
 					// XXX So we changed it to this mode
-					proposition = new PropositionImpl(literal.getLiteralFormula());
+					proposition = new PropositionImpl((Literal) bodyLiteral.getBodyTerm());
 					proposition.setNegated(Literal.LNeg);
-				} else if(literal.getType() == BodyLiteral.BodyType.addBel) {
+				} else if(bodyLiteral.getBodyType() == BodyType.addBel) {
 					// XXX We were having problems with the variables using this method of instantiation
 					//proposition = new PropositionImpl(true, literal.getLiteralFormula().toString());
 					// XXX So we changed it to this mode
-					proposition = new PropositionImpl(literal.getLiteralFormula());
+					proposition = new PropositionImpl((Literal) bodyLiteral.getBodyTerm());
 				}
 				
 				//If proposition is null, this is a part of the plan we can't cope, 

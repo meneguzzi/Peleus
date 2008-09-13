@@ -61,7 +61,7 @@ public class EMPlanPlannerConverter implements PlannerConverter {
 			if(literal.getFunctor().startsWith("object")) {
 				Term newTerm = DefaultTerm.parse(literal.getTerm(0)+"("+literal.getTerm(1)+")");
 				startState.addTerm(newTerm);
-			}else if( (literal.getArity()!= 0) && (!literal.getFunctor().startsWith("des"))){
+			}else if( (literal.getArity() != 0) && (!literal.getFunctor().startsWith("des"))){
 				startState.addTerm(literal);
 			}
 		}
