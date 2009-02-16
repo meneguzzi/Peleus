@@ -7,6 +7,7 @@ import jason.asSyntax.DefaultTerm;
 import jason.asSyntax.ListTerm;
 import jason.asSyntax.ListTermImpl;
 import jason.asSyntax.Literal;
+import jason.asSyntax.LiteralImpl;
 import jason.asSyntax.LogicalFormula;
 import jason.asSyntax.Plan;
 import jason.asSyntax.RelExpr;
@@ -159,7 +160,7 @@ public class EMPlanPlannerConverter implements PlannerConverter {
 		if(generic) {
 			ListTerm goals = new ListTermImpl();
 			goals.addAll(goalState.getTerms());
-			Literal literal = new Literal("goalConj");
+			Literal literal = new LiteralImpl("goalConj");
 			literal.addTerm(goals);
 			LogicalFormula contextCondition = PlanContextGenerator.getInstance().generateContext(stripsPlan.getStripsSteps(), operators.getPlans());
 			return stripsPlan.toGenericAgentSpeakPlan(literal, contextCondition);
