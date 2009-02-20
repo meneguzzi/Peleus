@@ -21,7 +21,7 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
-			<name>com.soyatec.uml.std.Builder</name>
+			<name>com.soyatec.additional.Builder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
