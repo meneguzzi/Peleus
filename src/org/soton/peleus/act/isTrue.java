@@ -18,8 +18,7 @@ import java.util.logging.Logger;
  *
  */
 public class isTrue implements InternalAction {
-
-	@SuppressWarnings("unused")
+	
 	private Logger logger = Logger.getLogger(InternalAction.class.getName());
 	
 	public boolean suspendIntention() {
