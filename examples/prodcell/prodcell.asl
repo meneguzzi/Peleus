@@ -76,10 +76,10 @@ totalBlocks(0).
 
 //Cleanup of the no longer needed beliefs
 +finished(Block) : object(block,Block)
-	<-  -object(block,Block)[source(self)];
-	   -type(Block,_)[source(self)];
-	   -finished(Block)[source(self)];
-	   .abolish(processed(Block,_)[source(self)]);
+	<-  -object(block,Block)[_];
+	   -type(Block,_)[_];
+	   -finished(Block)[_];
+	   .abolish(processed(Block,_)[_]);
 	   ?totalBlocks(B);
 	   -+totalBlocks(B+1);
 	   .print("Cleaned up beliefs about ", Block).

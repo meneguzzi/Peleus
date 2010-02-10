@@ -179,6 +179,9 @@ public class ScriptGenerator {
 		Document document = builder.newDocument();
 		
 		Element scriptElement = document.createElement("script");
+		scriptElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+		scriptElement.setAttribute("xsi:noNamespaceSchemaLocation", "http://www.meneguzzi.eu/schema/jason-script.xsd");
+		document.setXmlStandalone(false);
 		document.appendChild(scriptElement);
 		
 		if(this.initialBeliefs != null) {
@@ -224,11 +227,11 @@ public class ScriptGenerator {
 		
 		block.blockType = random.nextInt(maxBlockType)+1;
 		//We should be able to repeat block numbers if we add the wipe directive
-		if(wipe) {
-			block.blockNumber = block.blockType;
-		} else {
+//		if(wipe) {
+//			block.blockNumber = block.blockType;
+//		} else {
 			block.blockNumber = time;
-		}
+//		}
 		
 		blocks.add(block);
 		percepts.add(Literal.parseLiteral("object(block, block"+block.blockNumber+")"));

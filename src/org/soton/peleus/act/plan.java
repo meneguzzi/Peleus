@@ -6,7 +6,7 @@ import jason.JasonException;
 import jason.asSemantics.InternalAction;
 import jason.asSemantics.TransitionSystem;
 import jason.asSemantics.Unifier;
-import jason.asSyntax.DefaultTerm;
+import jason.asSyntax.ASSyntax;
 import jason.asSyntax.ListTerm;
 import jason.asSyntax.Literal;
 import jason.asSyntax.NumberTerm;
@@ -36,7 +36,7 @@ import org.soton.peleus.act.planner.jplan.JPlanPlannerConverter;
  * An <code>InternalAction</code> that links an AgentSpeak agent to
  * an external planning module. This action converts specially designed 
  * plans in the agent's <code>PlanLibrary</code> into a planning problem 
- * to create a new high-level plan. This plan is athen added to the plan
+ * to create a new high-level plan. This plan is then added to the plan
  * library and adopted as a new intention by the agent.
  *  
  * @author  Felipe Meneguzzi
@@ -44,12 +44,12 @@ import org.soton.peleus.act.planner.jplan.JPlanPlannerConverter;
 public class plan implements InternalAction {
 	protected PlannerConverter plannerConverter;
 	
-	protected static final Term trueTerm = DefaultTerm.parse("true");
-	protected static final Term remote = DefaultTerm.parse("remote");
+	protected static final Term trueTerm = Pred.LTrue;
+	protected static final Term remote = ASSyntax.createAtom("remote");
 	
 	protected int planNumber = 0;
 
-	@SuppressWarnings("unused")
+	//@SuppressWarnings("unused")
 	private Logger logger = Logger.getLogger(InternalAction.class.getName());
 	
 	/**
@@ -204,7 +204,7 @@ public class plan implements InternalAction {
 		ts.getC().addAchvGoal(trigger.getLiteral(), ts.getC().getSelectedIntention());
 	}
 
-	@SuppressWarnings("unchecked")
+	//@SuppressWarnings("unchecked")
 	public Object execute(TransitionSystem ts, Unifier un, Term[] args)
 			throws Exception {
 		
@@ -293,6 +293,14 @@ public class plan implements InternalAction {
 	//Never let the planner be used in the context
 	public boolean canBeUsedInContext() {
 		return false;
+	}
+
+	/* (non-Javadoc)
+	 * @see jason.asSemantics.InternalAction#prepareArguments(jason.asSyntax.Literal, jason.asSemantics.Unifier)
+	 */
+	public Term[] prepareArguments(Literal body, Unifier un) {
+		// TODO Fix this to comply with latest Jason architecture
+		return null;
 	}
 
 }

@@ -1,61 +1,61 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<script>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<script xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.meneguzzi.eu/schema/jason-script.xsd">
 <step time="0">empty(procUnit1).
 empty(procUnit2).
 empty(procUnit3).
 empty(procUnit4).
 empty(depositBelt).
 </step>
-<step time="2">object(block,block3).
-type(block3,type3).
-over(block3,feedBelt).
+<step time="2">object(block,block0).
+type(block0,type2).
+over(block0,feedBelt).
 </step>
-<step time="3" wipe="false"> </step>
+<step time="3" wipe="true"> </step>
 <step time="4">object(block,block1).
-type(block1,type1).
+type(block1,type2).
 over(block1,feedBelt).
 </step>
-<step time="5" wipe="false"> </step>
-<step time="6">object(block,block3).
-type(block3,type3).
+<step time="5" wipe="true"> </step>
+<step time="6">object(block,block2).
+type(block2,type3).
+over(block2,feedBelt).
+</step>
+<step time="7" wipe="true"> </step>
+<step time="8">object(block,block3).
+type(block3,type1).
 over(block3,feedBelt).
 </step>
-<step time="7" wipe="false"> </step>
-<step time="8">object(block,block2).
-type(block2,type2).
-over(block2,feedBelt).
+<step time="9" wipe="true"> </step>
+<step time="10">object(block,block4).
+type(block4,type1).
+over(block4,feedBelt).
 </step>
-<step time="9" wipe="false"> </step>
-<step time="10">object(block,block2).
-type(block2,type2).
-over(block2,feedBelt).
+<step time="11" wipe="true"> </step>
+<step time="12">object(block,block5).
+type(block5,type1).
+over(block5,feedBelt).
 </step>
-<step time="11" wipe="false"> </step>
-<step time="12">object(block,block1).
-type(block1,type1).
-over(block1,feedBelt).
+<step time="13" wipe="true"> </step>
+<step time="14">object(block,block6).
+type(block6,type1).
+over(block6,feedBelt).
 </step>
-<step time="13" wipe="false"> </step>
-<step time="14">object(block,block3).
-type(block3,type3).
-over(block3,feedBelt).
+<step time="15" wipe="true"> </step>
+<step time="16">object(block,block7).
+type(block7,type2).
+over(block7,feedBelt).
 </step>
-<step time="15" wipe="false"> </step>
-<step time="16">object(block,block2).
-type(block2,type2).
-over(block2,feedBelt).
+<step time="17" wipe="true"> </step>
+<step time="18">object(block,block8).
+type(block8,type1).
+over(block8,feedBelt).
 </step>
-<step time="17" wipe="false"> </step>
-<step time="18">object(block,block3).
-type(block3,type3).
-over(block3,feedBelt).
+<step time="19" wipe="true"> </step>
+<step time="20">object(block,block9).
+type(block9,type1).
+over(block9,feedBelt).
 </step>
-<step time="19" wipe="false"> </step>
-<step time="20">object(block,block2).
-type(block2,type2).
-over(block2,feedBelt).
-</step>
-<step time="21" wipe="false"> </step>
+<step time="21" wipe="true"> </step>
 <step time="22">endSimulation.
 </step>
 </script>

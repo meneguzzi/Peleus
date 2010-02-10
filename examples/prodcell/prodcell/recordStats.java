@@ -10,6 +10,7 @@ import jason.asSemantics.Unifier;
 import jason.asSyntax.NumberTerm;
 import jason.asSyntax.Term;
 
+@SuppressWarnings("serial")
 public class recordStats extends DefaultInternalAction {
 	private static final Logger logger = Logger.getLogger(DefaultInternalAction.class.getName());
 

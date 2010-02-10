@@ -18,11 +18,12 @@
 
 	<!-- <property name="workspace.location" value="${user.home}/My Documents/workspace/" /> -->
 	
-	<property name="workspace.location" value="C:/Local Files/workspace/" />
+	<!-- <property name="workspace.location" value="C:/Local Files/workspace/" /> -->
+	<property name="workspace.location" value="${basedir}/../../.." />
 	<property name="jasonJar" value="${workspace.location}/JasonSVN/build" />
 
 	<path id="project.classpath">
-		<!-- pathelement location="."/> -->
+		<pathelement location="."/>
 		<pathelement location="${jasonJar}" />
 		<pathelement location="${workspace.location}/Peleus/bin" />
 		<pathelement location="${workspace.location}/JasonEnvironment/bin" />

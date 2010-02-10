@@ -44,4 +44,12 @@ public class isTrue implements InternalAction {
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see jason.asSemantics.InternalAction#prepareArguments(jason.asSyntax.Literal, jason.asSemantics.Unifier)
+	 */
+	public Term[] prepareArguments(Literal body, Unifier un) {
+		// TODO Fix this to comply with latest Jason architecture
+		return null;
+	}
+
 }
