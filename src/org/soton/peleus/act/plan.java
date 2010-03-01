@@ -57,6 +57,7 @@ public class plan implements InternalAction {
 	 */
 	public plan() {
 		plannerConverter = createPlannerConverter("emplan");
+		//plannerConverter = createPlannerConverter("javagp");
 	}
 	
 	public boolean suspendIntention() {

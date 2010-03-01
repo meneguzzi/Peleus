@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby -wKU
+require 'strscan'
 
 def genMas2j(n, agent)
   mas2j = "/* Jason Project       */\n"+
@@ -10,6 +11,41 @@ def genMas2j(n, agent)
           "\t\t #{agent}; \n"+
           "}\n"
   return mas2j;
+end
+
+def averageRuns(infile, outfile, expectedParts)
+  file = File.open(infile, "r")
+  total=0
+  divisor=0
+  while(line = file.gets)
+    s = StringScanner.new(line)
+    s.scan(/\w+/); s.scan(/\s+/)
+    parts = s.pre_match()
+    divisor+=1
+    time = s.post_match().chomp()
+    total+=time.to_f()
+  end
+  average = Float(total)/(divisor)
+  file.close
+  file = File.open(outfile,"a")
+  file.puts(expectedParts.to_s()+" "+average.to_s()+"\n")
+  file.close
+end
+
+def runExperiments(n, reps, agent, lib_dir, cp)
+  for i in 1..n do
+    #puts(genMas2j(n,"prodcell"))
+    projectFile = File.open("prodcellT.mas2j","w")
+    projectFile.puts(genMas2j(n,agent))
+    projectFile.close()
+    for r in 1..reps do
+      # p "java -Djava.library.path=#{lib_dir} -cp #{cp} jason.infra.centralised.RunCentralisedMAS prodcellT.mas2j"
+      system("java -Djava.library.path=#{lib_dir} -cp #{cp} jason.infra.centralised.RunCentralisedMAS prodcellT.mas2j")
+    end
+    averageRuns("stats.txt","stats-"+agent+".txt",n*10)
+    File.delete("stats.txt")
+    system("touch stats.txt")
+  end
 end
 
 basedir="../.."
@@ -60,7 +96,7 @@ if __FILE__ == $0
     #         run "java -cp #{cp} -o testScript#{j}.xml prodcell.ScriptGenerator -steps #{j} -firststep 2 -stepsize 2 -initbeliefs #{initial_Bels} -finalevents #{final_Bels} -wipe 1"
     #         
     #       end
-    #     end
+    end
   end
 
   if (n == 0)
@@ -68,15 +104,17 @@ if __FILE__ == $0
     exit 0
   end
   
-  puts "Running #{n} experiments with #{reps} repetitions"
+  # puts "Running #{n} experiments with #{reps} repetitions for AgentSpeak(L)"
+  # runExperiments(n, reps, "prodcellAS", lib_dir, cp)
+  
+  puts "Running #{n} experiments with #{reps} repetitions for AgentSpeak(PL)"
+  runExperiments(n, reps, "prodcell", lib_dir, cp)
+  
+  # puts Dir.entries(lib_dir)
 
-  #puts Dir.entries(libdir)
-
+  
+    
   # for i in 1..n do
-  #     puts(genMas2j(n,"prodcell"))
-  #   end
-  # 
-  #   for i in 1..n do
-  #     system("java -Djava.library.path=#{lib_dir} -cp #{cp} jason.infra.centralised.RunCentralisedMAS prodcell#{i}.mas2j")
-  #   end
+  #   system("java -Djava.library.path=#{lib_dir} -cp #{cp} jason.infra.centralised.RunCentralisedMAS prodcell#{i}.mas2j")
+  # end
 end
