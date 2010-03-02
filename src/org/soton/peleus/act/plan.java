@@ -3,6 +3,7 @@
 package org.soton.peleus.act;
 
 import jason.JasonException;
+import jason.asSemantics.DefaultInternalAction;
 import jason.asSemantics.InternalAction;
 import jason.asSemantics.TransitionSystem;
 import jason.asSemantics.Unifier;
@@ -41,7 +42,8 @@ import org.soton.peleus.act.planner.jplan.JPlanPlannerConverter;
  *  
  * @author  Felipe Meneguzzi
  */
-public class plan implements InternalAction {
+@SuppressWarnings("serial")
+public class plan extends DefaultInternalAction {
 	protected PlannerConverter plannerConverter;
 	
 	protected static final Term trueTerm = Pred.LTrue;
@@ -56,8 +58,8 @@ public class plan implements InternalAction {
 	 * Default constructor
 	 */
 	public plan() {
-		plannerConverter = createPlannerConverter("emplan");
-		//plannerConverter = createPlannerConverter("javagp");
+		//plannerConverter = createPlannerConverter("emplan");
+		plannerConverter = createPlannerConverter("javagp");
 	}
 	
 	public boolean suspendIntention() {
@@ -294,14 +296,6 @@ public class plan implements InternalAction {
 	//Never let the planner be used in the context
 	public boolean canBeUsedInContext() {
 		return false;
-	}
-
-	/* (non-Javadoc)
-	 * @see jason.asSemantics.InternalAction#prepareArguments(jason.asSyntax.Literal, jason.asSemantics.Unifier)
-	 */
-	public Term[] prepareArguments(Literal body, Unifier un) {
-		// TODO Fix this to comply with latest Jason architecture
-		return null;
 	}
 
 }
