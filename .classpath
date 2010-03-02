@@ -7,7 +7,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/JasonEnvironment"/>
 	<classpathentry kind="lib" path="lib/jemplan.jar"/>
 	<classpathentry kind="lib" path="lib/jplan.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/JavaGP"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/JasonSVN"/>
+	<classpathentry kind="lib" path="lib/javagp.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
