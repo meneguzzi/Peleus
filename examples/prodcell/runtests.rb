@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby -wKU
 require 'strscan'
+require 'rbconfig'
 
 def genMas2j(n, agent)
   mas2j = "/* Jason Project       */\n"+
@@ -48,6 +49,12 @@ def runExperiments(n, reps, agent, lib_dir, cp)
   end
 end
 
+if Config::CONFIG['host_os'] =~ /mswin|mingw/
+   CP_SEP = ";"
+else
+   CP_SEP = ":"
+end
+
 basedir="../.."
 bin_dir=basedir+"/bin"
 lib_dir=basedir+"/lib"
@@ -56,10 +63,10 @@ jasonenv_jar=lib_dir+"/jasonenv.jar"
 javagp_jar=lib_dir+"/javagp.jar"
 jemplan_jar=lib_dir+"/jemplan.jar"
 cp=bin_dir+
-   ":"+jason_jar+
-   ":"+jasonenv_jar+
-   ":"+javagp_jar+
-   #":"+jemplan_jar+
+   CP_SEP+jason_jar+
+   CP_SEP+jasonenv_jar+
+   CP_SEP+javagp_jar+
+   CP_SEP+jemplan_jar+
    "";
 
 initial_Bels = "empty(procUnit1)"+
@@ -103,6 +110,8 @@ if __FILE__ == $0
     puts "Invalid argument '#{ARGV[0]}', please supply the number of experiments"
     exit 0
   end
+  
+  p "Classpath #{cp}"
   
   # puts "Running #{n} experiments with #{reps} repetitions for AgentSpeak(L)"
   # runExperiments(n, reps, "prodcellAS", lib_dir, cp)
