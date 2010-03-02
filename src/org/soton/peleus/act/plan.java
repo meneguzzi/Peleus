@@ -58,8 +58,8 @@ public class plan extends DefaultInternalAction {
 	 * Default constructor
 	 */
 	public plan() {
-		//plannerConverter = createPlannerConverter("emplan");
-		plannerConverter = createPlannerConverter("javagp");
+		plannerConverter = createPlannerConverter("emplan");
+		//plannerConverter = createPlannerConverter("javagp");
 	}
 	
 	public boolean suspendIntention() {
