@@ -2,7 +2,7 @@
 
 MAS prodcell {
 	environment: 
-         org.kcl.jason.env.scripted.ScriptedEnvironment("script.xml")
+         org.kcl.jason.env.scripted.ScriptedEnvironment("scripts/generatedScript4.xml")
 
 	//infrastructure: Centralised
 	agents: 

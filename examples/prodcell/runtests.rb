@@ -35,17 +35,17 @@ end
 
 def runExperiments(n, reps, agent, lib_dir, cp)
   for i in 1..n do
-    #puts(genMas2j(n,"prodcell"))
+    puts(genMas2j(i,"prodcell"))
     projectFile = File.open("prodcellT.mas2j","w")
-    projectFile.puts(genMas2j(n,agent))
+    projectFile.puts(genMas2j(i,agent))
     projectFile.close()
     for r in 1..reps do
       # p "java -Djava.library.path=#{lib_dir} -cp #{cp} jason.infra.centralised.RunCentralisedMAS prodcellT.mas2j"
-      system("java -Djava.library.path=#{lib_dir} -cp #{cp} jason.infra.centralised.RunCentralisedMAS prodcellT.mas2j")
+      system("java -server -Xms512m -Xmx512m -Djava.library.path=#{lib_dir} -cp #{cp} jason.infra.centralised.RunCentralisedMAS prodcellT.mas2j")
     end
-    averageRuns("stats.txt","stats-"+agent+".txt",n*10)
-    File.delete("stats.txt")
-    system("touch stats.txt")
+    averageRuns("stats.txt","stats-"+agent+".txt",i*10)
+        File.delete("stats.txt")
+        system("touch stats.txt")
   end
 end
 
@@ -55,8 +55,11 @@ else
    CP_SEP = ":"
 end
 
+# basedir="."
+# bin_dir=basedir+"/lib/peleus.jar"
 basedir="../.."
 bin_dir=basedir+"/bin"
+#
 lib_dir=basedir+"/lib"
 jason_jar=lib_dir+"/jason.jar"
 jasonenv_jar=lib_dir+"/jasonenv.jar"
@@ -113,11 +116,14 @@ if __FILE__ == $0
   
   p "Classpath #{cp}"
   
-  # puts "Running #{n} experiments with #{reps} repetitions for AgentSpeak(L)"
-  # runExperiments(n, reps, "prodcellAS", lib_dir, cp)
+  puts "Running #{n} experiments with #{reps} repetitions for AgentSpeak(L)"
+  runExperiments(n, reps, "prodcellAS", lib_dir, cp)
   
   puts "Running #{n} experiments with #{reps} repetitions for AgentSpeak(PL)"
   runExperiments(n, reps, "prodcell", lib_dir, cp)
+  
+  # puts "Running #{n} experiments with #{reps} repetitions for AgentSpeak(PL)"
+  # runExperiments(n, reps, "prodcellRe", lib_dir, cp)
   
   # puts Dir.entries(lib_dir)
 

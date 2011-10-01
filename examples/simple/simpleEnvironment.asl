@@ -1,20 +1,21 @@
 start.
 
-@atomic
+@plan1[atomic]
 +start : true
 	<- .send(simple, tell, packet(packet1));
 	   .send(simple, tell, at(pos1));
        .send(simple, tell, over(packet1,bay)).
 
-//@atomic
+@plan2[atomic]
 +move(A,B) [source(simple)]: true
-	<- .send(simple, untell, at(A));
+	<- .print("Executing move(",A,",",B,")");
+	   .send(simple, untell, at(A));
 	   .send(simple, tell, at(B)).
 
-//@atomic
+@plan3[atomic]
 +pickup(A) : true
 	<- .send(simple, tell, held(A)).
 
-//@atomic
+@plan4[atomic]
 +drop(A) : true
 	<- .send(simple, untell, held(A)).

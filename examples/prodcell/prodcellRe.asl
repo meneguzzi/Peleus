@@ -78,7 +78,7 @@ totalBlocks(0).
 +finished(Block) : object(block,Block)
 	<-  -object(block,Block)[_];
 	   -type(Block,_)[_];
-	   -finished(Block);
+	   -finished(Block)[_];
 	   .abolish(processed(Block,_)[_]);
 	   ?totalBlocks(B);
 	   -+totalBlocks(B+1);
@@ -87,7 +87,7 @@ totalBlocks(0).
 
 //Planning Plan
 +!goalConj(Goals) : true
-	<- org.soton.peleus.act.plan(Goals,[maxSteps(10),makeGeneric(false)]);
+	<- org.soton.peleus.act.plan(Goals,[maxSteps(10),makeGeneric(true)]);
 	   .print("Goals ",Goals," were satisfied").
 
 //Actions

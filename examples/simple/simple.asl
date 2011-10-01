@@ -1,9 +1,15 @@
 //A battery-operated robot
 
-/*empty(bay1).
-empty(bay2).
-empty(bay3).
-empty(charger).*/
+//empty(bay1).
+//empty(bay2).
+//empty(bay3).
+//empty(charger).
+
++at(A) : true
+	<- .print("Added ",at(A)).
+	
+-at(A) : true
+	<- .print("Removed ",at(A)).
 
 +batt(critical) : true
 	<- !charge.
@@ -12,7 +18,8 @@ empty(charger).*/
 	<- !sort(Packet).
 
 +!sort(Packet) : packet(Packet) & over(Packet,Bay) & at(A)
-	<- !move(A,Bay);
+	<- .print("Sorting packet");
+	   !move(A,Bay);
 	   .send(simpleEnvironment, tell, pickup(Packet));//!pickup(Packet);
 	   !move(Bay,pigeonHoles);
 	   .send(simpleEnvironment, tell, drop(Packet)).//!drop(Packet).
@@ -39,7 +46,10 @@ empty(charger).*/
 	<- true.
 
 +!move(A,B) : not at(B) & not batt(empty)
-	<- .send(simpleEnvironment, tell, move(Bay,pigeonHoles)).
+	<- .send(simpleEnvironment, tell, move(A,B));
+	   .wait(1000);
+	   ?not(at(A));
+	   ?at(B).
 
 +!charge : at(A)
 	<- move(A,charger);
