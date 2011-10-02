@@ -17,10 +17,15 @@
 		over(block1, feedBelt).
 	</step>
 	
-	<step time="2" wipe="true">
+	<step time="5" wipe="true">
+		empty(procUnit1).
+		empty(procUnit2).
+		empty(procUnit3).
+		empty(procUnit4).
+		empty(depositBelt).
 	</step>
 	
-	<step time="3">
+	<step time="6">
 		object(block, block1).
 		type(block1, type1).
 		over(block1, feedBelt).

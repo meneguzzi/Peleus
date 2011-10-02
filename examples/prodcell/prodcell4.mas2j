@@ -3,7 +3,7 @@
 MAS prodcell4 {
 
    environment:
-      org.kcl.jason.env.scripted.ScriptedEnvironment("scripts/generatedScript4.xml")
+      org.kcl.jason.env.scripted.ScriptedEnvironment("scripts/generatedScript4.xml",".","actions.strips")
    agents:
       prodcellAS;
 }

@@ -130,9 +130,9 @@ public class plan extends DefaultInternalAction {
 		while(beliefsIterator.hasNext()) {
 			//Modified to filter out perceptions and rely only on beliefs
 			Literal belief = beliefsIterator.next();
-			if(belief.getAnnots().contains(BeliefBase.TSelf)) {
+			//if(belief.getAnnots().contains(BeliefBase.TSelf)) {
 				beliefs.add(belief);
-			}
+			//}
 		}
 		return beliefs;
 	}

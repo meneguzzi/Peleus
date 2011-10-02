@@ -4,6 +4,7 @@
 package org.soton.peleus.act.planner.jemplan;
 
 import jason.asSyntax.Literal;
+import jason.asSyntax.LogExpr;
 import jason.asSyntax.LogicalFormula;
 import jason.asSyntax.Plan;
 import jason.asSyntax.PlanBody;
@@ -109,18 +110,33 @@ public class ProblemOperatorsImpl extends ProblemOperators {
 			PlanBody body = plan.getBody();
 			StringBuffer sbEffects = new StringBuffer();
 			for (PlanBody literal : (PlanBodyImpl)body) {
-				if(literal.getBodyType() == BodyType.delBel) {
-					if(sbEffects.length() != 0) {
-						sbEffects.append(", ");
+				if(literal.getBodyType() == BodyType.test) {
+					if(literal.getBodyTerm().toString().startsWith("not")) {
+						if(sbEffects.length() != 0) {
+							sbEffects.append(", ");
+						}
+						sbEffects.append("-");
+						LogExpr expr = (LogExpr) literal.getBodyTerm();
+						sbEffects.append(converter.toStripsString(expr.getTerm(0)));
+					} else {
+						if(sbEffects.length() != 0) {
+							sbEffects.append(", ");
+						}
+						sbEffects.append(converter.toStripsString(literal.getBodyTerm()));
 					}
-					sbEffects.append("-");
-					sbEffects.append(converter.toStripsString(literal.getBodyTerm()));
-				}else if(literal.getBodyType() == BodyType.addBel) {
-					if(sbEffects.length() != 0) {
-						sbEffects.append(", ");
-					}
-					sbEffects.append(converter.toStripsString(literal.getBodyTerm()));
 				}
+//				if(literal.getBodyType() == BodyType.delBel) {
+//					if(sbEffects.length() != 0) {
+//						sbEffects.append(", ");
+//					}
+//					sbEffects.append("-");
+//					sbEffects.append(converter.toStripsString(literal.getBodyTerm()));
+//				}else if(literal.getBodyType() == BodyType.addBel) {
+//					if(sbEffects.length() != 0) {
+//						sbEffects.append(", ");
+//					}
+//					sbEffects.append(converter.toStripsString(literal.getBodyTerm()));
+//				}
 			}
 			
 			sb.append("effects (");

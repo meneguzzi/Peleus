@@ -31,23 +31,30 @@ totalBlocks(0).
 
 //----------------------------------------------------------
 // Plans to update the Belief Base and optimise the testing
-+empty(Device) [source(percept)] : true
-	<- +empty(Device).
+//+empty(Device) [source(percept)] : true
+//	<- +empty(Device).
 
-+object(Type, Object) [source(percept)] : not object(Type, Object) [source(self)]
-	<- +object(Type, Object).
+//+object(Type, Object) [source(percept)] : not object(Type, Object) [source(self)]
+//	<- +object(Type, Object).
 
-+type(Block, Type) [source(percept)] : not type(Block, Type) [source(self)]
-	<- +type(Block, Type).
+//+type(Block, Type) [source(percept)] : not type(Block, Type) [source(self)]
+//	<- +type(Block, Type).
 
-+over(Object, Device) [source(percept)] : not over(Object, Device)[source(self)]
-	<-  .print("Acknowledging ",over(Object, Device));
-		+over(Object, Device).
+//+over(Object, Device) [source(percept)] : not over(Object, Device)[source(self)]
+//	<-  .print("Acknowledging ",over(Object, Device));
+//		+over(Object, Device).
 
+//+over(Block, Device) : true
+//	<- .print("Perceived ",over(Block, Device)).
+
+// +P[source(percept)] : true
+//	<- +P.
+//-P[source(percept)] : true
+//	<- -P[source(self)].
 
 //----------------------------------------------------------
 
-+over(Block, feedBelt)[source(self)] : true
++over(Block, feedBelt)[source(percept)] : true
 	<- 	.print("Processing ",Block);
 		org.soton.peleus.act.time_in_millis(Time1);
 		!finish(Block);
@@ -78,7 +85,7 @@ totalBlocks(0).
 +finished(Block) : object(block,Block)
 	<-  -object(block,Block)[_];
 	   -type(Block,_)[_];
-	   -finished(Block)[_];
+	   -finished(Block);
 	   .abolish(processed(Block,_)[_]);
 	   ?totalBlocks(B);
 	   -+totalBlocks(B+1);
@@ -87,29 +94,35 @@ totalBlocks(0).
 
 //Planning Plan
 +!goalConj(Goals) : true
-	<- org.soton.peleus.act.plan(Goals,[maxSteps(10),makeGeneric(true)]);
+	<- org.soton.peleus.act.plan(Goals,[maxSteps(10),makeGeneric(false)]);
 	   .print("Goals ",Goals," were satisfied").
+	   
+-!goalCong(Goals) : true
+    <- .print("Failed to achieve ",Goals).
 
 //Actions
 @action1(block, procUnit)
 +!process(Block, ProcUnit) : over(Block, ProcUnit)
 	<- .print("Processing ",Block," in ",ProcUnit);
 		//.wait(50);
-	   +processed(Block, ProcUnit).
+		process(Block,ProcUnit);
+	   ?processed(Block,ProcUnit).
 
 @action2(block)
 +!consume(Block) : over(Block,depositBelt)
 	<- .print("Consuming ",Block);
 	   //.wait(50);
-	   -over(Block, depositBelt);
-	   +empty(depositBelt);
-	   +finished(Block).
+	   consume(Block);
+	   ?not(over(Block, depositBelt));
+	   ?empty(depositBelt);
+	   ?finished(Block).
 
 @action3(block, device, device)
 +!move(Block, Device1, Device2) : over(Block,Device1) & empty(Device2)
 	<- .print("Moving ",Block," from ",Device1," to ",Device2);
 		//.wait(50);
-	   +over(Block, Device2);
-	   -over(Block, Device1);
-	   -empty(Device2);
-	   +empty(Device1).
+	   move(Block, Device1, Device2);
+	   ?over(Block, Device2);
+	   ?not(over(Block, Device1));
+	   ?not(empty(Device2));
+	   ?empty(Device1).

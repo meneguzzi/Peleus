@@ -10,452 +10,902 @@ empty(depositBelt).
 type(block0,type3).
 over(block0,feedBelt).
 </step>
-<step time="3" wipe="true"> </step>
+<step time="3" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="4">object(block,block1).
 type(block1,type2).
 over(block1,feedBelt).
 </step>
-<step time="5" wipe="true"> </step>
+<step time="5" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="6">object(block,block2).
 type(block2,type3).
 over(block2,feedBelt).
 </step>
-<step time="7" wipe="true"> </step>
+<step time="7" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="8">object(block,block3).
 type(block3,type2).
 over(block3,feedBelt).
 </step>
-<step time="9" wipe="true"> </step>
+<step time="9" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="10">object(block,block4).
 type(block4,type1).
 over(block4,feedBelt).
 </step>
-<step time="11" wipe="true"> </step>
+<step time="11" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="12">object(block,block5).
 type(block5,type3).
 over(block5,feedBelt).
 </step>
-<step time="13" wipe="true"> </step>
+<step time="13" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="14">object(block,block6).
 type(block6,type2).
 over(block6,feedBelt).
 </step>
-<step time="15" wipe="true"> </step>
+<step time="15" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="16">object(block,block7).
 type(block7,type2).
 over(block7,feedBelt).
 </step>
-<step time="17" wipe="true"> </step>
+<step time="17" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="18">object(block,block8).
 type(block8,type3).
 over(block8,feedBelt).
 </step>
-<step time="19" wipe="true"> </step>
+<step time="19" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="20">object(block,block9).
 type(block9,type3).
 over(block9,feedBelt).
 </step>
-<step time="21" wipe="true"> </step>
+<step time="21" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="22">object(block,block10).
 type(block10,type3).
 over(block10,feedBelt).
 </step>
-<step time="23" wipe="true"> </step>
+<step time="23" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="24">object(block,block11).
 type(block11,type1).
 over(block11,feedBelt).
 </step>
-<step time="25" wipe="true"> </step>
+<step time="25" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="26">object(block,block12).
 type(block12,type1).
 over(block12,feedBelt).
 </step>
-<step time="27" wipe="true"> </step>
+<step time="27" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="28">object(block,block13).
 type(block13,type1).
 over(block13,feedBelt).
 </step>
-<step time="29" wipe="true"> </step>
+<step time="29" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="30">object(block,block14).
 type(block14,type3).
 over(block14,feedBelt).
 </step>
-<step time="31" wipe="true"> </step>
+<step time="31" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="32">object(block,block15).
 type(block15,type2).
 over(block15,feedBelt).
 </step>
-<step time="33" wipe="true"> </step>
+<step time="33" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="34">object(block,block16).
 type(block16,type1).
 over(block16,feedBelt).
 </step>
-<step time="35" wipe="true"> </step>
+<step time="35" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="36">object(block,block17).
 type(block17,type1).
 over(block17,feedBelt).
 </step>
-<step time="37" wipe="true"> </step>
+<step time="37" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="38">object(block,block18).
 type(block18,type2).
 over(block18,feedBelt).
 </step>
-<step time="39" wipe="true"> </step>
+<step time="39" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="40">object(block,block19).
 type(block19,type3).
 over(block19,feedBelt).
 </step>
-<step time="41" wipe="true"> </step>
+<step time="41" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="42">object(block,block20).
 type(block20,type2).
 over(block20,feedBelt).
 </step>
-<step time="43" wipe="true"> </step>
+<step time="43" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="44">object(block,block21).
 type(block21,type3).
 over(block21,feedBelt).
 </step>
-<step time="45" wipe="true"> </step>
+<step time="45" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="46">object(block,block22).
 type(block22,type3).
 over(block22,feedBelt).
 </step>
-<step time="47" wipe="true"> </step>
+<step time="47" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="48">object(block,block23).
 type(block23,type1).
 over(block23,feedBelt).
 </step>
-<step time="49" wipe="true"> </step>
+<step time="49" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="50">object(block,block24).
 type(block24,type1).
 over(block24,feedBelt).
 </step>
-<step time="51" wipe="true"> </step>
+<step time="51" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="52">object(block,block25).
 type(block25,type3).
 over(block25,feedBelt).
 </step>
-<step time="53" wipe="true"> </step>
+<step time="53" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="54">object(block,block26).
 type(block26,type3).
 over(block26,feedBelt).
 </step>
-<step time="55" wipe="true"> </step>
+<step time="55" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="56">object(block,block27).
 type(block27,type3).
 over(block27,feedBelt).
 </step>
-<step time="57" wipe="true"> </step>
+<step time="57" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="58">object(block,block28).
 type(block28,type1).
 over(block28,feedBelt).
 </step>
-<step time="59" wipe="true"> </step>
+<step time="59" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="60">object(block,block29).
 type(block29,type2).
 over(block29,feedBelt).
 </step>
-<step time="61" wipe="true"> </step>
+<step time="61" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="62">object(block,block30).
 type(block30,type3).
 over(block30,feedBelt).
 </step>
-<step time="63" wipe="true"> </step>
+<step time="63" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="64">object(block,block31).
 type(block31,type2).
 over(block31,feedBelt).
 </step>
-<step time="65" wipe="true"> </step>
+<step time="65" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="66">object(block,block32).
 type(block32,type3).
 over(block32,feedBelt).
 </step>
-<step time="67" wipe="true"> </step>
+<step time="67" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="68">object(block,block33).
 type(block33,type3).
 over(block33,feedBelt).
 </step>
-<step time="69" wipe="true"> </step>
+<step time="69" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="70">object(block,block34).
 type(block34,type2).
 over(block34,feedBelt).
 </step>
-<step time="71" wipe="true"> </step>
+<step time="71" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="72">object(block,block35).
 type(block35,type1).
 over(block35,feedBelt).
 </step>
-<step time="73" wipe="true"> </step>
+<step time="73" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="74">object(block,block36).
 type(block36,type3).
 over(block36,feedBelt).
 </step>
-<step time="75" wipe="true"> </step>
+<step time="75" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="76">object(block,block37).
 type(block37,type3).
 over(block37,feedBelt).
 </step>
-<step time="77" wipe="true"> </step>
+<step time="77" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="78">object(block,block38).
 type(block38,type3).
 over(block38,feedBelt).
 </step>
-<step time="79" wipe="true"> </step>
+<step time="79" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="80">object(block,block39).
 type(block39,type2).
 over(block39,feedBelt).
 </step>
-<step time="81" wipe="true"> </step>
+<step time="81" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="82">object(block,block40).
 type(block40,type2).
 over(block40,feedBelt).
 </step>
-<step time="83" wipe="true"> </step>
+<step time="83" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="84">object(block,block41).
 type(block41,type3).
 over(block41,feedBelt).
 </step>
-<step time="85" wipe="true"> </step>
+<step time="85" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="86">object(block,block42).
 type(block42,type2).
 over(block42,feedBelt).
 </step>
-<step time="87" wipe="true"> </step>
+<step time="87" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="88">object(block,block43).
 type(block43,type3).
 over(block43,feedBelt).
 </step>
-<step time="89" wipe="true"> </step>
+<step time="89" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="90">object(block,block44).
 type(block44,type2).
 over(block44,feedBelt).
 </step>
-<step time="91" wipe="true"> </step>
+<step time="91" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="92">object(block,block45).
 type(block45,type1).
 over(block45,feedBelt).
 </step>
-<step time="93" wipe="true"> </step>
+<step time="93" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="94">object(block,block46).
 type(block46,type1).
 over(block46,feedBelt).
 </step>
-<step time="95" wipe="true"> </step>
+<step time="95" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="96">object(block,block47).
 type(block47,type2).
 over(block47,feedBelt).
 </step>
-<step time="97" wipe="true"> </step>
+<step time="97" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="98">object(block,block48).
 type(block48,type1).
 over(block48,feedBelt).
 </step>
-<step time="99" wipe="true"> </step>
+<step time="99" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="100">object(block,block49).
 type(block49,type3).
 over(block49,feedBelt).
 </step>
-<step time="101" wipe="true"> </step>
+<step time="101" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="102">object(block,block50).
 type(block50,type2).
 over(block50,feedBelt).
 </step>
-<step time="103" wipe="true"> </step>
+<step time="103" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="104">object(block,block51).
 type(block51,type2).
 over(block51,feedBelt).
 </step>
-<step time="105" wipe="true"> </step>
+<step time="105" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="106">object(block,block52).
 type(block52,type2).
 over(block52,feedBelt).
 </step>
-<step time="107" wipe="true"> </step>
+<step time="107" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="108">object(block,block53).
 type(block53,type3).
 over(block53,feedBelt).
 </step>
-<step time="109" wipe="true"> </step>
+<step time="109" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="110">object(block,block54).
 type(block54,type2).
 over(block54,feedBelt).
 </step>
-<step time="111" wipe="true"> </step>
+<step time="111" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="112">object(block,block55).
 type(block55,type3).
 over(block55,feedBelt).
 </step>
-<step time="113" wipe="true"> </step>
+<step time="113" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="114">object(block,block56).
 type(block56,type2).
 over(block56,feedBelt).
 </step>
-<step time="115" wipe="true"> </step>
+<step time="115" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="116">object(block,block57).
 type(block57,type3).
 over(block57,feedBelt).
 </step>
-<step time="117" wipe="true"> </step>
+<step time="117" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="118">object(block,block58).
 type(block58,type1).
 over(block58,feedBelt).
 </step>
-<step time="119" wipe="true"> </step>
+<step time="119" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="120">object(block,block59).
 type(block59,type3).
 over(block59,feedBelt).
 </step>
-<step time="121" wipe="true"> </step>
+<step time="121" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="122">object(block,block60).
 type(block60,type1).
 over(block60,feedBelt).
 </step>
-<step time="123" wipe="true"> </step>
+<step time="123" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="124">object(block,block61).
 type(block61,type3).
 over(block61,feedBelt).
 </step>
-<step time="125" wipe="true"> </step>
+<step time="125" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="126">object(block,block62).
 type(block62,type2).
 over(block62,feedBelt).
 </step>
-<step time="127" wipe="true"> </step>
+<step time="127" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="128">object(block,block63).
 type(block63,type2).
 over(block63,feedBelt).
 </step>
-<step time="129" wipe="true"> </step>
+<step time="129" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="130">object(block,block64).
 type(block64,type1).
 over(block64,feedBelt).
 </step>
-<step time="131" wipe="true"> </step>
+<step time="131" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="132">object(block,block65).
 type(block65,type3).
 over(block65,feedBelt).
 </step>
-<step time="133" wipe="true"> </step>
+<step time="133" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="134">object(block,block66).
 type(block66,type3).
 over(block66,feedBelt).
 </step>
-<step time="135" wipe="true"> </step>
+<step time="135" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="136">object(block,block67).
 type(block67,type1).
 over(block67,feedBelt).
 </step>
-<step time="137" wipe="true"> </step>
+<step time="137" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="138">object(block,block68).
 type(block68,type3).
 over(block68,feedBelt).
 </step>
-<step time="139" wipe="true"> </step>
+<step time="139" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="140">object(block,block69).
 type(block69,type3).
 over(block69,feedBelt).
 </step>
-<step time="141" wipe="true"> </step>
+<step time="141" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="142">object(block,block70).
 type(block70,type3).
 over(block70,feedBelt).
 </step>
-<step time="143" wipe="true"> </step>
+<step time="143" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="144">object(block,block71).
 type(block71,type1).
 over(block71,feedBelt).
 </step>
-<step time="145" wipe="true"> </step>
+<step time="145" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="146">object(block,block72).
 type(block72,type1).
 over(block72,feedBelt).
 </step>
-<step time="147" wipe="true"> </step>
+<step time="147" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="148">object(block,block73).
 type(block73,type1).
 over(block73,feedBelt).
 </step>
-<step time="149" wipe="true"> </step>
+<step time="149" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="150">object(block,block74).
 type(block74,type2).
 over(block74,feedBelt).
 </step>
-<step time="151" wipe="true"> </step>
+<step time="151" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="152">object(block,block75).
 type(block75,type1).
 over(block75,feedBelt).
 </step>
-<step time="153" wipe="true"> </step>
+<step time="153" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="154">object(block,block76).
 type(block76,type2).
 over(block76,feedBelt).
 </step>
-<step time="155" wipe="true"> </step>
+<step time="155" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="156">object(block,block77).
 type(block77,type1).
 over(block77,feedBelt).
 </step>
-<step time="157" wipe="true"> </step>
+<step time="157" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="158">object(block,block78).
 type(block78,type3).
 over(block78,feedBelt).
 </step>
-<step time="159" wipe="true"> </step>
+<step time="159" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="160">object(block,block79).
 type(block79,type2).
 over(block79,feedBelt).
 </step>
-<step time="161" wipe="true"> </step>
+<step time="161" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="162">object(block,block80).
 type(block80,type3).
 over(block80,feedBelt).
 </step>
-<step time="163" wipe="true"> </step>
+<step time="163" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="164">object(block,block81).
 type(block81,type2).
 over(block81,feedBelt).
 </step>
-<step time="165" wipe="true"> </step>
+<step time="165" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="166">object(block,block82).
 type(block82,type1).
 over(block82,feedBelt).
 </step>
-<step time="167" wipe="true"> </step>
+<step time="167" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="168">object(block,block83).
 type(block83,type2).
 over(block83,feedBelt).
 </step>
-<step time="169" wipe="true"> </step>
+<step time="169" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="170">object(block,block84).
 type(block84,type2).
 over(block84,feedBelt).
 </step>
-<step time="171" wipe="true"> </step>
+<step time="171" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="172">object(block,block85).
 type(block85,type3).
 over(block85,feedBelt).
 </step>
-<step time="173" wipe="true"> </step>
+<step time="173" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="174">object(block,block86).
 type(block86,type3).
 over(block86,feedBelt).
 </step>
-<step time="175" wipe="true"> </step>
+<step time="175" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="176">object(block,block87).
 type(block87,type1).
 over(block87,feedBelt).
 </step>
-<step time="177" wipe="true"> </step>
+<step time="177" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="178">object(block,block88).
 type(block88,type2).
 over(block88,feedBelt).
 </step>
-<step time="179" wipe="true"> </step>
+<step time="179" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="180">object(block,block89).
 type(block89,type2).
 over(block89,feedBelt).
 </step>
-<step time="181" wipe="true"> </step>
+<step time="181" wipe="true">empty(procUnit1).
+empty(procUnit2).
+empty(procUnit3).
+empty(procUnit4).
+empty(depositBelt).
+</step>
 <step time="182">endSimulation.
 </step>
 </script>
