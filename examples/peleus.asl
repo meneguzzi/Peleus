@@ -1,14 +1,7 @@
-// Peleus in project Argos.mas2j
-demo.
-demo2.
-
-//@object[block(b1)]
+//---------------Initial states-----------------------------
 object(block, b1).
-//@object[block(b2)]
 object(block, b2).
-//@object[block(b3)]
 object(block, b3).
-//@object[block(table)]
 object(block, table).
 
 on(b1, b2).
@@ -17,65 +10,53 @@ on(b3, table).
 clear(b1).
 clear(b3).
 clear(table).
+
 //---------------Desires------------------------------------
 des([on(b3, table), on(b2, b3), on(b1, b2)]).
 
-
 //---------------Plans--------------------------------------
+@p1[atomic]+des(Goals) : true <-  
+	.print("Goals to plan: ",Goals);
+	org.soton.peleus.act.plan(Goals,[maxSteps(10),makeGeneric(false)]);
+	!checkGoals(Goals);
+	.print("Goals ",Goals," were satisfied").
 
-//+demo : true <- .print("hello world.").
-//+demo2 : true <- org.soton.peleus.act.plan.
-+des(Goals) : true
-	<- org.soton.peleus.act.plan(Goals);
-	   !checkGoals(Goals);
-	   .print("Goals ",Goals," were satisfied").
++!checkGoals([]) : true <-
+	.print("checkGoals with empty list.").
 
+@p2[atomic]+!checkGoals([H|T]) : true <-
+	.print("Checking ", H);
+  	org.soton.peleus.act.isTrue(H);
+  	.print("List to be checked later: ", T);
+	!checkGoals(T).
 
-/*+!checkGoals([H | T]) : true <- .print("Bloody Hell ",H).
-
-+!checkGoals(Goals) : true <- .print("Bloody Hell ",Goals).*/
-
-+!checkGoals([]) : true <- true.
-
-+!checkGoals([H|T]) : true
-  <- .print("Checking ", H);
-  	 org.soton.peleus.act.isTrue(H);
-	 !checkGoals(T).
-  
-  
-  
-@action1(block, block)[]
-+!moveToTable (Block, From) :
-  not Block = From & 
-  not Block = table & 
-  not From = table &
-  clear(Block) & on(Block, From)
- <- -on(Block, From);
+@action1(block, block)[] +!moveToTable (Block, From) : 
+	Block \== From & Block \== table & 
+	From \== table & clear(Block) & on(Block, From) <- 
+	-on(Block, From);
     +on(Block, table);
-    +clear(From).
+    +clear(From);
+    .print("Now ", Block, "is on the table. ",From, " is clear.").	
 
-@action2(block, block, block)
-+!move(Block, From, To) :
-   not Block = From & 
-   not Block = To &
-   not From = To &
-   not To = table &
-   on(Block, From) &
-   clear(Block) &
-   clear(To)
-  <- -on(Block, From);
-     -clear(To);
-     +on(Block, To);
-     +clear(From).
+@action2(block, block, block) +!move(Block, From, To) : 
+	Block \== From & Block \== To &
+	From \== To & To \== table &
+	on(Block, From) & clear(Block) &
+	clear(To) <- 
+	-on(Block, From);
+	-clear(To);
+	+on(Block, To);
+	+clear(From);
+	.print("Now ", Block, "is on ", To, ". ",From, " is clear.").
 
--on(Block, From) : true
- <- .print("Removing belief on(",Block,",",From,")").
+-on(Block, From) <- 
+	.print("Removing belief on(",Block,",",From,")").
 
-+on(Block, From) : true
- <- .print("Adding belief on(",Block,",",From,")").
++on(Block, From) <- 
+	.print("Adding belief on(",Block,",",From,")").
 
--clear(Block) : true
- <- .print("Removing belief clear(",Block,")").
+-clear(Block) <- 
+	.print("Removing belief clear(",Block,")").
 
-+clear(Block) : true
- <- .print("Adding belief clear(",Block,")").
++clear(Block) <- 
+	.print("Adding belief clear(",Block,")").

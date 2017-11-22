@@ -20,10 +20,10 @@ public class StripsPlanImpl extends StripsPlan {
 	@Override
 	public Plan toAgentSpeakPlan(int planSequence) {
 		StringBuffer sbNewPlan = new StringBuffer();
-		sbNewPlan.append("+!executePlan(plan"+(planSequence)+") : true");
+		sbNewPlan.append("+!executePlan(plan"+(planSequence)+") : true ");
 		sbNewPlan.append(System.getProperty("line.separator"));
 		sbNewPlan.append("  <- ");
-		
+		sbNewPlan.append(".print(\"executing...\");");
 		sbNewPlan.append(this.convertPlanBody());
 		
 		return Plan.parse(sbNewPlan.toString());

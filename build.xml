@@ -23,12 +23,14 @@
 	<property name="dist.properties" value="${basedir}/bin/dist.properties" />
 	<property name="version" value="1.0" />
 	<property name="release" value="1" />
-	<property name="Peleus.project" value="Peleus.mas2j" />
+	<property name="Peleus.project" value="examples/Peleus.mas2j" />
 
 	<path id="run.classpath">
 		<pathelement location="${build.dir}" />
 		<pathelement location="${jasonJar}" />
 		<pathelement location="${jasonEnvJar}" />
+		<pathelement location="lib/jemplan.jar" />
+		<pathelement location="lib/jplan.jar" />
 	</path>
 
 	<path id="project.classpath">
@@ -76,7 +78,7 @@
           target: build              
          ================================= -->
 	<target name="build" depends="init" description="--> A simple Jason Test">
-		<javac destdir="${build.dir}">
+		<javac destdir="${build.dir}" debug="true">
 			<src path="src" />
 			<classpath refid="project.classpath" />
 		</javac>

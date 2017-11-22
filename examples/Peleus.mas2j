@@ -1,8 +1,11 @@
 /* Jason Project */
 
 MAS peleus {
-	infrastructure: Centralised
+	infrastructure: 
+		Centralised
 	agents: 
-	 peleus;
+		peleus;
+	aslSourcePath: 
+		"examples";		   
 }
 

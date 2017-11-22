@@ -1,0 +1,22 @@
+objects:
+block(b1);
+block(b2);
+block(b3);
+block(table);
+
+init: clear(b1) & clear(b3) & clear(table) & on(b1, b2) & on(b2, table) & on(b3, table)
+goal: on(b3,table) & on(b2,b3) & on(b1,b2)
+
+operator: moveToTable(block ?Block, block ?From)
+?Block!=?From & ?Block!=@table & ?From!=@table
+[clear(?Block) & on(?Block, ?From)]
+[on(?Block, @table) & clear(?From)]
+[on(?Block, ?From)]
+
+operator: move(block ?Block, block ?From, block ?To)
+?Block!=?From & ?Block!=?To & ?From!=?To & ?To!=@table
+[on(?Block, ?From) & clear(?Block) & clear(?To)]
+[on(?Block, ?To) & clear(?From)]
+[on(?Block, ?From) & clear(?To)]
+
+

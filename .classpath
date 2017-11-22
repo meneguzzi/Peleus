@@ -4,10 +4,16 @@
 	<classpathentry kind="src" path="examples/prodcell"/>
 	<classpathentry kind="src" path="examples/abstract"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/asunit.jar"/>
+	<classpathentry kind="lib" path="lib/jasonenv.jar"/>
 	<classpathentry kind="lib" path="lib/jemplan.jar"/>
-	<classpathentry kind="lib" path="lib/jplan.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/JasonEnvironment"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/JasonSVN"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/JavaGP"/>
+	<classpathentry kind="lib" path="lib/jason.jar"/>
+	<classpathentry kind="lib" path="lib/javagp.jar"/>
+	<classpathentry kind="lib" path="lib/peleus.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/JPlan">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="JPlan"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
