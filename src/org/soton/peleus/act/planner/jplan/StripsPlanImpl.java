@@ -15,6 +15,7 @@ public class StripsPlanImpl extends StripsPlan {
 	
 	public StripsPlanImpl(byte stripsPlan[]) {
 		super(stripsPlan);
+		System.out.println("DEBUG !!");
 	}
 
 	@Override
@@ -24,6 +25,7 @@ public class StripsPlanImpl extends StripsPlan {
 		sbNewPlan.append(System.getProperty("line.separator"));
 		sbNewPlan.append("  <- ");
 		sbNewPlan.append(".print(\"executing...\");");
+		System.out.println("Body: "+this.convertPlanBody());
 		sbNewPlan.append(this.convertPlanBody());
 		
 		return Plan.parse(sbNewPlan.toString());

@@ -1,0 +1,13 @@
+operator: moveToTable(block ?Block, block ?From)
+?Block!=?From & ?Block!=@table & ?From!=@table
+[clear(?Block) & on(?Block, ?From)]
+[on(?Block, @table) & clear(?From)]
+[on(?Block, ?From)]
+
+operator: move(block ?Block, block ?From, block ?To)
+?Block!=?From & ?Block!=?To & ?From!=?To & ?To!=@table
+[on(?Block, ?From) & clear(?Block) & clear(?To)]
+[on(?Block, ?To) & clear(?From)]
+[on(?Block, ?From) & clear(?To)]
+
+

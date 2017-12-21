@@ -10,10 +10,6 @@
 	<classpathentry kind="lib" path="lib/jason.jar"/>
 	<classpathentry kind="lib" path="lib/javagp.jar"/>
 	<classpathentry kind="lib" path="lib/peleus.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/JPlan">
-		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="JPlan"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry combineaccessrules="false" kind="src" path="/JPlan"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

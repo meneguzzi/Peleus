@@ -30,7 +30,8 @@
 		<pathelement location="${jasonJar}" />
 		<pathelement location="${jasonEnvJar}" />
 		<pathelement location="lib/jemplan.jar" />
-		<pathelement location="lib/jplan.jar" />
+		<!--<pathelement location="lib/jplan.jar" />-->
+		<pathelement location="../JPlan/bin" />
 	</path>
 
 	<path id="project.classpath">

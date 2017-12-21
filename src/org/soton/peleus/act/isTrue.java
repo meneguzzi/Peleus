@@ -37,14 +37,17 @@ public class isTrue extends DefaultInternalAction {
 	 */
 	public Object execute(TransitionSystem ts, Unifier un, Term[] args) throws Exception {
 	
-		// /// logger.info("Belief Base: \n"+ts.getAg().getBB().getAll());
+		logger.info("Belief Base: \n"+ts.getAg().getBB().toString());
         logger.info("Got "+args[0]);
 		Literal literal = Literal.parseLiteral(args[0].toString());
 		logger.info("Created "+literal);
 		Literal lit = ts.getAg().getBB().contains(literal);
-		//logger.info("getBB: "+ts.getAg().getBB().toString());
-		logger.info("Beliefs "+lit);
-		return true;//(lit!= null);
+
+		boolean b;
+		if (lit == null) b = true; else b = false;
+		Boolean boolObj = new Boolean(!b);
+		logger.info("DEBUG lit: "+boolObj);
+		return boolObj;
 	}
 
 	public boolean canBeUsedInContext() {

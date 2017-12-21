@@ -189,8 +189,8 @@ public class plan extends DefaultInternalAction {
 		
 		logger.info("convertPlan: "+atomic+", "+remote);
 		
-		//plan.setLabel(Pred.parsePred(plan.getTriggerEvent().getLiteral().getTerm(0)+"[atomic]"));
-		plan.setLabel(Pred.parsePred("plan"+(planNumber++)+"["+atomic+remote+"]"));
+		plan.setLabel(Pred.parsePred(plan.getTrigger().getLiteral().getTerm(0)+"[atomic]"));
+		//plan.setLabel(Pred.parsePred("plan"+(planNumber++)+"["+atomic+remote+"]"));
 		
 		return plan;
 	}
@@ -207,9 +207,10 @@ public class plan extends DefaultInternalAction {
 		
 		Trigger trigger = plan.getTrigger();
 		logger.info("Invoking plan "+planNumber);
-		//ts.getC().addAchvGoal(Literal.parseLiteral("executePlan(plan"+(planNumber++)+")"), null);
+		ts.getC().addAchvGoal(Literal.parseLiteral("executePlan(plan"+planNumber+")"), null);
 		// Now we are adding the new goal to the current intention
-		ts.getC().addAchvGoal(trigger.getLiteral(), ts.getC().getSelectedIntention());
+		//ts.getC().addAchvGoal(trigger.getLiteral(), ts.getC().getSelectedIntention());
+		planNumber++; //TODO: Convert and execute must be done in sequence
 	}
 
 	//@SuppressWarnings("unchecked")
