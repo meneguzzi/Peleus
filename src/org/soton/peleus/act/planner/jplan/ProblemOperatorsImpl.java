@@ -44,7 +44,7 @@ public class ProblemOperatorsImpl extends ProblemOperators {
 				for (int i = 0; i < terms.length; i++) {
 					sb.append(types[i]);
 					/*sb.append(" ?");
-					sb.append(terms[i]);*/
+					sb.append(termcus[i]);*/
 					sb.append(" ");
 					sb.append(converter.toStripsString(terms[i]));
 					sb.append(((i+1) == terms.length) ? ")" : ", ");
